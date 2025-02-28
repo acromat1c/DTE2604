@@ -18,13 +18,26 @@ class Friend(models.Model):
     user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="friend_user2")
 
     class Meta:
-        unique_together = ('user1', 'user2')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['x', 'y'], name='unique_xy'
+            ),
+            models.UniqueConstraint(
+                fields=['y', 'x'], name='unique_yx'
+            ),
+            models.CheckConstraint(
+                check=Q(x < F('y')),  # Ensures x is always smaller than y
+                name='x_must_be_less_than_y'
+            )
+        ]
 
 
 class FriendRequest(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="friend_requests_sent")
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="friend_requests_received")
 
+    class Meta:
+        unique_together = ('sender', 'recipient')
 
 class Achievement(models.Model):
     name = models.CharField(max_length=45)
@@ -59,31 +72,41 @@ class GroupMember(models.Model):
         unique_together = ('group', 'user')
 
 
+class GroupMessage(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.CharField(max_length=1000)
+
+
 class Course(models.Model):
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
+    text = models.CharField(max_length=10000)
 
     def __str__(self):
-        return self.name
+        return (self.name,self.description)
 
 
 class Module(models.Model):
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
+    text = models.CharField(max_length=10000)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return (self.name,self.description)
 
 
 class Mission(models.Model):
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
+    text = models.CharField(max_length=10000)
+    answer = models.CharField(max_length=1000)
     maxPoints = models.IntegerField()
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return (self.name,self.description)
 
 
 class MissionCompleted(models.Model):
