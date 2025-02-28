@@ -20,14 +20,10 @@ class Friend(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['x', 'y'], name='unique_xy'
+                fields=['user1', 'user2'], name='unique_xy'
             ),
             models.UniqueConstraint(
-                fields=['y', 'x'], name='unique_yx'
-            ),
-            models.CheckConstraint(
-                check=Q(x < F('y')),  # Ensures x is always smaller than y
-                name='x_must_be_less_than_y'
+                fields=['user2', 'user1'], name='unique_yx'
             )
         ]
 
