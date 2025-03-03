@@ -1,0 +1,8 @@
+<h1>SUBJECT {{ namesub }}</h1>
+<h2>(⁄ ⁄•⁄ω⁄•⁄ ⁄)</h2>
+
+<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
+<a href="{% url "programing_course_app:subjectList" %}"><Button>SUBJECTS</Button></a>
+<a href="{% url "programing_course_app:mission" namesub=namesub name="1" %}"><Button>MISSION 1</Button></a>
+<a href="{% url "programing_course_app:mission" namesub=namesub name="2" %}"><Button>MISSION 2</Button></a>
+<a href="{% url "programing_course_app:mission" namesub=namesub name="3" %}"><Button>MISSION 3</Button></a>
