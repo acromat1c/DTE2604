@@ -22,7 +22,7 @@ def signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            login(request, form.save())
+            Login(request, form.save())
             return redirect("/login")
     else:
         form = UserCreationForm()
