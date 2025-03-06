@@ -8,6 +8,7 @@ urlpatterns = [
     path("",views.main, name="main"),
     path("login",views.login, name="login"),
     path("signup",views.signup, name="signup"),
+    path("logout",views.logout, name="logout"),
     path("user",views.user, name="user"),
     path("user/settings",views.userSettings, name="userSettings"),
     path("groups",views.groupList, name="groupList"),
@@ -17,4 +18,5 @@ urlpatterns = [
     path("subjects",views.subjectList, name="subjectList"),
     path("subjects/<str:namesub>",views.subject, name="subject"),
     path("subjects/<str:namesub>/<str:name>",views.mission, name="mission"),
+    path("test",views.test, name="test"),
     ]

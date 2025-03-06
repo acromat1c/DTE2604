@@ -10,7 +10,7 @@ class User(models.Model):
     email = models.CharField(max_length=45, unique=True)
 
     def __str__(self):
-        return f"{self.name}#{self.nameDiscriminator}"
+        return f"{self.name} #{self.nameDiscriminator}"
 
 
 class Friend(models.Model):
