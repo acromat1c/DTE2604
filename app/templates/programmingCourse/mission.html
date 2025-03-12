@@ -1,0 +1,30 @@
+<h1>MISSION {{ nameCourse }}-{{ nameModule }}-{{ nameMission }}</h1>
+<h2>&gt;-&lt;</h2>
+
+<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
+<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
+<a href="{% url "programing_course_app:course" nameCourse=nameCourse %}"><Button>COURSE</Button></a>
+<a href="{% url "programing_course_app:module" nameCourse=nameCourse nameModule=nameModule %}"><Button>MODULE</Button></a>
+
+
+{% if not mission %}
+<p>mission not found Q.Q</p>
+{% else %}
+<h1>{{ mission.name }}</h1>
+<p>{{ mission.description }}</p>
+<p>{{ mission.text }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="answer">Your Answer:</label>
+    <input type="text" name="answer">
+    <button type="submit">Submit</button>
+    <p>max points: {{mission.maxPoints}}</p>
+</form>
+
+{% if userAnswer %}
+<p>your previous answer: {{userAnswer.answer}}</p>
+<p>points: {{userAnswer.points}}</p>
+{% endif %}
+
+{% endif %}

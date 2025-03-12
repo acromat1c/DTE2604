@@ -1,0 +1,12 @@
+<h1>OVERVIEW</h1>
+<h2>O.O</h2>
+
+<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
+
+{% for name, description in listCourse %}
+        <h2>{{ name }}</h2>
+        <p>{{ description }}</p>
+        <a href="{% url "programing_course_app:course" nameCourse=name %}"><Button>GO</Button></a>
+{% empty %}
+        <p>No courses found.</p>
+{% endfor %}
