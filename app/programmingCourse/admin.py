@@ -3,8 +3,6 @@ from .models import *
 
 # Register your models here.
 
-
-admin.site.register(User)
 admin.site.register(Friend)
 admin.site.register(FriendRequest)
 admin.site.register(Group)

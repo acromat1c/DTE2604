@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout as Logout, login as Login
+from django.utils.timezone import now
+from .models_io import *
 
 # Create your views here.
 def index(request):
@@ -67,14 +69,37 @@ def group(request,name):
 
 
 
-def subjectList(request):
-    return render(request, "programmingCourse/subjectList.html")
+def overview(request):
+    listCourse = get_course_list()
+    return render(request, "programmingCourse/overview.html", {"listCourse": listCourse})
 
-def subject(request,namesub):
-    return render(request, "programmingCourse/subject.html", {"namesub": namesub})
+def course(request, nameCourse):
+    course = get_course(nameCourse)
+    listModule = get_module_list(nameCourse)
+    return render(request, "programmingCourse/course.html", {"nameCourse": nameCourse, "course": course, "listModule": listModule})
 
-def mission(request,namesub,name):
-    return render(request, "programmingCourse/mission.html", {"namesub": namesub, "name": name})
+def module(request, nameCourse, nameModule):
+    module = get_module(nameCourse, nameModule)
+    listMission = get_mission_list(nameCourse, nameModule)
+    return render(request, "programmingCourse/module.html", {"nameCourse": nameCourse, "nameModule": nameModule, "module": module, "listMission": listMission})
+
+
+
+
+def mission(request, nameCourse, nameModule, nameMission):
+    mission = get_mission(nameCourse, nameModule, nameMission)
+    if mission == None: userAnswer = None
+    else:
+        if request.method == "POST":
+            if request.POST["answer"] == mission.answer:
+                points = mission.maxPoints
+            else: points = 0
+            userAnswer, _ = set_mission_completed(mission.id, request.user.id, points, now(), request.POST["answer"])
+        else:
+            userAnswer = get_mission_completed(mission.id, request.user.id)
+
+    return render(request, "programmingCourse/mission.html", {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission, "mission": mission, "userAnswer": userAnswer})
+
 
 
 

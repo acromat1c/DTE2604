@@ -15,8 +15,9 @@ urlpatterns = [
     path("groups/<str:name>",views.group, name="group"),
     path("friends/<str:name>",views.friend, name="friend"),
     path("friends",views.friendList, name="friendList"),
-    path("subjects",views.subjectList, name="subjectList"),
-    path("subjects/<str:namesub>",views.subject, name="subject"),
-    path("subjects/<str:namesub>/<str:name>",views.mission, name="mission"),
+    path("overview",views.overview, name="overview"),
+    path("overview/<str:nameCourse>",views.course, name="course"),
+    path("overview/<str:nameCourse>/<str:nameModule>",views.module, name="module"),
+    path("overview/<str:nameCourse>/<str:nameModule>/<str:nameMission>",views.mission, name="mission"),
     path("test",views.test, name="test"),
     ]

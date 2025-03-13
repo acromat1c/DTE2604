@@ -1,0 +1,23 @@
+<h1>MODULE {{ nameCourse }}-{{ nameModule }}</h1>
+<h2>(⁄ ⁄•⁄ω⁄•⁄ ⁄)</h2>
+
+<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
+<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
+<a href="{% url "programing_course_app:course" nameCourse=nameCourse %}"><Button>COURSE</Button></a>
+
+{% if not module %}
+<p>module not found Q.Q</p>
+{% else %}
+<h1>{{ module.name }}</h1>
+<p>{{ module.description }}</p>
+<p>{{ module.text }}</p>
+
+{% for name, description in listMission %}
+        <h2>{{ name }}</h2>
+        <p>{{ description }}</p>
+        <a href="{% url "programing_course_app:mission" nameCourse=nameCourse nameModule=nameModule nameMission=name %}"><Button>GO</Button></a>
+{% empty %}
+        <p>No missions found for this module.</p>
+{% endfor %}
+
+{% endif %}
