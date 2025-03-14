@@ -34,17 +34,20 @@
             font-size: 18px;
             margin: 5px 0;
         }
-        .edit-button {
+        .button-container {
+            margin-top: 15px;
+        }
+        .button {
             display: inline-block;
             padding: 10px 15px;
-            margin-top: 15px;
+            margin: 5px;
             background: #007bff;
             color: white;
             text-decoration: none;
             border-radius: 5px;
             font-size: 16px;
         }
-        .edit-button:hover {
+        .button:hover {
             background: #0056b3;
         }
     </style>
@@ -62,7 +65,9 @@
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
 
-        <a href="{% url 'programing_course_app:userSettings' %}" class="edit-button">Edit Profile</a>
+        <div class="button-container">
+            <a href="{% url 'programing_course_app:userSettings' %}" class="button">Edit Profile</a>
+            <a href="{% url 'programing_course_app:main' %}" class="button">Back to Main Page</a>
+        </div>
     </div>
 </body>
-</html>
