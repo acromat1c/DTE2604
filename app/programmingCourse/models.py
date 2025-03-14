@@ -121,3 +121,10 @@ class MissionCompleted(models.Model):
 
     def __str__(self):
         return f"{self.user} | {self.mission}"
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='profile_pics/', default='default.jpg')
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
