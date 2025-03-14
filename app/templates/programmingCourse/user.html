@@ -1,5 +1,22 @@
-<h1>USER</h1>
-<h2>( ͡° ͜ʖ ͡°)</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brukerprofil</title>
+</head>
+<body>
+    <h1>Min Profil</h1>
 
-<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
-<a href="{% url "programing_course_app:userSettings" %}"><Button>USER SETTINGS</Button></a>
+    <p><strong>Brukernavn:</strong> {{ user.username }}</p>
+    <p><strong>E-post:</strong> {{ user.email }}</p>
+
+    {% if user.profile.image %}
+        <img src="{{ user.profile.image.url }}" alt="Profilbilde" width="150">
+    {% else %}
+        <p>Ingen profilbilde lagt til.</p>
+    {% endif %}
+
+    <a href="{% url 'programing_course_app:userSettings' %}">Rediger profil</a>
+</body>
+</html>
