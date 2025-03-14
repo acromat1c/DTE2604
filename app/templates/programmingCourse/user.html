@@ -3,20 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brukerprofil</title>
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        .profile-image {
+            width: 250px;
+            height: 140px;
+            border-radius: 10px;
+            display: block;
+            margin: 10px auto;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .edit-button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 15px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .edit-button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Min Profil</h1>
+    <div class="profile-container">
+        <h1>My Profile</h1>
 
-    <p><strong>Brukernavn:</strong> {{ user.username }}</p>
-    <p><strong>E-post:</strong> {{ user.email }}</p>
+        {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" alt="Profile Picture" class="profile-image">
+        {% else %}
+            <p>No profile picture added.</p>
+        {% endif %}
 
-    {% if user.profile.image %}
-        <img src="{{ user.profile.image.url }}" alt="Profilbilde" width="150">
-    {% else %}
-        <p>Ingen profilbilde lagt til.</p>
-    {% endif %}
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
 
-    <a href="{% url 'programing_course_app:userSettings' %}">Rediger profil</a>
+        <a href="{% url 'programing_course_app:userSettings' %}" class="edit-button">Edit Profile</a>
+    </div>
 </body>
 </html>
