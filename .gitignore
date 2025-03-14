@@ -176,3 +176,7 @@ cython_debug/
 
 # Pycharm
 .idea/
+
+# Unsure
+app/db.sqlite3
+app/media/profile_pics/
