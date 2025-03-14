@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.models import User
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 from django.contrib.auth import logout as Logout, login as Login
 from django.utils.timezone import now
 from .models_io import *
@@ -49,9 +52,45 @@ def user(request):
     return render(request, "programmingCourse/user.html")
 
 def userSettings(request):
-    return render(request, "programmingCourse/userSettings.html")
+    password_form = PasswordChangeForm(request.user, request.POST or None)  # Allow empty form
 
+    if request.method == "POST":
+        updated = False  # Track if any changes were made
 
+        # Update username if provided
+        new_username = request.POST.get("username")
+        if new_username and new_username != request.user.username:
+            request.user.username = new_username
+            request.user.save()
+            messages.success(request, "Username updated successfully!")
+            updated = True
+
+        # Update profile picture if uploaded
+        if 'profile_image' in request.FILES:
+            profile = request.user.profile
+            profile.image = request.FILES['profile_image']
+            profile.save()
+            messages.success(request, "Profile picture updated successfully!")
+            updated = True
+
+        # Change password only if all fields are filled and valid
+        if request.POST.get("old_password") or request.POST.get("new_password1") or request.POST.get("new_password2"):
+            password_form = PasswordChangeForm(request.user, request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)  # Keep user logged in after password change
+                messages.success(request, "Password updated successfully!")
+                updated = True
+            else:
+                messages.error(request, "Error updating password. Please check your input.")
+
+        # Redirect only if a change was made
+        if updated:
+            return redirect("programing_course_app:userSettings")
+
+    return render(request, "programmingCourse/userSettings.html", {
+        "password_form": password_form
+    })
 
 def friendList(request):
     return render(request, "programmingCourse/friendList.html")
