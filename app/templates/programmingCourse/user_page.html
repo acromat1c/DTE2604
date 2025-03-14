@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>Username: {{ user_profile.username }}</p>
+
+{% if user_profile.profile.image %}
+    <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture">
+{% endif %}
+
+</body>
+</html>

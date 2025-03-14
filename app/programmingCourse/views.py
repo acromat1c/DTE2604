@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import logout as Logout, login as Login
 from django.utils.timezone import now
@@ -91,6 +91,11 @@ def userSettings(request):
     return render(request, "programmingCourse/userSettings.html", {
         "password_form": password_form
     })
+
+def user_page(request, username):
+    user_profile = get_object_or_404(User, username=username)
+    return render(request, "programmingCourse/user_page.html", {"user_profile": user_profile})
+
 
 def friendList(request):
     return render(request, "programmingCourse/friendList.html")
