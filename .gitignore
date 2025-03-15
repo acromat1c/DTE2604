@@ -178,5 +178,4 @@ cython_debug/
 .idea/
 
 # Unsure
-app/db.sqlite3
 app/media/profile_pics/
