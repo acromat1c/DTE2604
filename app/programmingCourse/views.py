@@ -52,11 +52,12 @@ def user(request):
     return render(request, "programmingCourse/user.html")
 
 def userSettings(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     password_form = PasswordChangeForm(request.user, request.POST or None)  # Allow empty form
+    updated = False  # Track if any changes were made
 
     if request.method == "POST":
-        updated = False  # Track if any changes were made
-
         # Update username if provided
         new_username = request.POST.get("username")
         if new_username and new_username != request.user.username:
@@ -67,7 +68,6 @@ def userSettings(request):
 
         # Update profile picture if uploaded
         if 'profile_image' in request.FILES:
-            profile = request.user.profile
             profile.image = request.FILES['profile_image']
             profile.save()
             messages.success(request, "Profile picture updated successfully!")
@@ -89,7 +89,8 @@ def userSettings(request):
             return redirect("programing_course_app:userSettings")
 
     return render(request, "programmingCourse/userSettings.html", {
-        "password_form": password_form
+        "password_form": password_form,
+        "profile": profile
     })
 
 def user_page(request, username):
