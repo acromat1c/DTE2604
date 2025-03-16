@@ -1,7 +1,11 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'programmingCourse/static.css' %}">
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<h1>COURSE {{ nameCourse }}</h1>
+<h2>(⁄ ⁄•⁄ω⁄•⁄ ⁄)</h2>
 
-
+<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
+<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
 <div class="backgroundMain">
 	<h1 class="h1">COURSE {{ nameCourse }}</h1>
 	<div class="buttonRow">
@@ -9,7 +13,6 @@
 		<h2 class="courseHeadLine">(⁄ ⁄•⁄ω⁄•⁄ ⁄)</h2>
 		<a href="{% url 'programing_course_app:overview' %}"><button class="buttonMain">OVERVIEW</button></a>
 	</div>
-	
 	{% if not course %}
     <p>Course not found Q.Q</p>
 	{% else %}
@@ -18,7 +21,6 @@
 	    	<p class="courseDescription">{{ course.description }}</p>
     		<p class="courseText">{{ course.text }}</p>
 		</div>
-
 	    {% for name, description in listModule %}
 			<div class="moduleContainer">
 				<h2 class="courseHeadLine">{{ name }}</h2>
@@ -27,10 +29,10 @@
     	    	    <button class="buttonContainer">GO</button>
         		</a>
 			</div>
-        
     	{% empty %}
         	<p>No modules found for this course.</p>
 	    {% endfor %}
 	{% endif %}
 </div>
-
+{% endif %}
+{% endblock %}

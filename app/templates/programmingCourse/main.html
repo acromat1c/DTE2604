@@ -1,12 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Main{% endblock %}
+
+{% block content %}
 <h1>MAIN</h1>
 <h2>Hello {{ user }}!</h2>
 <h2>.w.</h2>
 
-<a href="{% url "programing_course_app:login" %}"><Button>LOGIN</Button></a>
-<a href="{% url "programing_course_app:signup" %}"><Button>SIGN UP</Button></a>
-<a href="{% url "programing_course_app:logout" %}"><Button>LOGOUT</Button></a>
-<a href="{% url "programing_course_app:user" %}"><Button>USER</Button></a>
-<a href="{% url "programing_course_app:friendList" %}"><Button>FRIEND LIST</Button></a>
-<a href="{% url "programing_course_app:groupList" %}"><Button>GROUPS</Button></a>
-<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
-<a href="{% url "programing_course_app:test" %}"><Button>TEST</Button></a>
+<a href="{% url 'programing_course_app:login' %}"><button>LOGIN</button></a>
+<a href="{% url 'programing_course_app:signup' %}"><button>SIGN UP</button></a>
+<a href="{% url 'programing_course_app:logout' %}"><button>LOGOUT</button></a>
+<a href="{% url 'programing_course_app:user' %}"><button>USER</button></a>
+<a href="{% url 'programing_course_app:friendList' %}"><button>FRIEND LIST</button></a>
+<a href="{% url 'programing_course_app:groupList' %}"><button>GROUPS</button></a>
+<a href="{% url 'programing_course_app:overview' %}"><button>OVERVIEW</button></a>
+<a href="{% url 'programing_course_app:test' %}"><button>TEST</button></a>
+
+{% endblock %}
