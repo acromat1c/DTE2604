@@ -1,23 +1,31 @@
-<h1>COURSE {{ nameCourse }}</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'programmingCourse/static.css' %}">
+
+<h1 class="h1">COURSE {{ nameCourse }}</h1>
 <h2>(⁄ ⁄•⁄ω⁄•⁄ ⁄)</h2>
 
-<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
-<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
-
+<a href="{% url 'programing_course_app:main' %}"><button>MAIN</button></a>
+<a href="{% url 'programing_course_app:overview' %}"><button>OVERVIEW</button></a>
 
 {% if not course %}
-<p>course not found Q.Q</p>
+    <p>Course not found Q.Q</p>
 {% else %}
-<h1>{{ course.name }}</h1>
-<p>{{ course.description }}</p>
-<p>{{ course.text }}</p>
+	<div class="courseContainer">
+    	<h1 class="courseHeadLine">{{ course.name }}</h1>
+    	<p class="courseDescription">{{ course.description }}</p>
+    	<p class="courseText">{{ course.text }}</p>
+	</div>
 
-{% for name, description in listModule %}
-        <h2>{{ name }}</h2>
-        <p>{{ description }}</p>
-        <a href="{% url "programing_course_app:module" nameCourse=nameCourse nameModule=name %}"><Button>GO</Button></a>
-{% empty %}
+    {% for name, description in listModule %}
+		<div class="moduleContainer">
+			<h2>{{ name }}</h2>
+	        <p>{{ description }}</p>
+    	    <a href="{% url 'programing_course_app:module' nameCourse=nameCourse nameModule=name %}">
+        	    <button>GO</button>
+        	</a>
+		</div>
+        
+    {% empty %}
         <p>No modules found for this course.</p>
-{% endfor %}
-
+    {% endfor %}
 {% endif %}
