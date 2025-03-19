@@ -1,16 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User</title>
-</head>
+{% extends "base.html" %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+
 <body>
+    <div class="profile-container">
+        <h1>{{ user_profile.username }}</h1>
 
-<p>Username: {{ user_profile.username }}</p>
+        {% if user.profile.image %}
+            <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture" class="profile-image">
+        {% else %}
+            <p>No profile picture added.</p>
+        {% endif %}
 
-{% if user_profile.profile.image %}
-    <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture">
-{% endif %}
+        <p><strong>Username:</strong> {{ user_profile.username }}</p>
+        <!-- <p><strong>Email:</strong> {{ user.email }}</p> -->
 
+        {% if user_profile == user%}
+        <div class="button-container">
+            <a href="{% url 'programing_course_app:userSettings' %}"><button>Edit Profile</button></a>
+        </div>
+        {% else %}
+        <div class="button-container">
+            <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
+                {% csrf_token %}
+                <button>Add friend</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
 </body>
-</html>
+
+{% endblock %}

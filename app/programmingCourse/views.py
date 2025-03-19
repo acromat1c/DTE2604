@@ -100,6 +100,19 @@ def user_page(request, username):
     user_profile = get_object_or_404(User, username=username)
     return render(request, "programmingCourse/user_page.html", {"user_profile": user_profile})
 
+# TODO: redirect back to user page but with a 'success' banner and change the button to undo request
+def add_friend(request, username):
+    if request.method == "POST":
+        sender = request.user
+        recipient = get_object_or_404(User, username=username)
+        if friend_request(sender=sender, recipient=recipient):
+            return redirect("/")
+            pass # success
+        else:
+            return redirect("/fail")
+            pass # fail
+    return render(request, "programmingCourse/user_page.html", {"user_profile": recipient})
+
 
 def friendList(request):
     return render(request, "programmingCourse/friendList.html")

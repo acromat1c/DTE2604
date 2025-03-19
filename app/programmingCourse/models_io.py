@@ -53,3 +53,16 @@ def set_mission_completed(missionId, user, points, time, answer):
         }
     )
     return mission_completed, created
+
+def friend_request(sender, recipient):
+    print(sender)
+    print(recipient)
+    try:
+        print("trying")
+        r = FriendRequest(sender = sender, recipient = recipient)
+        r.save()
+        
+        print("yup")
+        return True
+    except:
+        return False
