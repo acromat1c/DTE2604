@@ -57,6 +57,8 @@
         }
     </style>
 </head>
+{% block title %}User Settings{% endblock %}
+{% block content %}
 <body>
     <div class="settings-container">
         <h1>User Settings</h1>
@@ -96,4 +98,8 @@
     </div>
 </body>
 </html>
+        <a href="{% url 'programing_course_app:user' %}"><button>Back to Profile</button></a>
+    </div>
+</body>
+
 {% endblock %}
