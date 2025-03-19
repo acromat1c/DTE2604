@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Overview{% endblock %}
+
+{% block content %}
+
+<h1>COURSE {{ nameCourse }}</h1>
+<h2>(⁄ ⁄•⁄ω⁄•⁄ ⁄)</h2>
+
+<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
+<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
+
+
+{% if not course %}
+<p>course not found Q.Q</p>
+{% else %}
+<h1>{{ course.name }}</h1>
+<p>{{ course.description }}</p>
+<p>{{ course.text }}</p>
+
+{% for name, description in listModule %}
+        <h2>{{ name }}</h2>
+        <p>{{ description }}</p>
+        <a href="{% url "programing_course_app:module" nameCourse=nameCourse nameModule=name %}"><Button>GO</Button></a>
+{% empty %}
+        <p>No modules found for this course.</p>
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}

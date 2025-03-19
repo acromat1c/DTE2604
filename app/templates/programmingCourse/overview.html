@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Main{% endblock %}
+
+{% block content %}
+
+<h1>OVERVIEW</h1>
+<h2>O.O</h2>
+
+{% for name, description in listCourse %}
+        <h2>{{ name }}</h2>
+        <p>{{ description }}</p>
+        <a href="{% url "programing_course_app:course" nameCourse=name %}"><Button>GO</Button></a>
+{% empty %}
+        <p>No courses found.</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}User Settings{% endblock %}
+
+{% block content %}
+
+<body>
+    <div class="settings-container">
+        <h1>User Settings</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data" action="{% url 'programing_course_app:userSettings' %}">
+            {% csrf_token %}
+
+            <label for="username">Username:</label>
+            <input type="text" name="username" value="{{ user.username }}">
+
+            <label for="profile_image">Profile Picture:</label>
+            <input type="file" name="profile_image">
+
+            <h3>Change Password</h3>
+            {% if password_form.errors %}
+                <div class="error-message">
+                    <p>There was an error updating your password:</p>
+                    <ul>
+                        {% for field in password_form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <label for="old_password">Current Password:</label>
+            <input type="password" name="old_password">
+
+            <label for="new_password1">New Password:</label>
+            <input type="password" name="new_password1">
+
+            <label for="new_password2">Confirm New Password:</label>
+            <input type="password" name="new_password2">
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <a href="{% url 'programing_course_app:user' %}"><button>Back to Profile</button></a>
+    </div>
+</body>
+
+{% endblock %}
