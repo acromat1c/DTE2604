@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
@@ -47,10 +48,12 @@ def main(request):
     return render(request, "programmingCourse/main.html", {"user": user})
 
 
-
+@login_required(login_url="/login")
 def user(request):
     return render(request, "programmingCourse/user.html")
 
+
+@login_required(login_url="/login")
 def userSettings(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
 
