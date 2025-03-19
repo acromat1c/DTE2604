@@ -1,5 +1,73 @@
-<h1>USER</h1>
-<h2>( ͡° ͜ʖ ͡°)</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        .profile-image {
+            width: 250px;
+            height: 140px;
+            border-radius: 10px;
+            display: block;
+            margin: 10px auto;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .button-container {
+            margin-top: 15px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>My Profile</h1>
 
-<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
-<a href="{% url "programing_course_app:userSettings" %}"><Button>USER SETTINGS</Button></a>
+        {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" alt="Profile Picture" class="profile-image">
+        {% else %}
+            <p>No profile picture added.</p>
+        {% endif %}
+
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+
+        <div class="button-container">
+            <a href="{% url 'programing_course_app:userSettings' %}" class="button">Edit Profile</a>
+            <a href="{% url 'programing_course_app:main' %}" class="button">Back to Main Page</a>
+        </div>
+    </div>
+</body>
