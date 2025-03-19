@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .h1 {
     font-family: 'Times New Roman', Times, serif;
     font-size: xx-large;
@@ -89,6 +90,8 @@
     border-radius: 10px;
     font-size: medium;
     font-family: 'Times New Roman', Times, serif;
+=======
+>>>>>>> 4b9b785ec81521b78ad5173081db7304e5e813af
 body {
     background-color: #f8f9fa;
     display: flex;
@@ -203,7 +206,13 @@ button {
     border: none;
     cursor: pointer;
 }
+<<<<<<< HEAD
 
 button:hover {
     background: #555555;
 }}
+=======
+button:hover {
+    background: #555555;
+}
+>>>>>>> 4b9b785ec81521b78ad5173081db7304e5e813af
