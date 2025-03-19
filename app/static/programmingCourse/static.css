@@ -107,11 +107,11 @@ input, button {
     border: 1px solid #ccc;
 }
 button {
-    background: #999999;
+    background: #444444;
     color: white;
     border: none;
     cursor: pointer;
 }
 button:hover {
-    background: #AAAAAA;
+    background: #555555;
 }
