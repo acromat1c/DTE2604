@@ -35,9 +35,12 @@ if run_docker == "y":
     else:
         print("Warning: Docker is not installed or not running. Skipping Docker setup.")
 
-# Database reset
+# Database handling
 DB_PATH = "app/db.sqlite3"
-if os.path.exists(DB_PATH):
+if not os.path.exists(DB_PATH):
+    print("Database file not found. Creating db.sqlite3...")
+    subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
+else:
     reset_db = input("Do you want to delete the local database (db.sqlite3)? (y/n): ").strip().lower()
     if reset_db == "y":
         confirm_reset = input("Are you sure? This action is irreversible! (y/n): ").strip().lower()
@@ -45,8 +48,8 @@ if os.path.exists(DB_PATH):
             print("Deleting database...")
             os.remove(DB_PATH)
 
-            print("Recreating migrations...")
-            subprocess.run([venv_python, "app/manage.py", "makemigrations"], check=True)
+#            print("Recreating migrations...")
+#            subprocess.run([venv_python, "app/manage.py", "makemigrations"], check=True)
 
             print("Running migrations...")
             subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
