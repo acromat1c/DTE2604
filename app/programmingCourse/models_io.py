@@ -55,14 +55,40 @@ def set_mission_completed(missionId, user, points, time, answer):
     return mission_completed, created
 
 def friend_request(sender, recipient):
-    print(sender)
-    print(recipient)
     try:
-        print("trying")
         r = FriendRequest(sender = sender, recipient = recipient)
         r.save()
-        
-        print("yup")
+        return True
+    except :
+        return False
+
+def undo_friend_request(sender, recipient):
+    try:
+        r = FriendRequest.objects.get(sender=sender, recipient=recipient)
+        r.delete()
         return True
     except:
         return False
+
+def accept_friend_request(sender, recipient):
+    try:
+        r = FriendRequest.objects.get(sender=sender, recipient=recipient)
+        r.delete()
+        return True
+    except:
+        return False
+
+def get_friend_status(sender, recipient) -> int:
+    NOT_FRIEND = 0
+    SENT_REQUEST = 1
+    RECIEVED_REQUEST = 2
+    IS_FRIEND = 4
+    try:
+        try:
+            FriendRequest.objects.get(sender=recipient, recipient=sender)
+            return RECIEVED_REQUEST
+        except:
+            FriendRequest.objects.get(sender=sender, recipient=recipient)
+            return SENT_REQUEST
+    except:
+        return NOT_FRIEND

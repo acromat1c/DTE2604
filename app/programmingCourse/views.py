@@ -98,20 +98,39 @@ def userSettings(request):
 
 def user_page(request, username):
     user_profile = get_object_or_404(User, username=username)
-    return render(request, "programmingCourse/user_page.html", {"user_profile": user_profile})
+    friend_status = get_friend_status(sender=request.user, recipient=get_object_or_404(User, username=username))
+
+    return render(request, "programmingCourse/user_page.html", 
+                  {
+                  "user_profile": user_profile,
+                  "friend_status": friend_status
+                  }
+                  )
 
 # TODO: redirect back to user page but with a 'success' banner and change the button to undo request
+@login_required(login_url="/login")
 def add_friend(request, username):
-    if request.method == "POST":
-        sender = request.user
-        recipient = get_object_or_404(User, username=username)
+    sender = request.user
+    recipient = get_object_or_404(User, username=username)
+
+    if request.method == "POST" and request.POST.get("friendaction") == "add":
         if friend_request(sender=sender, recipient=recipient):
-            return redirect("/")
-            pass # success
+            messages.success(request, "Friend request sent")
+            return redirect("programing_course_app:userPage", username=username)
         else:
-            return redirect("/fail")
-            pass # fail
-    return render(request, "programmingCourse/user_page.html", {"user_profile": recipient})
+            messages.error(request, "Failed to send a friend request")
+            return redirect("programing_course_app:userPage", username=username)
+
+    elif request.method == "POST" and request.POST.get("friendaction") == "undo":
+        if undo_friend_request(sender=sender, recipient=recipient):
+            messages.success(request, "Friend request deleted")
+            return redirect("programing_course_app:userPage", username=username)
+        else:
+            messages.error(request, "Failed to delete friend request")
+            return redirect("programing_course_app:userPage", username=username)
+
+
+    return redirect("programing_course_app:userPage", username=username)
 
 
 def friendList(request):

@@ -17,17 +17,59 @@
         <p><strong>Username:</strong> {{ user_profile.username }}</p>
         <!-- <p><strong>Email:</strong> {{ user.email }}</p> -->
 
-        {% if user_profile == user%}
-        <div class="button-container">
-            <a href="{% url 'programing_course_app:userSettings' %}"><button>Edit Profile</button></a>
-        </div>
+        {% if user_profile == user %}
+            <div class="button-container">
+                <a href="{% url 'programing_course_app:userSettings' %}"><button>Edit Profile</button></a>
+            </div>
         {% else %}
-        <div class="button-container">
-            <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
-                {% csrf_token %}
-                <button>Add friend</button>
-            </form>
-        </div>
+
+            {% if friend_status == 0 %}
+                {% for message in messages %}
+                    <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+                {% endfor %}
+                <div class="button-container">
+                    <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="friendaction" value="add">
+                        <button>Add friend</button>
+                    </form>
+                </div>
+            {% elif friend_status == 1 %}
+                {% for message in messages %}
+                    <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+                {% endfor %}
+                <div class="button-container">
+                    <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="friendaction" value="undo">
+                        <button>Undo friend request</button>
+                    </form>
+                </div>
+            {% elif friend_status == 2 %}
+                {% for message in messages %}
+                    <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+                {% endfor %}
+                <div class="button-container">
+                    <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="friendaction" value="accept">
+                        <button>Accept friend request</button>
+                    </form>
+                </div>
+            {% else %}
+                {% for message in messages %}
+                    <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+                {% endfor %}
+                <div class="button-container">
+                    <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="friendaction" value="remove">
+                        <button>Remove friend</button>
+                    </form>
+                </div>
+            {% endif %}
+            
+
         {% endif %}
     </div>
 </body>
