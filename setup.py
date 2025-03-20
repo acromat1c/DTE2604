@@ -1,57 +1,66 @@
 import os
 import platform
+import subprocess
+import sys
 
 print("Setting up the project...")
 
-# Checks if the virtual environment exists.
-#VENV_DIR = "venv"
-#if not os.path.exists(VENV_DIR):
-#    print("No virtual environment detected. Creating one...")
-#    os.system(f"python -m venv {VENV_DIR}")
-#
-# Activates the virtual environment
-#if platform.system() == "Windows":
-#    ACTIVATE_CMD = f"{VENV_DIR}\\Scripts\\activate"
-#else:
-#    ACTIVATE_CMD = f"source {VENV_DIR}/bin/activate"
+# Define the virtual environment path
+VENV_DIR = ".venv"
 
-#print(f"Activating virtual environment: {ACTIVATE_CMD}")
-#os.system(ACTIVATE_CMD)
+# Ensure virtual environment exists
+venv_bin = "Scripts" if platform.system() == "Windows" else "bin"
+if not os.path.exists(os.path.join(VENV_DIR, venv_bin)):
+    print("No virtual environment detected. Creating one...")
+    subprocess.run([sys.executable, "-m", "venv", VENV_DIR], check=True)
 
-# Installs dependencies
-print("Installing dependencies...")
-os.system("pip install -r app/requirements.txt")
+# Get the correct Python executable inside the virtual environment
+venv_python = os.path.join(VENV_DIR, venv_bin, "python.exe" if platform.system() == "Windows" else "python")
 
-# Runs Docker
+# Install dependencies using the virtual environment's Python (but don't exit if missing)
+REQ_FILE = "app/requirements.txt"
+if os.path.exists(REQ_FILE):
+    print("Installing dependencies from requirements.txt inside the virtual environment...")
+    subprocess.run([venv_python, "-m", "pip", "install", "-r", REQ_FILE], check=True)
+else:
+    print(f"Warning: {REQ_FILE} not found. Skipping dependency installation.")
+
+print("Setup complete.")
+
+# Ask user if they want to run Docker
 run_docker = input("Do you want to run 'docker-compose up --build -d'? (y/n): ").strip().lower()
 if run_docker == "y":
-    print("Running Docker Compose...")
-    os.system("docker-compose up --build -d")
-else:
-    print("Skipping Docker setup.")
+    if subprocess.run(["docker-compose", "--version"], capture_output=True).returncode == 0:
+        print("Running Docker Compose...")
+        subprocess.run(["docker-compose", "up", "--build", "-d"], check=True)
+    else:
+        print("Warning: Docker is not installed or not running. Skipping Docker setup.")
 
-# Resets the database
+# Database reset logic
 DB_PATH = "app/db.sqlite3"
 if os.path.exists(DB_PATH):
-    reset_db = input(
-        "Do you want to delete the local database (db.sqlite3)? (y/n): ").strip().lower()
+    reset_db = input("Do you want to delete the local database (db.sqlite3)? (y/n): ").strip().lower()
     if reset_db == "y":
-        print("Deleting database...")
-        os.remove(DB_PATH)
+        confirm_reset = input("Are you sure? This action is irreversible! (y/n): ").strip().lower()
+        if confirm_reset == "y":
+            print("Deleting database...")
+            os.remove(DB_PATH)
 
-        print("Recreating migrations...")
-        os.system("python app/manage.py makemigrations")
+            print("Recreating migrations...")
+            subprocess.run([venv_python, "app/manage.py", "makemigrations"], check=True)
 
-        print("Running migrations...")
-        os.system("python app/manage.py migrate")
+            print("Running migrations...")
+            subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
 
-# Creates a superuser
-create_superuser = input("👤 Do you want to create a superuser? (y/n): ").strip().lower()
+# Ask user to create a superuser
+create_superuser = input("Do you want to create a superuser? (y/n): ").strip().lower()
 if create_superuser == "y":
-    os.system("python app/manage.py createsuperuser")
+    subprocess.run([venv_python, "app/manage.py", "createsuperuser"], check=True)
 
-# Starts the Django server
-print("Starting Django server in a new terminal...")
-os.system("python app/manage.py runserver")
+# Start the Django server in the same terminal
+run_server = input("Do you want to run Django server? (y/n): ").strip().lower()
+if run_server == "y":
+    print("Starting Django server in the current terminal...")
+    subprocess.run([venv_python, "app/manage.py", "runserver"], check=True)
 
 print("Setup complete!")
