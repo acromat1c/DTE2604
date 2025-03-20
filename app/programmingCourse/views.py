@@ -107,7 +107,6 @@ def user_page(request, username):
                   }
                   )
 
-# TODO: redirect back to user page but with a 'success' banner and change the button to undo request
 @login_required(login_url="/login")
 def add_friend(request, username):
     sender = request.user
@@ -116,19 +115,32 @@ def add_friend(request, username):
     if request.method == "POST" and request.POST.get("friendaction") == "add":
         if friend_request(sender=sender, recipient=recipient):
             messages.success(request, "Friend request sent")
-            return redirect("programing_course_app:userPage", username=username)
         else:
             messages.error(request, "Failed to send a friend request")
-            return redirect("programing_course_app:userPage", username=username)
 
     elif request.method == "POST" and request.POST.get("friendaction") == "undo":
         if undo_friend_request(sender=sender, recipient=recipient):
             messages.success(request, "Friend request deleted")
-            return redirect("programing_course_app:userPage", username=username)
         else:
             messages.error(request, "Failed to delete friend request")
-            return redirect("programing_course_app:userPage", username=username)
 
+    elif request.method == "POST" and request.POST.get("friendaction") == "accept":
+        if accept_friend_request(accepter=sender, sender=recipient):
+            messages.success(request, "Friend request accepted")
+        else:
+            messages.error(request, "Failed to accept friend request")
+
+    elif request.method == "POST" and request.POST.get("friendaction") == "decline":
+        if decline_friend_request(recipient=sender, sender=recipient):
+            messages.success(request, "Friend request declined")
+        else:
+            messages.error(request, "Failed to decline friend request")
+
+    elif request.method == "POST" and request.POST.get("friendaction") == "remove":
+        if remove_friend(remover=sender, friend=recipient):
+            messages.success(request, "Friend removed")
+        else:
+            messages.error(request, "Failed to remove friend")
 
     return redirect("programing_course_app:userPage", username=username)
 

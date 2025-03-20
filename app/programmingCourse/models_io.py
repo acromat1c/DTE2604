@@ -1,4 +1,5 @@
 from .models import *
+from django.db.utils import IntegrityError
 
 def get_course_list():
     try:
@@ -70,7 +71,36 @@ def undo_friend_request(sender, recipient):
     except:
         return False
 
-def accept_friend_request(sender, recipient):
+def accept_friend_request(accepter, sender):
+    try:
+        r = FriendRequest.objects.get(sender=sender, recipient=accepter)
+        r.delete()
+        try:
+            f = Friend(user1=sender, user2=accepter)
+            f.save()
+        except IntegrityError:
+            f = Friend(user1=accepter, user2=sender)
+            f.save()
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+def remove_friend(remover, friend):
+    try:
+        if Friend.objects.filter(user1=remover, user2=friend).exists():
+            f = Friend.objects.get(user1=remover, user2=friend)
+            f.delete()
+            return True
+        elif Friend.objects.filter(user1=friend, user2=remover).exists():
+            f = Friend.objects.get(user1=friend, user2=remover)
+            f.delete()
+            return True
+    except:
+        return False
+    
+
+def decline_friend_request(recipient, sender):
     try:
         r = FriendRequest.objects.get(sender=sender, recipient=recipient)
         r.delete()
@@ -82,13 +112,15 @@ def get_friend_status(sender, recipient) -> int:
     NOT_FRIEND = 0
     SENT_REQUEST = 1
     RECIEVED_REQUEST = 2
-    IS_FRIEND = 4
-    try:
-        try:
-            FriendRequest.objects.get(sender=recipient, recipient=sender)
-            return RECIEVED_REQUEST
-        except:
-            FriendRequest.objects.get(sender=sender, recipient=recipient)
-            return SENT_REQUEST
-    except:
+    IS_FRIEND = 3
+    if Friend.objects.filter(user1=sender, user2=recipient).exists():
+        return IS_FRIEND
+    elif Friend.objects.filter(user1=recipient, user2=sender).exists():
+        return IS_FRIEND
+    elif FriendRequest.objects.filter(sender=sender, recipient=recipient).exists():
+        return SENT_REQUEST
+    elif FriendRequest.objects.filter(sender=recipient, recipient=sender).exists():
+        return RECIEVED_REQUEST
+    else:
         return NOT_FRIEND
+
