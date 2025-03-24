@@ -49,8 +49,6 @@ def main(request):
 
 
 @login_required(login_url="/login")
-def user(request):
-    return render(request, "programmingCourse/user.html")
 
 
 @login_required(login_url="/login")
@@ -96,11 +94,12 @@ def userSettings(request):
         "profile": profile
     })
 
-def user_page(request, username):
+@login_required(login_url="/login")
+def user(request, username):
     user_profile = get_object_or_404(User, username=username)
     friend_status = get_friend_status(sender=request.user, recipient=get_object_or_404(User, username=username))
 
-    return render(request, "programmingCourse/user_page.html", 
+    return render(request, "programmingCourse/user.html", 
                   {
                   "user_profile": user_profile,
                   "friend_status": friend_status
@@ -142,7 +141,7 @@ def add_friend(request, username):
         else:
             messages.error(request, "Failed to remove friend")
 
-    return redirect("programing_course_app:userPage", username=username)
+    return redirect("programing_course_app:user", username=username)
 
 
 def friendList(request):

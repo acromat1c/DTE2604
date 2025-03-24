@@ -7,7 +7,7 @@
 <h1>FRIEND LIST</h1>
 
 {% for friend in friends %}
-        <a href="{% url "programing_course_app:userPage" username=friend.username %}"><h2>{{ friend.username }}</h2></a>
+        <a href="{% url "programing_course_app:user" username=friend.username %}"><h2>{{ friend.username }}</h2></a>
 {% empty %}
         <p>No friends found</p>
 {% endfor %}
