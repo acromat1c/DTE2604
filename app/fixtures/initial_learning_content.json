@@ -1,0 +1,121 @@
+[
+  {
+    "model": "programmingCourse.course",
+    "pk": 1,
+    "fields": {
+      "name": "Python: Basic Syntax and Variables",
+      "description": "An introduction to variables, data types, and syntax in Python.",
+      "text": "This course covers fundamental concepts for new Python developers, including variables, types, syntax, and naming rules."
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 1,
+    "fields": {
+      "name": "Variables and Basic Syntax",
+      "description": "Understand what a variable is and how to use it.",
+      "text": "A variable stores a value. Example: x = 5",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 1,
+    "fields": {
+      "name": "What is a variable?",
+      "description": "Write one line of Python code that defines a variable.",
+      "text": "Example: x = 5",
+      "answer": "x = 5",
+      "maxPoints": 5,
+      "module": 1
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 2,
+    "fields": {
+      "name": "Introduction to Variables",
+      "description": "Different ways to use variables in Python.",
+      "text": "You can also store text in variables. Example: name = 'Alice'",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 2,
+    "fields": {
+      "name": "Variable with text",
+      "description": "Write code that stores a string in a variable.",
+      "text": "Example: name = 'Alice'",
+      "answer": "name = 'Alice'",
+      "maxPoints": 5,
+      "module": 2
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 3,
+    "fields": {
+      "name": "Data Types",
+      "description": "Learn about int, float, str, and bool.",
+      "text": "Examples: number = 7, price = 19.99, active = True, name = 'Test'",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 3,
+    "fields": {
+      "name": "Choose the correct data type",
+      "description": "Write a variable with a boolean value.",
+      "text": "Example: active = True",
+      "answer": "active = True",
+      "maxPoints": 5,
+      "module": 3
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 4,
+    "fields": {
+      "name": "Variable Naming and Rules",
+      "description": "Learn the rules for valid variable names.",
+      "text": "Variable names must start with a letter or _, and cannot be a keyword.",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 4,
+    "fields": {
+      "name": "Valid variable name",
+      "description": "Write a valid variable name and assign a value.",
+      "text": "Example: my_value = 10",
+      "answer": "my_value = 10",
+      "maxPoints": 5,
+      "module": 4
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 5,
+    "fields": {
+      "name": "Basic Python Syntax",
+      "description": "What is valid/invalid Python syntax?",
+      "text": "Valid example: a = 1 + 2\nInvalid example: 1 = x",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 5,
+    "fields": {
+      "name": "Write valid Python syntax",
+      "description": "Write one line of valid Python syntax to add two numbers.",
+      "text": "Example: sum = 3 + 4",
+      "answer": "sum = 3 + 4",
+      "maxPoints": 5,
+      "module": 5
+    }
+  }
+]

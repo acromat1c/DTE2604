@@ -59,7 +59,11 @@ create_superuser = input("Do you want to create a superuser? (y/n): ").strip().l
 if create_superuser == "y":
     subprocess.run([venv_python, "app/manage.py", "createsuperuser"], check=True)
 
+# loaddata
+subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
+
 # Start the Django
+
 run_server = input("Do you want to run Django server? (y/n): ").strip().lower()
 if run_server == "y":
     print("Starting Django server in the current terminal...")

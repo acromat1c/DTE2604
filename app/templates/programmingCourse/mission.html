@@ -1,38 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}Overview{% endblock %}
+{% block title %}Mission {{ nameCourse }} - {{ nameModule }} - {{ nameMission }}{% endblock %}
 
 {% block content %}
 
-<h1>MISSION {{ nameCourse }}-{{ nameModule }}-{{ nameMission }}</h1>
-<h2>&gt;-&lt;</h2>
+<h1>MISSION {{ nameCourse }} - {{ nameModule }} - {{ nameMission }}</h1>
 
-<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
-<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
-<a href="{% url "programing_course_app:course" nameCourse=nameCourse %}"><Button>COURSE</Button></a>
-<a href="{% url "programing_course_app:module" nameCourse=nameCourse nameModule=nameModule %}"><Button>MODULE</Button></a>
-
+<!-- Navigation -->
+<a href="{% url "programing_course_app:course" nameCourse=nameCourse %}"><button>COURSE</button></a>
+<a href="{% url "programing_course_app:module" nameCourse=nameCourse nameModule=nameModule %}"><button>MODULE</button></a>
 
 {% if not mission %}
-<p>mission not found Q.Q</p>
+  <p>Mission not found.</p>
 {% else %}
-<h1>{{ mission.name }}</h1>
-<p>{{ mission.description }}</p>
-<p>{{ mission.text }}</p>
+  <h2>{{ mission.name }}</h2>
+  <p>{{ mission.description }}</p>
+  <pre>{{ mission.text }}</pre>
 
-<form method="post">
+  <form method="post">
     {% csrf_token %}
     <label for="answer">Your Answer:</label>
-    <input type="text" name="answer">
+    <input type="text" name="answer" class="form-control">
     <button type="submit">Submit</button>
-    <p>max points: {{mission.maxPoints}}</p>
-</form>
+    <p>Max points: {{ mission.maxPoints }}</p>
+  </form>
 
-{% if userAnswer %}
-<p>your previous answer: {{userAnswer.answer}}</p>
-<p>points: {{userAnswer.points}}</p>
-{% endif %}
+  {% if userAnswer %}
+    <p>Your previous answer: {{ userAnswer.answer }}</p>
+    <p>Points awarded: {{ userAnswer.points }}</p>
+  {% endif %}
 
+  {% if result %}
+    <p style="color: {% if 'Correct' in result %}green{% else %}red{% endif %};">
+      <strong>{{ result }}</strong>
+    </p>
+  {% endif %}
 {% endif %}
 
 {% endblock %}

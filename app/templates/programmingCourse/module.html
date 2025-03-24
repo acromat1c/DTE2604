@@ -5,10 +5,6 @@
 {% block content %}
 
 <h1>MODULE {{ nameCourse }}-{{ nameModule }}</h1>
-<h2>(⁄ ⁄•⁄ω⁄•⁄ ⁄)</h2>
-
-<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
-<a href="{% url "programing_course_app:overview" %}"><Button>OVERVIEW</Button></a>
 <a href="{% url "programing_course_app:course" nameCourse=nameCourse %}"><Button>COURSE</Button></a>
 
 {% if not module %}
@@ -19,12 +15,16 @@
 <p>{{ module.text }}</p>
 
 {% for name, description in listMission %}
-        <h2>{{ name }}</h2>
-        <p>{{ description }}</p>
-        <a href="{% url "programing_course_app:mission" nameCourse=nameCourse nameModule=nameModule nameMission=name %}"><Button>GO</Button></a>
+  <div style="margin-bottom: 1rem;">
+    <strong>{{ name }}</strong><br>
+    <a href="{% url "programing_course_app:mission" nameCourse=nameCourse nameModule=nameModule nameMission=name %}">
+      <button>Start</button>
+    </a>
+  </div>
 {% empty %}
-        <p>No missions found for this module.</p>
+  <p>No missions found for this module.</p>
 {% endfor %}
+
 
 {% endif %}
 

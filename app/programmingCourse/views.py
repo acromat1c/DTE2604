@@ -7,11 +7,15 @@ from django.contrib import messages
 from django.contrib.auth import logout as Logout, login as Login
 from django.utils.timezone import now
 from .models_io import *
+from .models import Mission, MissionCompleted
+from .forms import CodeAnswerForm
+import keyword
+import datetime
+
 
 # Create your views here.
 def index(request):
     return render(request, "programmingCourse/index.html")
-
 
 
 def login(request):
@@ -24,6 +28,7 @@ def login(request):
         form = AuthenticationForm()
     return render(request, "programmingCourse/login.html", {"form": form})
 
+
 def signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -34,15 +39,15 @@ def signup(request):
         form = UserCreationForm()
     return render(request, "programmingCourse/signup.html", {"form": form})
 
+
 def logout(request):
     Logout(request)
     return redirect("/login")
 
 
-
 def main(request):
     if request.user.is_authenticated:
-         user = request.user.username
+        user = request.user.username
     else:
         user = "Guest"
     return render(request, "programmingCourse/main.html", {"user": user})
@@ -75,11 +80,13 @@ def userSettings(request):
             updated = True
 
         # Change password only if all fields are filled and valid
-        if request.POST.get("old_password") or request.POST.get("new_password1") or request.POST.get("new_password2"):
+        if request.POST.get("old_password") or request.POST.get(
+                "new_password1") or request.POST.get("new_password2"):
             password_form = PasswordChangeForm(request.user, request.POST)
             if password_form.is_valid():
                 user = password_form.save()
-                update_session_auth_hash(request, user)  # Keep user logged in after password change
+                update_session_auth_hash(request,
+                                         user)  # Keep user logged in after password change
                 messages.success(request, "Password updated successfully!")
                 updated = True
             else:
@@ -94,8 +101,10 @@ def userSettings(request):
         "profile": profile
     })
 
+
 @login_required(login_url="/login")
 def user(request, username):
+
     user_profile = get_object_or_404(User, username=username)
     friend_status = get_friend_status(sender=request.user, recipient=get_object_or_404(User, username=username))
 
@@ -148,52 +157,68 @@ def friendList(request):
     friends = get_friends(request.user)
     return render(request, "programmingCourse/friendList.html", {"friends": friends})
 
-def friend(request,name):
-    return render(request, "programmingCourse/friend.html", {"name": name})
 
+def friend(request, name):
+    return render(request, "programmingCourse/friend.html", {"name": name})
 
 
 def groupList(request):
     return render(request, "programmingCourse/groupList.html")
 
-def group(request,name):
-    return render(request, "programmingCourse/group.html", {"name": name})
 
+def group(request, name):
+    return render(request, "programmingCourse/group.html", {"name": name})
 
 
 def overview(request):
     listCourse = get_course_list()
     return render(request, "programmingCourse/overview.html", {"listCourse": listCourse})
 
+
 def course(request, nameCourse):
     course = get_course(nameCourse)
     listModule = get_module_list(nameCourse)
-    return render(request, "programmingCourse/course.html", {"nameCourse": nameCourse, "course": course, "listModule": listModule})
+    return render(request, "programmingCourse/course.html",
+                  {"nameCourse": nameCourse, "course": course, "listModule": listModule})
+
 
 def module(request, nameCourse, nameModule):
     module = get_module(nameCourse, nameModule)
     listMission = get_mission_list(nameCourse, nameModule)
-    return render(request, "programmingCourse/module.html", {"nameCourse": nameCourse, "nameModule": nameModule, "module": module, "listMission": listMission})
-
-
+    return render(request, "programmingCourse/module.html",
+                  {"nameCourse": nameCourse, "nameModule": nameModule, "module": module,
+                   "listMission": listMission})
 
 
 def mission(request, nameCourse, nameModule, nameMission):
     mission = get_mission(nameCourse, nameModule, nameMission)
-    if mission == None: userAnswer = None
+    if mission == None:
+        userAnswer = None
     else:
         if request.method == "POST":
             if request.POST["answer"] == mission.answer:
                 points = mission.maxPoints
-            else: points = 0
-            userAnswer, _ = set_mission_completed(mission.id, request.user.id, points, now(), request.POST["answer"])
+            else:
+                points = 0
+            userAnswer, _ = set_mission_completed(mission.id, request.user.id, points, now(),
+                                                  request.POST["answer"])
         else:
             userAnswer = get_mission_completed(mission.id, request.user.id)
 
-    return render(request, "programmingCourse/mission.html", {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission, "mission": mission, "userAnswer": userAnswer})
-
-
+    return render(request, "programmingCourse/mission.html",
+                  {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
+                   "mission": mission, "userAnswer": userAnswer})
 
 
 def test(request):
     return render(request, "programmingCourse/test.html")
+
+
+def validate_answer(mission, user_input):
+    if "3.4.4" in mission.module.name:
+        parts = user_input.split("=")
+        if len(parts) == 2:
+            var = parts[0].strip()
+            return var.isidentifier() and not keyword.iskeyword(var)
+        return False
+    return user_input.strip() == mission.answer.strip()
