@@ -5,11 +5,11 @@
 {% block content %}
 
 <h1>FRIEND LIST</h1>
-<h2>PwP</h2>
 
-<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
-<a href="{% url "programing_course_app:friend" name="1" %}"><Button>FRIEND 1</Button></a>
-<a href="{% url "programing_course_app:friend" name="2" %}"><Button>FRIEND 2</Button></a>
-<a href="{% url "programing_course_app:friend" name="3" %}"><Button>FRIEND 3</Button></a>
+{% for friend in friends %}
+        <a href="{% url "programing_course_app:user" username=friend.username %}"><h2>{{ friend.username }}</h2></a>
+{% empty %}
+        <p>No friends found</p>
+{% endfor %}
 
 {% endblock %}

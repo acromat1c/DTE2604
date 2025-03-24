@@ -49,8 +49,6 @@ def main(request):
 
 
 @login_required(login_url="/login")
-def user(request):
-    return render(request, "programmingCourse/user.html")
 
 
 @login_required(login_url="/login")
@@ -96,13 +94,59 @@ def userSettings(request):
         "profile": profile
     })
 
-def user_page(request, username):
+@login_required(login_url="/login")
+def user(request, username):
     user_profile = get_object_or_404(User, username=username)
-    return render(request, "programmingCourse/user_page.html", {"user_profile": user_profile})
+    friend_status = get_friend_status(sender=request.user, recipient=get_object_or_404(User, username=username))
+
+    return render(request, "programmingCourse/user.html", 
+                  {
+                  "user_profile": user_profile,
+                  "friend_status": friend_status
+                  }
+                  )
+
+@login_required(login_url="/login")
+def add_friend(request, username):
+    sender = request.user
+    recipient = get_object_or_404(User, username=username)
+
+    if request.method == "POST" and request.POST.get("friendaction") == "add":
+        if friend_request(sender=sender, recipient=recipient):
+            messages.success(request, "Friend request sent")
+        else:
+            messages.error(request, "Failed to send a friend request")
+
+    elif request.method == "POST" and request.POST.get("friendaction") == "undo":
+        if undo_friend_request(sender=sender, recipient=recipient):
+            messages.success(request, "Friend request deleted")
+        else:
+            messages.error(request, "Failed to delete friend request")
+
+    elif request.method == "POST" and request.POST.get("friendaction") == "accept":
+        if accept_friend_request(accepter=sender, sender=recipient):
+            messages.success(request, "Friend request accepted")
+        else:
+            messages.error(request, "Failed to accept friend request")
+
+    elif request.method == "POST" and request.POST.get("friendaction") == "decline":
+        if decline_friend_request(recipient=sender, sender=recipient):
+            messages.success(request, "Friend request declined")
+        else:
+            messages.error(request, "Failed to decline friend request")
+
+    elif request.method == "POST" and request.POST.get("friendaction") == "remove":
+        if remove_friend(remover=sender, friend=recipient):
+            messages.success(request, "Friend removed")
+        else:
+            messages.error(request, "Failed to remove friend")
+
+    return redirect("programing_course_app:user", username=username)
 
 
 def friendList(request):
-    return render(request, "programmingCourse/friendList.html")
+    friends = get_friends(request.user)
+    return render(request, "programmingCourse/friendList.html", {"friends": friends})
 
 def friend(request,name):
     return render(request, "programmingCourse/friend.html", {"name": name})
