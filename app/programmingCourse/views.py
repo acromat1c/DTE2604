@@ -146,7 +146,8 @@ def add_friend(request, username):
 
 
 def friendList(request):
-    return render(request, "programmingCourse/friendList.html")
+    friends = get_friends(request.user)
+    return render(request, "programmingCourse/friendList.html", {"friends": friends})
 
 def friend(request,name):
     return render(request, "programmingCourse/friend.html", {"name": name})

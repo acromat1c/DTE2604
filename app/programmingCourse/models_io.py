@@ -124,3 +124,8 @@ def get_friend_status(sender, recipient) -> int:
     else:
         return NOT_FRIEND
 
+def get_friends(user) -> list:
+    friends = [x.user2 for x in Friend.objects.filter(user1=user)]
+    friends.extend([x.user1 for x in Friend.objects.filter(user2=user)])
+    return friends
+
