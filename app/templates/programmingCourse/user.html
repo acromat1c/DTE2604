@@ -6,19 +6,39 @@
 
 <body>
     <div class="profile-container">
-        <h1>My Profile</h1>
+        <h1>{{ user_profile.username }}</h1>
 
         {% if user.profile.image %}
-            <img src="{{ user.profile.image.url }}" alt="Profile Picture" class="profile-image">
+            <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture" class="profile-image">
         {% else %}
             <p>No profile picture added.</p>
         {% endif %}
 
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Username:</strong> {{ user_profile.username }}</p>
+        <!-- <p><strong>Email:</strong> {{ user.email }}</p> -->
+
+        {% for message in messages %}
+        <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+        {% endfor %}
 
         <div class="button-container">
-            <a href="{% url 'programing_course_app:userSettings' %}"><button>Edit Profile</button></button></a>
+        {% if user_profile == user %}
+            <a href="{% url 'programing_course_app:userSettings' %}"><button>Edit Profile</button></a>
+        {% else %}
+            <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
+                {% csrf_token %}
+                {% if friend_status == 0 %}
+                    <button name="friendaction" value="add">Add friend</button>
+                {% elif friend_status == 1 %}
+                    <button name="friendaction" value="undo">Undo friend request</button>
+                {% elif friend_status == 2 %}
+                    <button name="friendaction" value="accept">Accept friend request</button>
+                    <button name="friendaction" value="decline">Decline friend request</button>
+                {% else %}
+                    <button name="friendaction" value="remove">Remove friend</button>
+                {% endif %}
+            </form>
+        {% endif %}
         </div>
     </div>
 </body>
