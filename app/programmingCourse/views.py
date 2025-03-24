@@ -46,11 +46,7 @@ def logout(request):
 
 
 def main(request):
-    if request.user.is_authenticated:
-        user = request.user.username
-    else:
-        user = "Guest"
-    return render(request, "programmingCourse/main.html", {"user": user})
+    return render(request, "programmingCourse/main.html")
 
 
 @login_required(login_url="/login")
