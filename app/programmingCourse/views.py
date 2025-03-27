@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.contrib.auth import logout as Logout, login as Login
 from django.utils.timezone import now
 from .models_io import *
-from .models import Mission, MissionCompleted
-from .forms import CodeAnswerForm
+from .models import Mission, MissionCompleted, GroupMember
+from .forms import CodeAnswerForm, GroupCreateForm
 import keyword
 import datetime
 
@@ -157,6 +157,21 @@ def friendList(request):
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
 
+@login_required(login_url="/login")
+def create_group(request):
+    if request.method == "POST":
+        form = GroupCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.groupOwner = request.user
+            group.save()
+            # Add owner as member
+            GroupMember.objects.create(group=group, user=request.user)
+            messages.success(request, "Group created successfully!")
+            return redirect('programing_course_app:group', name=group.groupName)
+    else:
+        form = GroupCreateForm()
+    return render(request, "programmingCourse/create_group.html", {"form": form})
 
 def groupList(request):
     return render(request, "programmingCourse/groupList.html")

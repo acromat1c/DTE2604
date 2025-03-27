@@ -13,6 +13,7 @@ urlpatterns = [
     path("user/<str:username>/", views.user, name="user"),
     path("groups",views.groupList, name="groupList"),
     path("groups/<str:name>",views.group, name="group"),
+    path("groups/create/", views.create_group, name="create_group"),
     path("friends/<str:name>",views.friend, name="friend"),
     path("friends",views.friendList, name="friendList"),
     path("addfriend/<str:username>",views.add_friend, name="addfriend"),

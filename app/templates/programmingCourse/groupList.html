@@ -1,15 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Overview{% endblock %}
+{% block title %}Group List{% endblock %}
 
 {% block content %}
 
-<h1>GROUP LIST</h1>
-<h2>UwU</h2>
+<h1>Your Groups</h1>
 
-<a href="{% url "programing_course_app:main" %}"><Button>MAIN</Button></a>
-<a href="{% url "programing_course_app:group" name="1" %}"><Button>GROUP 1</Button></a>
-<a href="{% url "programing_course_app:group" name="2" %}"><Button>GROUP 2</Button></a>
-<a href="{% url "programing_course_app:group" name="3" %}"><Button>GROUP 3</Button></a>
+<a href="{% url 'programing_course_app:create_group' %}">
+  <button>Create New Group</button>
+</a>
+
+<hr>
+
+{% if user_groups %}
+  <div class="group-list">
+    {% for group in user_groups %}
+      <div class="group-card">
+        <h3>{{ group.groupName }}</h3>
+        <img src="{{ group.image.url }}" alt="{{ group.groupName }} Image" style="max-width: 200px; height: auto;">
+        <p>{{ group.description|default:"No description yet." }}</p>
+        <p><strong>Visibility:</strong> {{ group.is_private|yesno:"Private,Public" }}</p>
+        <a href="{% url 'programing_course_app:group' name=group.groupName %}">
+          <button>Enter Group</button>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>You are not a member of any groups yet.</p>
+{% endif %}
 
 {% endblock %}
