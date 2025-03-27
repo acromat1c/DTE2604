@@ -56,16 +56,27 @@ class Group(models.Model):
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    is_muted = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['group', 'user'], name='unique_group_member')
         ]
 
+class GroupJoinRequest(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('group', 'user')
+
 class GroupMessage(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True) 
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
