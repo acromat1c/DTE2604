@@ -4,30 +4,41 @@
 
 {% block content %}
 
-<h1>Your Groups</h1>
+<h1>Groups</h1>
 
+<!-- Create Group Button -->
 <a href="{% url 'programing_course_app:create_group' %}">
-  <button>Create New Group</button>
+  <button class="btn btn-primary mb-3">+ Create New Group</button>
 </a>
 
-<hr>
+<!-- Search Form -->
+<form method="get" class="mb-4 d-flex gap-2">
+  <input type="text" name="q" placeholder="Search groups..." value="{{ query }}" class="form-control" style="max-width: 300px;">
+  <select name="private" class="form-select" style="max-width: 150px;">
+    <option value="">Any</option>
+    <option value="false">Public</option>
+    <option value="true">Private</option>
+  </select>
+  <button type="submit" class="btn btn-outline-secondary">Search</button>
+</form>
 
-{% if user_groups %}
+<!-- Group Results -->
+{% if groups %}
   <div class="group-list">
-    {% for group in user_groups %}
-      <div class="group-card">
+    {% for group in groups %}
+      <div class="card-box">
         <h3>{{ group.groupName }}</h3>
-        <img src="{{ group.image.url }}" alt="{{ group.groupName }} Image" style="max-width: 200px; height: auto;">
-        <p>{{ group.description|default:"No description yet." }}</p>
+        <img src="{{ group.image.url }}" alt="Group Image" style="max-width: 200px; height: auto; border-radius: 6px;">
+        <p>{{ group.description|default:"No description provided." }}</p>
         <p><strong>Visibility:</strong> {{ group.is_private|yesno:"Private,Public" }}</p>
         <a href="{% url 'programing_course_app:group' name=group.groupName %}">
-          <button>Enter Group</button>
+          <button class="btn btn-dark mt-2">Enter Group</button>
         </a>
       </div>
     {% endfor %}
   </div>
 {% else %}
-  <p>You are not a member of any groups yet.</p>
+  <p>No groups found.</p>
 {% endif %}
 
 {% endblock %}
