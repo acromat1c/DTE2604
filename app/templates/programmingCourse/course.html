@@ -1,30 +1,33 @@
 {% extends "base.html" %}
-
 {% block title %}{{ course.name }}{% endblock %}
 
 {% block content %}
-  {% if not course %}
-    <p>Course not found.</p>
-  {% else %}
-    <h1>{{ course.name }}</h1>
-    <p><strong>{{ course.description }}</strong></p>
-    <p>{{ course.text }}</p>
+    {% if not course %}
+        <p>Course not found.</p>
+    {% else %}
+        <h1>COURSE: {{ course.name }}</h1>
+        <p><strong>{{ course.description }}</strong></p>
+        <p>{{ course.text }}</p>
 
-    <hr>
-    <h2>Modules</h2>
+        <a href="{% url 'programing_course_app:overview' %}">
+            <button class="button">Back to Overview</button>
+        </a>
 
-    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-      {% for name, description in listModule %}
-        <div style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px;">
-          <h3>{{ name }}</h3>
-          <p>{{ description }}</p>
-          <a href="{% url "programing_course_app:module" nameCourse=nameCourse nameModule=name %}">
-            <button style="padding: 0.5rem 1rem;">Go to Module</button>
-          </a>
+        <hr>
+        <h2>Modules</h2>
+
+        <div class="d-flex flex-column gap-0">
+            {% for name, description in listModule %}
+                <div class="card">
+                    <h3>{{ name }}</h3>
+                    <p>{{ description }}</p>
+                    <a href="{% url "programing_course_app:module" nameCourse=nameCourse nameModule=name %}">
+                        <button class="button">View Module</button>
+                    </a>
+                </div>
+                {% empty %}
+                <p>No modules found for this course.</p>
+            {% endfor %}
         </div>
-      {% empty %}
-        <p>No modules found for this course.</p>
-      {% endfor %}
-    </div>
-  {% endif %}
+    {% endif %}
 {% endblock %}
