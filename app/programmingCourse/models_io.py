@@ -170,3 +170,7 @@ def purchase_item(user, itemID):
         if itemID not in [str(x.item.id) for x  in get_user_inventory(user)] and itemID in [str(x.id) for x in Item.objects.filter(shop=True)]:
                 UserInventory.objects.update_or_create(user=user, item=Item.objects.get(id=itemID))
                 add_user_balance(user, price)
+
+
+def get_inventory_items(user):
+    return sorted([{"category": category, "items": [{"item":x,"active": False} for x in Item.objects.filter(category=category)[::-1] if str(x.id) in [str(x.item.id) for x  in get_user_inventory(user)]]} for category in Item.objects.filter().values_list("category", flat=True).distinct() ], key=lambda i: i["category"])

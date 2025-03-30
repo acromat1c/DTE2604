@@ -3,28 +3,28 @@
 {% block title %}Inventory{% endblock %}
 
 {% block content %}
-<h1>SHOP</h1>
-<h2>BALANCE: ¥{{ userBalance }}</h2>
+<h1>INVENTORY</h1>
 
-{% for categorys in catalogue %}
+{% for categorys in userInventory %}
 
     <h2>{{categorys.category}}</h2>
 
     <div class="scroll-container">
         {%for item in categorys.items%}
-            <div class="scroll-item">
-                {% if item.image %}
-                    <img src="{{item.image.url}}" alt="item image" class="scroll-image">
-                {% endif %}
-                <h3>{{ item.name }}</h3>
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="purchase" value="{{item.id}}" />
-                    
-                    <button type="submit" class="shop-button">¥{{ item.price }}</button>
-                </form>
-                <p>{{ item.description }}</p>
-            </div>
+            {% if not item.active %}
+                <div class="scroll-item">
+                    <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
+                    <h3>{{ item.item.name }}</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="use" value="{{item.item.id}}" />
+                        
+                        <button type="submit" class="shop-button">use</button>
+                    </form>
+                    <p>{{ item.item.description }}</p>
+                </div>
+            {% else %}
+            {% endif %}
         {% endfor %}
     </div>
 

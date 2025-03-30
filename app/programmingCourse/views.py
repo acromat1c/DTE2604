@@ -220,4 +220,5 @@ def shop(request):
 
 @login_required(login_url="/login")
 def inventory(request):
-    return render(request, "programmingCourse/inventory.html")
+    userInventory = get_inventory_items(request.user)
+    return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
