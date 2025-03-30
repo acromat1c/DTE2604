@@ -111,6 +111,7 @@ def user(request, username):
                   }
                   )
 
+
 @login_required(login_url="/login")
 def add_friend(request, username):
     sender = request.user
@@ -191,16 +192,12 @@ def mission(request, nameCourse, nameModule, nameMission):
     if mission == None:
         userAnswer = None
     else:
-        if request.method == "POST":
-            if request.POST["answer"] == mission.answer:
-                points = mission.maxPoints
-            else:
-                points = 0
-            userAnswer, _ = set_mission_completed(mission.id, request.user.id, points, now(),
-                                                  request.POST["answer"])
+        if not request.user.is_authenticated: userAnswer = None
         else:
-            userAnswer = get_mission_completed(mission.id, request.user.id)
-
+            if request.method != "POST":
+                userAnswer = get_mission_completed(mission, request.user)
+            else:
+                userAnswer = set_mission_completed(mission, request.user, now(), request.POST["answer"])
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
                    "mission": mission, "userAnswer": userAnswer})
@@ -210,11 +207,17 @@ def test(request):
     return render(request, "programmingCourse/test.html")
 
 
-def validate_answer(mission, user_input):
-    if "3.4.4" in mission.module.name:
-        parts = user_input.split("=")
-        if len(parts) == 2:
-            var = parts[0].strip()
-            return var.isidentifier() and not keyword.iskeyword(var)
-        return False
-    return user_input.strip() == mission.answer.strip()
+def shop(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            purchase_item(request.user,request.POST["purchase"])
+        userBalance = get_user_balance(request.user)
+        catalogue = get_shop_items(request.user)
+    else: 
+        userBalance = None
+        catalogue = get_shop_items(None)
+    return render(request, "programmingCourse/shop.html", {"userBalance": userBalance, "catalogue": catalogue})
+
+@login_required(login_url="/login")
+def inventory(request):
+    return render(request, "programmingCourse/inventory.html")

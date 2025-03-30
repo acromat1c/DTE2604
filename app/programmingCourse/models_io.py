@@ -27,33 +27,39 @@ def get_module(nameCourse, nameModule):
 
 def get_mission_list(nameCourse, nameModule):
     try:
-        return Mission.objects.filter(module=Module.objects.get(name=nameModule, course__name=nameCourse).id).values_list("name", "description")
+        return Mission.objects.filter(module=Module.objects.get(name=nameModule, course__name=nameCourse)).values_list("name", "description")
     except:
         return None
 
 def get_mission(nameCourse, nameModule, nameMission):
     try:
-        return Mission.objects.get(name=nameMission, module=Module.objects.get(name=nameModule, course__name=nameCourse).id)
+        return Mission.objects.get(name=nameMission, module=Module.objects.get(name=nameModule, course__name=nameCourse))
     except:
         return None
 
-def get_mission_completed(missionId, user):
+def get_mission_completed(mission, user):
     try:
-        return MissionCompleted.objects.get(user=user, mission=missionId)
+        return MissionCompleted.objects.get(user=user, mission=mission)
     except:
         return None
 
-def set_mission_completed(missionId, user, points, time, answer):
+def set_mission_completed(mission, user, time, answer):
+    userAnswer = get_mission_completed(mission, user)
+    if userAnswer != None: 
+        completed = userAnswer.completed
+    else:
+        completed = False
+    if answer == mission.answer and not completed:
+        add_user_balance(user,mission.maxPoints)
+        completed = True
     mission_completed, created = MissionCompleted.objects.update_or_create(
-        mission=Mission.objects.get(id=missionId),
-        user=User.objects.get(id=user),
+        mission=mission,
+        user=user,
         defaults={
-            "points": points,
             "completionTime": time,
             "answer": answer,
-        }
-    )
-    return mission_completed, created
+            "completed": completed,})
+    return mission_completed
 
 def friend_request(sender, recipient):
     try:
@@ -129,3 +135,38 @@ def get_friends(user) -> list:
     friends.extend([x.user1 for x in Friend.objects.filter(user2=user)])
     return friends
 
+def get_user_balance(user):
+    try:
+        return UserBalance.objects.get(user=user).balance
+    except:
+        UserBalance.objects.create(user=user, balance=0)
+        return 0
+
+def add_user_balance(user, amount):
+    try:
+        newBalance = UserBalance.objects.get(user=user).balance + amount
+    except:
+        newBalance = amount
+    model, created = UserBalance.objects.update_or_create(user=user, defaults={"balance": newBalance})
+    return model, created
+
+def get_user_inventory(user):
+    try:
+        return UserInventory.objects.filter(user=user)
+    except:
+        return None
+
+def get_shop_items(user):
+    try:
+        if user == None: ownedItems = []; balance = 0
+        else: ownedItems = [str(x.item.id) for x in get_user_inventory(user)]; balance = get_user_balance(user)
+        return sorted([{"category": category, "items": [{"item":x,"owned":str(x.id) in ownedItems, "afford": balance - x.price >= 0} for x in Item.objects.filter(shop=True, category=category)[::-1]]} for category in Item.objects.filter(shop=True).values_list("category", flat=True).distinct() ], key=lambda i: i["category"])
+    except:
+        return None
+
+def purchase_item(user, itemID):
+    price = (Item.objects.get(id=itemID).price)*-1
+    if get_user_balance(user) + price >= 0: 
+        if itemID not in [str(x.item.id) for x  in get_user_inventory(user)] and itemID in [str(x.id) for x in Item.objects.filter(shop=True)]:
+                UserInventory.objects.update_or_create(user=user, item=Item.objects.get(id=itemID))
+                add_user_balance(user, price)

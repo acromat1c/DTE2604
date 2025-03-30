@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Shop{% endblock %}
+
+{% block content %}
+<h1>SHOP</h1>
+{% if user.is_authenticated %}
+<h2>BALANCE: ¥{{ userBalance }}</h2>
+{% endif %}
+
+{% for categorys in catalogue %}
+
+    <h2>{{categorys.category}}</h2>
+
+    <div class="scroll-container">
+        {%for item in categorys.items%}
+            <div class="scroll-item">
+                <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
+                <h3>{{ item.item.name }}</h3>
+                    {% if user.is_authenticated %}
+                        {% if not item.owned %}
+                            {% if not item.afford %}
+                                <button class="shop-button" style="color:red;">¥{{ item.item.price }}</button>
+                            {% else %}
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="purchase" value="{{item.item.id}}" />
+                                    <button type="submit" class="shop-button">¥{{ item.item.price }}</button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <button class="shop-button">owned</button>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'programing_course_app:login' %}"><button type="submit" class="shop-button">¥{{ item.item.price }}</button></a>
+                    {%endif%}
+                <p>{{ item.item.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endfor %}
+
+{% endblock %}

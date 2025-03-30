@@ -134,3 +134,39 @@ button {
 button:hover {
     background: #555555;
 }
+
+.scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+}
+
+.scroll-item {
+    display: inline-block;
+    width: 250px;
+    height: 500px;
+    margin-right: 10px;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 30px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: auto;
+    padding: 10px;
+}
+
+.scroll-image {
+    width: 230px; 
+    height: 230px;
+    border-radius: 5px;
+}
+
+.shop-button {
+    width: 150px; 
+    height: 35px;
+    font-size: 30px;
+    text-align: center;
+    padding: 3px;
+}
