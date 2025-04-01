@@ -5,26 +5,39 @@
 {% block content %}
 <h1>INVENTORY</h1>
 
+{% if userTheme %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="selectedItem" value="-1" />
+    
+    <button type="submit" style="width:auto;">unequip theme</button>
+</form>
+{% endif %}
+
 {% for categorys in userInventory %}
 
     <h2>{{categorys.category}}</h2>
 
     <div class="scroll-container">
         {%for item in categorys.items%}
-            {% if not item.active %}
-                <div class="scroll-item">
-                    <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
-                    <h3>{{ item.item.name }}</h3>
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="use" value="{{item.item.id}}" />
-                        
-                        <button type="submit" class="shop-button">use</button>
-                    </form>
-                    <p>{{ item.item.description }}</p>
-                </div>
-            {% else %}
-            {% endif %}
+            <div class="scroll-item">
+                <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
+                <h3>{{ item.item.name }}</h3>
+                <h6>{{ item.item.itemType }}</h6>
+                {% if item.equippable %}
+                    {% if item.active %}
+                        <button type="submit" class="shop-button">equipped</button>
+                    {% else %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="selectedItem" value="{{item.item.id}}" />
+                            
+                            <button type="submit" class="shop-button">use</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+                <p>{{ item.item.description }}</p>
+            </div>
         {% endfor %}
     </div>
 

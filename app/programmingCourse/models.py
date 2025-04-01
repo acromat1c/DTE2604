@@ -64,6 +64,19 @@ class GroupMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=1000)
 
+class Item(models.Model):
+    name = models.CharField(max_length=1000)
+    category = models.CharField(max_length=1000)
+    itemType = models.CharField(max_length=1000)
+    price = models.IntegerField()
+    shop = models.BooleanField()
+    description = models.CharField(max_length=10000)
+    image = models.ImageField(upload_to='item_pic/')
+    content = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
@@ -98,6 +111,7 @@ class Mission(models.Model):
     answer = models.CharField(max_length=1000)
     maxPoints = models.IntegerField()
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    reward = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL, default=None)
 
     class Meta:
         constraints = [
@@ -110,7 +124,7 @@ class Mission(models.Model):
 class MissionCompleted(models.Model):
     mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    completionTime = models.DateField()
+    timestamp = models.IntegerField()
     answer = models.CharField(max_length=1000)
     completed = models.BooleanField()
 
@@ -132,30 +146,27 @@ class Profile(models.Model):
 class UserBalance(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     balance = models.IntegerField()
+    allTimeBalance = models.IntegerField()
 
     def __str__(self):
         return str(self.user)
 
-class Item(models.Model):
-    name = models.CharField(max_length=1000)
-    category = models.CharField(max_length=1000)
-    price = models.IntegerField()
-    shop = models.BooleanField()
-    description = models.CharField(max_length=10000)
-    image = models.ImageField(upload_to='item_pic/')
-    content = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name
-
 class UserInventory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    timestamp = models.IntegerField()
 
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['user', 'item'], name='unique_item')
         ]
+
+    def __str__(self):
+        return f"{self.user} | {self.item}"
+
+class UserTheme(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user} | {self.item}"

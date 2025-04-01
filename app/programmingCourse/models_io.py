@@ -1,5 +1,6 @@
 from .models import *
 from django.db.utils import IntegrityError
+import time
 
 def get_course_list():
     try:
@@ -37,29 +38,34 @@ def get_mission(nameCourse, nameModule, nameMission):
     except:
         return None
 
-def get_mission_completed(mission, user):
+def get_mission_completed(user, mission):
     try:
         return MissionCompleted.objects.get(user=user, mission=mission)
     except:
         return None
 
-def set_mission_completed(mission, user, time, answer):
-    userAnswer = get_mission_completed(mission, user)
-    if userAnswer != None: 
-        completed = userAnswer.completed
-    else:
-        completed = False
-    if answer == mission.answer and not completed:
-        add_user_balance(user,mission.maxPoints)
-        completed = True
-    mission_completed, created = MissionCompleted.objects.update_or_create(
-        mission=mission,
-        user=user,
-        defaults={
-            "completionTime": time,
-            "answer": answer,
-            "completed": completed,})
-    return mission_completed
+def set_mission_completed(user, mission, answer):
+    try:
+        userAnswer = get_mission_completed(user, mission)
+        if userAnswer != None: 
+            completed = userAnswer.completed
+        else:
+            completed = False
+        if answer == mission.answer and not completed:
+            add_user_allTimeBalance(user,mission.maxPoints)
+            completed = True
+            if mission.reward:
+                add_item(user,mission.reward)
+        mission_completed, created = MissionCompleted.objects.update_or_create(
+            mission=mission,
+            user=user,
+            defaults={
+                "timestamp": int(time.time()),
+                "answer": answer,
+                "completed": completed,})
+        return mission_completed
+    except:
+        return None
 
 def friend_request(sender, recipient):
     try:
@@ -139,38 +145,125 @@ def get_user_balance(user):
     try:
         return UserBalance.objects.get(user=user).balance
     except:
-        UserBalance.objects.create(user=user, balance=0)
-        return 0
+        try:
+            UserBalance.objects.create(user=user, balance=0)
+        except:
+            return 0
+
+def add_user_allTimeBalance(user, amount):
+    try:
+        newBalance = UserBalance.objects.get(user=user).balance + amount
+    except:
+        newBalance = amount
+    try:
+        UserBalance.objects.update_or_create(user=user, defaults={"balance": newBalance, "allTimeBalance": newBalance})
+        return True
+    except:
+        return False
 
 def add_user_balance(user, amount):
     try:
         newBalance = UserBalance.objects.get(user=user).balance + amount
     except:
         newBalance = amount
-    model, created = UserBalance.objects.update_or_create(user=user, defaults={"balance": newBalance})
-    return model, created
+    try:
+        try:
+            UserBalance.objects.update_or_create(user=user, defaults={"balance": newBalance})
+        except:
+            UserBalance.objects.update_or_create(user=user, defaults={"balance": newBalance, "allTimeBalance": newBalance})
+        return True
+    except:
+        return False
 
 def get_user_inventory(user):
     try:
-        return UserInventory.objects.filter(user=user)
+        return [x.item for x  in UserInventory.objects.filter(user=user).order_by("timestamp")][::-1]
     except:
         return None
 
 def get_shop_items(user):
     try:
         if user == None: ownedItems = []; balance = 0
-        else: ownedItems = [str(x.item.id) for x in get_user_inventory(user)]; balance = get_user_balance(user)
-        return sorted([{"category": category, "items": [{"item":x,"owned":str(x.id) in ownedItems, "afford": balance - x.price >= 0} for x in Item.objects.filter(shop=True, category=category)[::-1]]} for category in Item.objects.filter(shop=True).values_list("category", flat=True).distinct() ], key=lambda i: i["category"])
+        else: ownedItems = [str(x.id) for x in get_user_inventory(user)]; balance = get_user_balance(user)
+        return [{"category": category, "items": [{"item":x,"owned":str(x.id) in ownedItems, "afford": balance - x.price >= 0} for x in Item.objects.filter(shop=True, category=category)[::-1]]} for category in sorted(Item.objects.filter(shop=True).values_list("category", flat=True).distinct()) ]
     except:
         return None
 
 def purchase_item(user, itemID):
-    price = (Item.objects.get(id=itemID).price)*-1
-    if get_user_balance(user) + price >= 0: 
-        if itemID not in [str(x.item.id) for x  in get_user_inventory(user)] and itemID in [str(x.id) for x in Item.objects.filter(shop=True)]:
-                UserInventory.objects.update_or_create(user=user, item=Item.objects.get(id=itemID))
-                add_user_balance(user, price)
-
+    try:
+        price = (Item.objects.get(id=itemID).price)*-1
+        if get_user_balance(user) + price >= 0: 
+            if itemID not in [str(x.id) for x  in get_user_inventory(user)] and itemID in [str(x.id) for x in Item.objects.filter(shop=True)]:
+                    add_item(user, Item.objects.get(id=itemID))
+                    add_user_balance(user, price)
+                    return True
+    except:
+        return False
 
 def get_inventory_items(user):
-    return sorted([{"category": category, "items": [{"item":x,"active": False} for x in Item.objects.filter(category=category)[::-1] if str(x.id) in [str(x.item.id) for x  in get_user_inventory(user)]]} for category in Item.objects.filter().values_list("category", flat=True).distinct() ], key=lambda i: i["category"])
+    try:
+        userInventory = get_user_inventory(user)
+        equippedItems = get_equipped_items(user)
+        equippable = get_equippable_item_types()
+        return [{"category": category, "items": [{"item":x,"active": x.id in equippedItems, "equippable": x.itemType in equippable} for x in [x for x in userInventory if x.category == category]]} for category in sorted(set([x.category for x in userInventory]))]
+    except:
+        return None
+
+def add_item(user, item):
+    try:
+        UserInventory.objects.update_or_create(user=user, item=item, defaults={"timestamp":int(time.time())})
+        return True
+    except:
+        return False
+
+def get_equipped_items(user):
+    l = []
+    try: l.append(UserTheme.objects.get(user=user).item.id)
+    except: pass
+    return l
+
+def get_equippable_item_types(): 
+    return ["theme"]
+
+def equip_item(user, itemID):
+    try:
+        if int(itemID) > 0:
+            item = Item.objects.get(id=itemID)
+            match item.itemType:
+                case "theme": 
+                    set_user_theme(user, item)
+        else:
+            match itemID:
+                case "-1":
+                    set_user_theme_unequip(user)
+        return True
+    except: return False
+
+
+def get_user_theme(user):
+    try:
+        theme = UserTheme.objects.get(user=user).item
+        if theme:
+            return theme.content
+        else:
+            return None
+    except:
+        try: 
+            UserTheme.objects.update_or_create(user=user, defaults={"item":None})
+        except: 
+            return None
+
+def set_user_theme(user, item):
+    try:
+        if item.itemType == "theme":
+            UserTheme.objects.update_or_create(user=user, defaults={"item":item})
+        return True
+    except:
+        return False
+
+def set_user_theme_unequip(user):
+    try:
+        UserTheme.objects.update_or_create(user=user, defaults={"item":None})
+        return True
+    except:
+        return False

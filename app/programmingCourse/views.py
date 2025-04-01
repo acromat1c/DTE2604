@@ -10,7 +10,6 @@ from .models_io import *
 from .models import Mission, MissionCompleted
 from .forms import CodeAnswerForm
 import keyword
-import datetime
 
 
 # Create your views here.
@@ -195,9 +194,9 @@ def mission(request, nameCourse, nameModule, nameMission):
         if not request.user.is_authenticated: userAnswer = None
         else:
             if request.method != "POST":
-                userAnswer = get_mission_completed(mission, request.user)
+                userAnswer = get_mission_completed(request.user, mission)
             else:
-                userAnswer = set_mission_completed(mission, request.user, now(), request.POST["answer"])
+                userAnswer = set_mission_completed(request.user, mission, request.POST["answer"])
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
                    "mission": mission, "userAnswer": userAnswer})
@@ -220,5 +219,7 @@ def shop(request):
 
 @login_required(login_url="/login")
 def inventory(request):
+    if request.method == "POST":
+        equip_item(request.user, request.POST["selectedItem"])
     userInventory = get_inventory_items(request.user)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})

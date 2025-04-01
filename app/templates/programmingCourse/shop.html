@@ -17,6 +17,7 @@
             <div class="scroll-item">
                 <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
                 <h3>{{ item.item.name }}</h3>
+                <h6>{{ item.item.itemType }}</h6>
                     {% if user.is_authenticated %}
                         {% if not item.owned %}
                             {% if not item.afford %}
