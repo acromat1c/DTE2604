@@ -64,10 +64,12 @@ class GroupMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=1000)
 
+itemTypes = ["collectible", "other", "theme"]
+
 class Item(models.Model):
     name = models.CharField(max_length=1000)
     category = models.CharField(max_length=1000)
-    itemType = models.CharField(max_length=1000)
+    itemType = models.CharField(max_length=1000, choices=[[x,x] for x in itemTypes])
     price = models.IntegerField()
     shop = models.BooleanField()
     description = models.CharField(max_length=10000)
