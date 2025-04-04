@@ -90,16 +90,17 @@ def userSettings(request):
 
 @login_required(login_url="/login")
 def user(request, username):
-
     user_profile = get_object_or_404(User, username=username)
-    friend_status = get_friend_status(sender=request.user, recipient=get_object_or_404(User, username=username))
+    friend_status = get_friend_status(sender=request.user,
+                                      recipient=get_object_or_404(User, username=username))
 
-    return render(request, "programmingCourse/user.html", 
+    return render(request, "programmingCourse/user.html",
                   {
-                  "user_profile": user_profile,
-                  "friend_status": friend_status
+                      "user_profile": user_profile,
+                      "friend_status": friend_status
                   }
                   )
+
 
 @login_required(login_url="/login")
 def add_friend(request, username):
@@ -164,7 +165,8 @@ def module(request, nameCourse, nameModule):
 
 def mission(request, nameCourse, nameModule, nameMission):
     mission = get_mission(nameCourse, nameModule, nameMission)
-    if mission == None:
+    result = None
+    if mission is None:
         userAnswer = None
     else:
         if not request.user.is_authenticated: userAnswer = None
@@ -173,9 +175,10 @@ def mission(request, nameCourse, nameModule, nameMission):
                 userAnswer = get_mission_completed(request.user, mission)
             else:
                 userAnswer = set_mission_completed(request.user, mission, request.POST["answer"])
+                result = userAnswer.answer == request.POST["answer"]
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
-                   "mission": mission, "userAnswer": userAnswer})
+                   "mission": mission, "userAnswer": userAnswer, "result": result})
 
 def test(request):
     return render(request, "programmingCourse/test.html")

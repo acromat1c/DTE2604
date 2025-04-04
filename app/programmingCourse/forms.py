@@ -8,3 +8,4 @@ class CodeAnswerForm(forms.Form):
             'class': 'form-control'
         })
     )
+
