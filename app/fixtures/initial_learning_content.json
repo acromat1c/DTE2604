@@ -20,12 +20,14 @@
   },
   {
     "model": "programmingCourse.mission",
-    "pk": 1,
+    "pk": 101,
     "fields": {
+      "type": "code",
       "name": "What is a variable?",
       "description": "Write one line of Python code that defines a variable.",
       "text": "Example: x = 5",
-      "answer": "x = 5",
+      "answer": "",
+      "evaluation_pattern": "^[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*\\d+$",
       "maxPoints": 5,
       "module": 1
     }
@@ -42,12 +44,14 @@
   },
   {
     "model": "programmingCourse.mission",
-    "pk": 2,
+    "pk": 201,
     "fields": {
+      "type": "code",
       "name": "Variable with text",
       "description": "Write code that stores a string in a variable.",
       "text": "Example: name = 'Alice'",
-      "answer": "name = 'Alice'",
+      "answer": "",
+      "evaluation_pattern": "^[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*['\\\"]\\w+['\\\"]$",
       "maxPoints": 5,
       "module": 2
     }
@@ -64,13 +68,16 @@
   },
   {
     "model": "programmingCourse.mission",
-    "pk": 3,
+    "pk": 301,
     "fields": {
-      "name": "Choose the correct data type",
-      "description": "Write a variable with a boolean value.",
-      "text": "Example: active = True",
-      "answer": "active = True",
-      "maxPoints": 5,
+      "type": "true_false",
+      "name": "Can a variable start with a number?",
+      "description": "Answer whether the following statement is true:",
+      "text": "A variable can start with a number.",
+      "choices": ["True", "False"],
+      "answer": "False",
+      "evaluation_pattern": "",
+      "maxPoints": 2,
       "module": 3
     }
   },
@@ -86,16 +93,24 @@
   },
   {
     "model": "programmingCourse.mission",
-    "pk": 4,
+    "pk": 401,
     "fields": {
-      "name": "Valid variable name",
-      "description": "Write a valid variable name and assign a value.",
-      "text": "Example: my_value = 10",
-      "answer": "my_value = 10",
-      "maxPoints": 5,
+      "type": "multiple_choice",
+      "name": "Choose a valid variable name",
+      "description": "Select the correct option for a valid Python variable name.",
+      "text": "Which of the following is a valid variable name?",
+      "answer": "name_1",
+      "choices": [
+        "1name",
+        "name_1",
+        "name-2"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 3,
       "module": 4
     }
   },
+
   {
     "model": "programmingCourse.module",
     "pk": 5,
@@ -108,13 +123,50 @@
   },
   {
     "model": "programmingCourse.mission",
-    "pk": 5,
+    "pk": 501,
     "fields": {
+      "type": "code",
       "name": "Write valid Python syntax",
       "description": "Write one line of valid Python syntax to add two numbers.",
       "text": "Example: sum = 3 + 4",
-      "answer": "sum = 3 + 4",
+      "answer": "",
+      "evaluation_pattern": "^[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*['\\\"]\\w+['\\\"]$",
       "maxPoints": 5,
+      "module": 5
+
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 502,
+    "fields": {
+      "type": "ordering",
+      "name": "Order the development steps",
+      "description": "Place the phases of software development in the correct order.",
+      "text": "Write them in the correct order, separated by commas.",
+      "answer": "Requirements,Design,Implementation,Testing",
+      "choices": [
+        "Design",
+        "Requirements",
+        "Implementation",
+        "Testing"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 5
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 503,
+    "fields": {
+      "type": "code",
+      "name": "Define a float variable",
+      "description": "Write a Python line that assigns a float value to a variable.",
+      "text": "Example: price = 19.99",
+      "answer": "",
+      "evaluation_pattern": "^[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*\\d+\\.\\d+$",
+      "maxPoints": 4,
       "module": 5
     }
   }

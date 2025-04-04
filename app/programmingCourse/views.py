@@ -10,13 +10,11 @@ from .models_io import *
 from .models import Mission, MissionCompleted
 from .forms import CodeAnswerForm
 import keyword
-import datetime
 
 
 # Create your views here.
 def index(request):
     return render(request, "programmingCourse/index.html")
-
 
 def login(request):
     if request.method == "POST":
@@ -28,7 +26,6 @@ def login(request):
         form = AuthenticationForm()
     return render(request, "programmingCourse/login.html", {"form": form})
 
-
 def signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -39,18 +36,12 @@ def signup(request):
         form = UserCreationForm()
     return render(request, "programmingCourse/signup.html", {"form": form})
 
-
 def logout(request):
     Logout(request)
     return redirect("/login")
 
-
 def main(request):
     return render(request, "programmingCourse/main.html")
-
-
-@login_required(login_url="/login")
-
 
 @login_required(login_url="/login")
 def userSettings(request):
@@ -97,86 +88,73 @@ def userSettings(request):
         "profile": profile
     })
 
-
 @login_required(login_url="/login")
 def user(request, username):
-
     user_profile = get_object_or_404(User, username=username)
-    friend_status = get_friend_status(sender=request.user, recipient=get_object_or_404(User, username=username))
+    friend_status = get_friend_status(sender=request.user,
+                                      recipient=get_object_or_404(User, username=username))
 
-    return render(request, "programmingCourse/user.html", 
+    return render(request, "programmingCourse/user.html",
                   {
-                  "user_profile": user_profile,
-                  "friend_status": friend_status
+                      "user_profile": user_profile,
+                      "friend_status": friend_status
                   }
                   )
+
 
 @login_required(login_url="/login")
 def add_friend(request, username):
     sender = request.user
     recipient = get_object_or_404(User, username=username)
-
     if request.method == "POST" and request.POST.get("friendaction") == "add":
         if friend_request(sender=sender, recipient=recipient):
             messages.success(request, "Friend request sent")
         else:
             messages.error(request, "Failed to send a friend request")
-
     elif request.method == "POST" and request.POST.get("friendaction") == "undo":
         if undo_friend_request(sender=sender, recipient=recipient):
             messages.success(request, "Friend request deleted")
         else:
             messages.error(request, "Failed to delete friend request")
-
     elif request.method == "POST" and request.POST.get("friendaction") == "accept":
         if accept_friend_request(accepter=sender, sender=recipient):
             messages.success(request, "Friend request accepted")
         else:
             messages.error(request, "Failed to accept friend request")
-
     elif request.method == "POST" and request.POST.get("friendaction") == "decline":
         if decline_friend_request(recipient=sender, sender=recipient):
             messages.success(request, "Friend request declined")
         else:
             messages.error(request, "Failed to decline friend request")
-
     elif request.method == "POST" and request.POST.get("friendaction") == "remove":
         if remove_friend(remover=sender, friend=recipient):
             messages.success(request, "Friend removed")
         else:
             messages.error(request, "Failed to remove friend")
-
     return redirect("programing_course_app:user", username=username)
-
 
 def friendList(request):
     friends = get_friends(request.user)
     return render(request, "programmingCourse/friendList.html", {"friends": friends})
 
-
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
-
 
 def groupList(request):
     return render(request, "programmingCourse/groupList.html")
 
-
 def group(request, name):
     return render(request, "programmingCourse/group.html", {"name": name})
-
 
 def overview(request):
     listCourse = get_course_list()
     return render(request, "programmingCourse/overview.html", {"listCourse": listCourse})
-
 
 def course(request, nameCourse):
     course = get_course(nameCourse)
     listModule = get_module_list(nameCourse)
     return render(request, "programmingCourse/course.html",
                   {"nameCourse": nameCourse, "course": course, "listModule": listModule})
-
 
 def module(request, nameCourse, nameModule):
     module = get_module(nameCourse, nameModule)
@@ -185,36 +163,40 @@ def module(request, nameCourse, nameModule):
                   {"nameCourse": nameCourse, "nameModule": nameModule, "module": module,
                    "listMission": listMission})
 
-
 def mission(request, nameCourse, nameModule, nameMission):
     mission = get_mission(nameCourse, nameModule, nameMission)
-    if mission == None:
+    result = None
+    if mission is None:
         userAnswer = None
     else:
-        if request.method == "POST":
-            if request.POST["answer"] == mission.answer:
-                points = mission.maxPoints
-            else:
-                points = 0
-            userAnswer, _ = set_mission_completed(mission.id, request.user.id, points, now(),
-                                                  request.POST["answer"])
+        if not request.user.is_authenticated: userAnswer = None
         else:
-            userAnswer = get_mission_completed(mission.id, request.user.id)
-
+            if request.method != "POST":
+                userAnswer = get_mission_completed(request.user, mission)
+            else:
+                userAnswer = set_mission_completed(request.user, mission, request.POST["answer"])
+                result = mission.answer == request.POST["answer"]
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
-                   "mission": mission, "userAnswer": userAnswer})
-
+                   "mission": mission, "userAnswer": userAnswer, "result": result})
 
 def test(request):
     return render(request, "programmingCourse/test.html")
 
+def shop(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            purchase_item(request.user,request.POST["purchase"])
+        userBalance = get_user_balance(request.user)
+        catalogue = get_shop_items(request.user)
+    else: 
+        userBalance = None
+        catalogue = get_shop_items(None)
+    return render(request, "programmingCourse/shop.html", {"userBalance": userBalance, "catalogue": catalogue})
 
-def validate_answer(mission, user_input):
-    if "3.4.4" in mission.module.name:
-        parts = user_input.split("=")
-        if len(parts) == 2:
-            var = parts[0].strip()
-            return var.isidentifier() and not keyword.iskeyword(var)
-        return False
-    return user_input.strip() == mission.answer.strip()
+@login_required(login_url="/login")
+def inventory(request):
+    if request.method == "POST":
+        equip_item(request.user, request.POST["selectedItem"])
+    userInventory = get_inventory_items(request.user)
+    return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
