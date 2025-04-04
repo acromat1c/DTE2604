@@ -175,7 +175,7 @@ def mission(request, nameCourse, nameModule, nameMission):
                 userAnswer = get_mission_completed(request.user, mission)
             else:
                 userAnswer = set_mission_completed(request.user, mission, request.POST["answer"])
-                result = userAnswer.answer == request.POST["answer"]
+                result = mission.answer == request.POST["answer"]
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
                    "mission": mission, "userAnswer": userAnswer, "result": result})
