@@ -50,8 +50,6 @@ def main(request):
 
 
 @login_required(login_url="/login")
-
-
 @login_required(login_url="/login")
 def userSettings(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
@@ -100,16 +98,17 @@ def userSettings(request):
 
 @login_required(login_url="/login")
 def user(request, username):
-
     user_profile = get_object_or_404(User, username=username)
-    friend_status = get_friend_status(sender=request.user, recipient=get_object_or_404(User, username=username))
+    friend_status = get_friend_status(sender=request.user,
+                                      recipient=get_object_or_404(User, username=username))
 
-    return render(request, "programmingCourse/user.html", 
+    return render(request, "programmingCourse/user.html",
                   {
-                  "user_profile": user_profile,
-                  "friend_status": friend_status
+                      "user_profile": user_profile,
+                      "friend_status": friend_status
                   }
                   )
+
 
 @login_required(login_url="/login")
 def add_friend(request, username):
@@ -188,33 +187,40 @@ def module(request, nameCourse, nameModule):
 
 def mission(request, nameCourse, nameModule, nameMission):
     mission = get_mission(nameCourse, nameModule, nameMission)
-    if mission == None:
+    result = None
+
+    if mission is None:
         userAnswer = None
     else:
         if request.method == "POST":
-            if request.POST["answer"] == mission.answer:
+            user_input = request.POST.get("answer", "")
+
+            if mission.evaluate_answer(user_input):
                 points = mission.maxPoints
+                result = "Correct!"
             else:
                 points = 0
-            userAnswer, _ = set_mission_completed(mission.id, request.user.id, points, now(),
-                                                  request.POST["answer"])
+                result = "Incorrect. Try again!"
+
+            userAnswer, _ = set_mission_completed(
+                mission.id,
+                request.user.id,
+                points,
+                now().date(),
+                user_input
+            )
         else:
             userAnswer = get_mission_completed(mission.id, request.user.id)
 
-    return render(request, "programmingCourse/mission.html",
-                  {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
-                   "mission": mission, "userAnswer": userAnswer})
+    return render(request, "programmingCourse/mission.html", {
+        "nameCourse": nameCourse,
+        "nameModule": nameModule,
+        "nameMission": nameMission,
+        "mission": mission,
+        "userAnswer": userAnswer,
+        "result": result
+    })
 
 
 def test(request):
     return render(request, "programmingCourse/test.html")
-
-
-def validate_answer(mission, user_input):
-    if "3.4.4" in mission.module.name:
-        parts = user_input.split("=")
-        if len(parts) == 2:
-            var = parts[0].strip()
-            return var.isidentifier() and not keyword.iskeyword(var)
-        return False
-    return user_input.strip() == mission.answer.strip()

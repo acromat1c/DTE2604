@@ -23,8 +23,54 @@
 
             <form method="post" class="mt-3">
                 {% csrf_token %}
-                <label for="answer"><strong>Your Answer:</strong></label>
-                <input type="text" name="answer" class="form-control mb-2">
+                <label for="answer"><strong>Your Answer:</strong></label><br><br>
+
+                {% if mission.type == "code" %}
+                    <input type="text" name="answer" class="form-control mb-2">
+
+                {% elif mission.type == "true_false" %}
+                    <div style="margin-bottom: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input class="button" type="radio" name="answer" value="True"
+                                   {% if userAnswer and userAnswer.answer|lower == "true" %}checked{% endif %}>
+                            <span>True</span>
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input class="button" type="radio" name="answer" value="False"
+                                   {% if userAnswer and userAnswer.answer|lower == "false" %}checked{% endif %}>
+                            <span>False</span>
+                        </label>
+                    </div>
+
+                {% elif mission.type == "multiple_choice" %}
+                    {% for option in mission.choices %}
+                        <div style="margin-bottom: 8px;">
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input class="button" type="radio" name="answer"
+                                       value="{{ option }}"
+                                       id="choice_{{ forloop.counter }}"
+                                       {% if userAnswer and userAnswer.answer == option %}checked{% endif %}>
+                                <span>{{ option }}</span>
+                            </label>
+                        </div>
+                    {% endfor %}
+
+                {% elif mission.type == "ordering" %}
+                    <ol>
+                        {% for step in mission.choices %}
+                            <li>{{ step }}</li>
+                        {% endfor %}
+                    </ol>
+                    <p>Write the steps in correct order (comma-separated):</p>
+                    <textarea name="answer" rows="3" class="form-control mb-2"
+                              placeholder="Requirements, Design, Implementation, Testing"></textarea>
+
+                {% else %}
+                    <input type="text" name="answer" class="form-control mb-2">
+                {% endif %}
+
                 <button type="submit" class="button">Submit</button>
                 <p>Max points: {{ mission.maxPoints }}</p>
             </form>
@@ -36,7 +82,8 @@
             {% endif %}
 
             {% if result %}
-                <p>{{ result }}</p>
+                <p style="color: {% if 'Correct' in result %}green{% else %}red{% endif %};">
+                    <strong>{{ result }}</strong></p>
             {% endif %}
         </div>
     {% endif %}
