@@ -1,8 +1,9 @@
 body {
-    background-color: #f8f9fa;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: rgb(255,255,255);
+    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(224,224,224,1) 50%, rgba(181,181,181,1) 100%);
 }
 
 .navbar {
@@ -26,7 +27,6 @@ body {
     align-items: center;
     text-align: center;
     padding: 10px;
-    background-color: #f8f9fa;
     margin-top: auto;
 }
 
