@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.contrib.auth import logout as Logout, login as Login
 from django.utils.timezone import now
 from .models_io import *
-from .models import Mission, MissionCompleted
-from .forms import CodeAnswerForm
+from .models import Mission, MissionCompleted, GroupMember, GroupMessage, GroupJoinRequest, User
+from .forms import CodeAnswerForm, GroupCreateForm, GroupEditForm
 import keyword
 
 
@@ -140,11 +140,171 @@ def friendList(request):
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
 
+
+@login_required(login_url="/login")
+def create_group(request):
+    if request.method == "POST":
+        form = GroupCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.groupOwner = request.user
+            group.save()
+            # Add owner as member
+            GroupMember.objects.create(group=group, user=request.user)
+            messages.success(request, "Group created successfully!")
+            return redirect('programing_course_app:group', name=group.groupName)
+    else:
+        form = GroupCreateForm()
+    return render(request, "programmingCourse/create_group.html", {"form": form})
+
+@login_required(login_url="/login")
+def group_settings(request, name):
+    group = get_object_or_404(Group, groupName=name)
+
+    if request.user != group.groupOwner:
+        messages.error(request, "You are not authorized to edit this group.")
+        return redirect("programing_course_app:group", name=name)
+
+    if request.method == "POST":
+        form = GroupEditForm(request.POST, request.FILES, instance=group)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Group settings updated.")
+            return redirect("programing_course_app:group", name=name)
+    else:
+        form = GroupEditForm(instance=group)
+
+    return render(request, "programmingCourse/group_settings.html", {"form": form, "group": group})
+
+
+@login_required(login_url="/login")
 def groupList(request):
-    return render(request, "programmingCourse/groupList.html")
+    query = request.GET.get("q", "")
+    is_private = request.GET.get("private", "")
+
+    if query or is_private != "":
+        # You're searching — show all matches
+        groups = Group.objects.all()
+        if query:
+            groups = groups.filter(groupName__icontains=query)
+        if is_private == "true":
+            groups = groups.filter(is_private=True)
+        elif is_private == "false":
+            groups = groups.filter(is_private=False)
+    else:
+        # No query — show only groups user is in
+        groups = Group.objects.filter(groupmember__user=request.user)
+
+    return render(request, "programmingCourse/groupList.html", {
+        "groups": groups,
+        "query": query,
+    })
+
+
+@login_required(login_url="/login")
 
 def group(request, name):
-    return render(request, "programmingCourse/group.html", {"name": name})
+    group = get_object_or_404(Group, groupName=name)
+    is_member = GroupMember.objects.filter(group=group, user=request.user).exists()
+    is_owner = request.user == group.groupOwner
+    join_requested = GroupJoinRequest.objects.filter(group=group, user=request.user).exists()
+    member_record = GroupMember.objects.filter(group=group, user=request.user).first()
+    members = GroupMember.objects.filter(group=group).select_related("user")
+
+    if request.method == "POST":
+        action = request.POST.get("action")
+        target_id = request.POST.get("target_id")
+
+        # Handle group admin actions
+        if action in ["kick", "mute", "unmute"] and is_owner and target_id:
+            target_user = get_object_or_404(User, id=target_id)
+            member_entry = GroupMember.objects.filter(group=group, user=target_user).first()
+
+            if member_entry:
+                if action == "kick":
+                    if target_user == group.groupOwner:
+                        messages.error(request, "You cannot kick the group owner.")
+                    else:
+                        member_entry.delete()
+                        messages.success(request, f"{target_user.username} was removed from the group.")
+                elif action == "mute":
+                    member_entry.is_muted = True
+                    member_entry.save()
+                    messages.success(request, f"{target_user.username} has been muted.")
+                elif action == "unmute":
+                    member_entry.is_muted = False
+                    member_entry.save()
+                    messages.success(request, f"{target_user.username} has been unmuted.")
+            return redirect("programing_course_app:group", name=name)
+
+        # Handle join request or leave
+        if action == "join":
+            if group.is_private:
+                if not join_requested:
+                    GroupJoinRequest.objects.create(group=group, user=request.user)
+                    messages.success(request, "Join request sent.")
+            else:
+                GroupMember.objects.get_or_create(group=group, user=request.user)
+                messages.success(request, "You have joined the group.")
+            return redirect("programing_course_app:group", name=name)
+
+        elif action == "leave":
+            if not is_owner:
+                GroupMember.objects.filter(group=group, user=request.user).delete()
+                messages.success(request, "You left the group.")
+                return redirect("programing_course_app:groupList")
+
+        # Handle sending a chat message
+        if not action and is_member and member_record and not member_record.is_muted:
+            content = request.POST.get("message", "").strip()
+            if content:
+                GroupMessage.objects.create(group=group, user=request.user, message=content)
+                return redirect("programing_course_app:group", name=name)
+
+    messages_ = GroupMessage.objects.filter(group=group).order_by("created_at")
+
+    return render(request, "programmingCourse/group.html", {
+        "group": group,
+        "is_member": is_member,
+        "is_owner": is_owner,
+        "join_requested": join_requested,
+        "messages": messages_,
+        "members": members,
+    })
+
+@login_required
+def manage_group_requests(request, name):
+    group = get_object_or_404(Group, groupName=name)
+
+    if request.user != group.groupOwner:
+        messages.error(request, "You are not authorized to manage this group.")
+        return redirect("programing_course_app:group", name=name)
+
+    pending_requests = GroupJoinRequest.objects.filter(group=group)
+
+    if request.method == "POST":
+        action = request.POST.get("action")
+        user_id = request.POST.get("user_id")
+
+        if action and user_id:
+            user = get_object_or_404(User, id=user_id)
+
+            if action == "approve":
+                GroupMember.objects.get_or_create(group=group, user=user)
+                GroupJoinRequest.objects.filter(group=group, user=user).delete()
+                messages.success(request, f"Approved {user.username}")
+
+            elif action == "reject":
+                GroupJoinRequest.objects.filter(group=group, user=user).delete()
+                messages.success(request, f"Rejected {user.username}")
+
+        return redirect("programing_course_app:manage_group_requests", name=name)
+
+    return render(request, "programmingCourse/manage_group_requests.html", {
+        "group": group,
+        "requests": pending_requests
+    })
+
 
 def overview(request):
     listCourse = get_course_list()

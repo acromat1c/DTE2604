@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Group Settings - {{ group.groupName }}{% endblock %}
+
+{% block content %}
+  <h1>Edit Group Settings</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-dark">Save Changes</button>
+  </form>
+
+  <a href="{% url 'programing_course_app:group' name=group.groupName %}">
+    <button>Back to Group</button>
+  </a>
+{% endblock %}

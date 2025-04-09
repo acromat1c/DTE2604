@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Join Requests - {{ group.groupName }}{% endblock %}
+
+{% block content %}
+<h1>Pending Join Requests for {{ group.groupName }}</h1>
+
+{% if requests %}
+  <ul class="list-group">
+    {% for req in requests %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ req.user.username }}
+        <form method="post" class="d-flex gap-2">
+          {% csrf_token %}
+          <input type="hidden" name="user_id" value="{{ req.user.id }}">
+          <button name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
+          <button name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No pending requests.</p>
+{% endif %}
+
+<a href="{% url 'programing_course_app:group' name=group.groupName %}">
+  <button class="btn btn-secondary mt-3">← Back to Group</button>
+</a>
+{% endblock %}
