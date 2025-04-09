@@ -1,17 +1,22 @@
 {% extends "base.html" %}
-
-{% block title %}Main{% endblock %}
+{% block title %}Overview{% endblock %}
 
 {% block content %}
 
 <h1>OVERVIEW</h1>
 
-{% for name, description in listCourse %}
-        <h2>{{ name }}</h2>
-        <p>{{ description }}</p>
-        <a href="{% url "programing_course_app:course" nameCourse=name %}"><Button>GO</Button></a>
-{% empty %}
+<div class="d-flex flex-column gap-0">
+    {% for name, description in listCourse %}
+        <div class="card">
+            <h2>{{ name }}</h2>
+            <p>{{ description }}</p>
+            <a href="{% url "programing_course_app:course" nameCourse=name %}">
+                <button class="button">View Course</button>
+            </a>
+        </div>
+        {% empty %}
         <p>No courses found.</p>
-{% endfor %}
+    {% endfor %}
+</div>
 
 {% endblock %}

@@ -24,4 +24,6 @@ urlpatterns = [
     path("overview/<str:nameCourse>/<str:nameModule>",views.module, name="module"),
     path("overview/<str:nameCourse>/<str:nameModule>/<str:nameMission>",views.mission, name="mission"),
     path("test",views.test, name="test"),
+    path("shop",views.shop, name="shop"),
+    path("inventory",views.inventory, name="inventory"),
     ]

@@ -10,6 +10,7 @@ class CodeAnswerForm(forms.Form):
         })
     )
 
+
 class GroupCreateForm(forms.ModelForm):
     class Meta:
         model = Group
@@ -31,3 +32,4 @@ class GroupEditForm(forms.ModelForm):
             'image': forms.FileInput(attrs={'class': 'form-control'}),
             'is_private': forms.CheckboxInput(),
         }
+

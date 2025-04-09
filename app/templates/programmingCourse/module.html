@@ -1,31 +1,37 @@
 {% extends "base.html" %}
-
-{% block title %}Overview{% endblock %}
+{% block title %}{{ module.name }}{% endblock %}
 
 {% block content %}
 
-<h1>MODULE {{ nameCourse }}-{{ nameModule }}</h1>
-<a href="{% url "programing_course_app:course" nameCourse=nameCourse %}"><Button>COURSE</Button></a>
+    <h1>MODULE: {{ module.name }}</h1>
+    <p>Course: {{ nameCourse }}</p>
 
-{% if not module %}
-<p>module not found Q.Q</p>
-{% else %}
-<h1>{{ module.name }}</h1>
-<p>{{ module.description }}</p>
-<p>{{ module.text }}</p>
-
-{% for name, description in listMission %}
-  <div style="margin-bottom: 1rem;">
-    <strong>{{ name }}</strong><br>
-    <a href="{% url "programing_course_app:mission" nameCourse=nameCourse nameModule=nameModule nameMission=name %}">
-      <button>Start</button>
+    <a href="{% url "programing_course_app:course" nameCourse=nameCourse %}">
+        <button class="button">Back to Course</button>
     </a>
-  </div>
-{% empty %}
-  <p>No missions found for this module.</p>
-{% endfor %}
 
+    {% if not module %}
+        <p>Module not found.</p>
+    {% else %}
+        <p><strong>{{ module.description }}</strong></p>
+        <p>{{ module.text }}</p>
 
-{% endif %}
+        <hr>
+        <h2>Missions</h2>
+
+        <div class="d-flex flex-column gap-3">
+            {% for name, description in listMission %}
+                <div class="card">
+                    <h3>{{ name }}</h3>
+                    <p>{{ description }}</p>
+                    <a href="{% url "programing_course_app:mission" nameCourse=nameCourse nameModule=nameModule nameMission=name %}">
+                        <button class="button">Start Mission</button>
+                    </a>
+                </div>
+                {% empty %}
+                <p>No missions found for this module.</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
 {% endblock %}

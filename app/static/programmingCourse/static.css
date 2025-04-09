@@ -1,20 +1,41 @@
+:root {
+    --background-color: #f8f9fa;
+    --box-shadow-color: rgba(0, 0, 0, 0.1);
+    --header-color: #000000;
+    --paragraph-color: #000000;
+    --button-color: #444444;
+    --button-text-color: #ffffff;
+    --button-hover-color: #555555;
+    --container-border-color: #cccccc;
+    --container-body-color: #ffffff;
+    --container-text-color: #000000;
+    --error-color: #ff0000;
+    --success-color: #00ff00;
+    --navbar-body-color: #ffffff;
+    --navbar-text-color: #000000;
+}
+
 body {
-    background-color: #f8f9fa;
+    background-color: var(--background-color);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
 .navbar {
     padding: 10px 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px var(--box-shadow-color);
 }
+
 .navbar-nav {
     gap: 15px;
 }
+
 .auth-buttons {
     display: flex;
     gap: 10px;
 }
+
 .footer-container {
     width: 100%;
     display: flex;
@@ -22,21 +43,23 @@ body {
     align-items: center;
     text-align: center;
     padding: 10px;
-    background-color: #f8f9fa;
+    background-color: var(--background-color);
     margin-top: auto;
 }
-
-
 
 
 .profile-container {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px var(--box-shadow-color);
     max-width: 400px;
     margin: auto;
+    background-color: var(--container-body-color);
+    color: var(--container-text-color);
+    border: 1px solid var(--container-border-color);    
 }
+
 .profile-image {
     width: 250px;
     height: 140px;
@@ -44,59 +67,89 @@ body {
     display: block;
     margin: 10px auto;
 }
+
 h1 {
     font-size: 24px;
     margin-bottom: 10px;
+    color: var(--header-color)
 }
+
+h2 {
+    color: var(--header-color);
+}
+
+h3 {
+    color: var(--header-color);
+}
+
+h6 {
+    color: var(--header-color);
+}
+
 p {
     font-size: 18px;
     margin: 5px 0;
+    color: var(--paragraph-color)
 }
+
 .button-container {
     margin-top: 15px;
 }
+
 .button {
+    width: auto;
     display: inline-block;
     padding: 10px 15px;
     margin: 5px;
-    background: #007bff;
-    color: white;
+    background: var(--button-color);
+    color: var(--button-text-color);
     text-decoration: none;
     border-radius: 5px;
     font-size: 16px;
 }
+
 .button:hover {
-    background: #0056b3;
+    background: var(--button-hover-color);
+}
+
+.card {
+    border: 1px solid var(--container-border-color);
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--container-body-color);
+    color: var(--container-text-color);
+}
+
+.card + .card {
+    margin-top: 1.5rem;
 }
 
 .settings-container {
-    background: white;
+    background: var(--container-body-color);
+    color: var(--container-text-color);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px var(--box-shadow-color);
+    border: 1px solid var(--container-border-color);
     max-width: 400px;
     margin: auto;
     text-align: left;
 }
 
-
-
-
-
 label {
     font-weight: bold;
+    color: var(--paragraph-color);
 }
 
 .error-message {
-    color: red;
+    color: var(--error-color);
     font-size: 14px;
 }
+
 .success-message {
-    color: green;
+    color: var(--success-color);
     font-size: 14px;
 }
-
-
 
 input, button {
     width: 100%;
@@ -104,14 +157,18 @@ input, button {
     margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--container-border-color);
+    color: var(--container-text-color);
+    background-color: var(--container-body-color);
 }
+
 button {
-    background: #444444;
-    color: white;
+    background: var(--button-color);
+    color: var(--button-text-color);
     border: none;
     cursor: pointer;
 }
+
 button:hover {
     background: #555555;
 }
@@ -136,4 +193,57 @@ button:hover {
     border: 1px solid #ccc;
     border-radius: 6px;
     margin-bottom: 20px;
+=======
+    background: var(--button-hover-color);
+}
+
+.scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+}
+
+.scroll-item {
+    display: inline-block;
+    width: 250px;
+    height: 500px;
+    margin-right: 10px;
+    background-color: var(--container-body-color);
+    color: var(--container-text-color);
+    border: 1px solid var(--container-border-color);
+    text-align: center;
+    line-height: 30px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: auto;
+    padding: 10px;
+}
+
+.scroll-image {
+    width: 228px; 
+    height: 228px;
+    border-radius: 5px;
+}
+
+.shop-button {
+    width: 150px; 
+    height: 35px;
+    font-size: 30px;
+    text-align: center;
+    padding: 3px;
+}
+
+nav {
+    background-color: var(--navbar-body-color);
+    color: var(--navbar-text-color);
+}
+
+.nav-text{
+    color: var(--navbar-text-color);
+}
+
+.btn-outline-dark{
+    border: 1px solid var(--navbar-text-color)
 }
