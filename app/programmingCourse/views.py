@@ -252,7 +252,7 @@ def group(request, name):
             if not is_owner:
                 GroupMember.objects.filter(group=group, user=request.user).delete()
                 messages.success(request, "You left the group.")
-                return redirect("groupList")
+                return redirect("programing_course_app:groupList")
 
         # Handle sending a chat message
         if not action and is_member and member_record and not member_record.is_muted:
