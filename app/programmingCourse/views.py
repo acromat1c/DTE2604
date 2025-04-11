@@ -325,7 +325,6 @@ def module(request, nameCourse, nameModule):
 
 def mission(request, nameCourse, nameModule, nameMission):
     mission = get_mission(nameCourse, nameModule, nameMission)
-    result = None
     if mission is None:
         userAnswer = None
     else:
@@ -335,10 +334,9 @@ def mission(request, nameCourse, nameModule, nameMission):
                 userAnswer = get_mission_completed(request.user, mission)
             else:
                 userAnswer = set_mission_completed(request.user, mission, request.POST["answer"])
-                result = mission.answer == request.POST["answer"]
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
-                   "mission": mission, "userAnswer": userAnswer, "result": result})
+                   "mission": mission, "userAnswer": userAnswer})
 
 def test(request):
     return render(request, "programmingCourse/test.html")

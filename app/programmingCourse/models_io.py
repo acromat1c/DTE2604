@@ -47,11 +47,12 @@ def get_mission_completed(user, mission):
 def set_mission_completed(user, mission, answer):
     try:
         userAnswer = get_mission_completed(user, mission)
+        correct = mission.evaluate_answer(answer)
         if userAnswer != None: 
             completed = userAnswer.completed
         else:
             completed = False
-        if answer == mission.answer and not completed:
+        if correct and not completed:
             add_user_allTimeBalance(user,mission.maxPoints)
             completed = True
             if mission.reward:
@@ -62,7 +63,8 @@ def set_mission_completed(user, mission, answer):
             defaults={
                 "timestamp": int(time.time()),
                 "answer": answer,
-                "completed": completed,})
+                "completed": completed,
+                "correct": correct,})
         return mission_completed
     except:
         return None
