@@ -85,12 +85,14 @@
                 <hr>
                 <p><strong>Your previous answer:</strong> {{ userAnswer.answer }}</p>
                 {%if userAnswer.correct %}
-                <p><strong>correct</strong></p>
+                    <p><strong>correct</strong></p>
                 {% else %}
-                <p><strong>incorrect</strong></p>
+                    <p><strong>incorrect</strong></p>
                 {% endif %}
                 {% if userAnswer.completed %}
                     <p><strong>completed</strong></p>
+                {% else %}
+                    <p><strong>not completed</strong></p>
                 {% endif %}
             {% endif %}
         </div>
