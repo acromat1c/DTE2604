@@ -84,14 +84,14 @@
             {% if userAnswer %}
                 <hr>
                 <p><strong>Your previous answer:</strong> {{ userAnswer.answer }}</p>
+                {%if userAnswer.correct %}
+                <p><strong>correct</strong></p>
+                {% else %}
+                <p><strong>incorrect</strong></p>
+                {% endif %}
                 {% if userAnswer.completed %}
                     <p><strong>completed</strong></p>
                 {% endif %}
-            {% endif %}
-
-            {% if result %}
-                <p style="color: {% if 'Correct' in result %}green{% else %}red{% endif %};">
-                    <strong>{{ result }}</strong></p>
             {% endif %}
         </div>
     {% endif %}
