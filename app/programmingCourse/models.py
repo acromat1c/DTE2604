@@ -178,6 +178,7 @@ class MissionCompleted(models.Model):
     timestamp = models.IntegerField()
     answer = models.CharField(max_length=1000)
     completed = models.BooleanField()
+    correct = models.BooleanField()
 
     class Meta:
         constraints = [
