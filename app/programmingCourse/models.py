@@ -91,6 +91,7 @@ class Item(models.Model):
     itemType = models.CharField(max_length=1000, choices=[[x,x] for x in itemTypes])
     price = models.IntegerField()
     shop = models.BooleanField()
+    gatcha = models.BooleanField()
     description = models.CharField(max_length=10000)
     image = models.ImageField(upload_to='item_pic/')
     content = models.TextField(blank=True)

@@ -26,4 +26,5 @@ urlpatterns = [
     path("test",views.test, name="test"),
     path("shop",views.shop, name="shop"),
     path("inventory",views.inventory, name="inventory"),
+    path("gatcha",views.gatcha, name="gatcha"),
     ]

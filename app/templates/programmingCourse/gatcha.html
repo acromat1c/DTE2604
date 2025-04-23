@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}GATCHA{% endblock %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="play" value="" />
+    <button type="submit" class="shop-button">PLAY</button>
+</form>
+{% load static %}
+<img src="{% static '/programmingCourse/gatcha.gif' %}" alt="funny image">
+
+{% for item in gatcha_items %}
+<p>{{item.category}} - {{ item.items}}</p>
+{% endfor %}
+
+{% endblock %}

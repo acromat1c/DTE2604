@@ -358,3 +358,15 @@ def inventory(request):
         equip_item(request.user, request.POST["selectedItem"])
     userInventory = get_inventory_items(request.user)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
+
+def gatcha(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            play_gatcha(request.user,0)
+        userBalance = get_user_balance(request.user)
+        gatcha_items = get_gatcha_items(request.user)
+    else: 
+        userBalance = None
+        catalogue = get_gatcha_items(None)
+    print(gatcha_items)
+    return render(request, "programmingCourse/gatcha.html", {"userBalance": userBalance, "gatcha_items": gatcha_items})

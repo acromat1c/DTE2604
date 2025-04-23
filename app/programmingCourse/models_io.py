@@ -1,6 +1,7 @@
 from .models import *
 from django.db.utils import IntegrityError
 import time
+from random import choice
 
 def get_course_list():
     try:
@@ -210,6 +211,28 @@ def get_inventory_items(user):
         return [{"category": category, "items": [{"item":x,"active": x.id in equippedItems, "equippable": x.itemType in equippable} for x in [x for x in userInventory if x.category == category]]} for category in sorted(set([x.category for x in userInventory]))]
     except:
         return None
+
+def get_gatcha_items(user):
+    try:
+        if user == None: ownedItems = []
+        else: ownedItems = [str(x.id) for x in get_user_inventory(user)]
+        return [{"category": category, "items": len([x for x in Item.objects.filter(gatcha=True, category=category)[::-1] if str(x.id) not in ownedItems])} for category in sorted(Item.objects.filter(gatcha=True).values_list("category", flat=True).distinct()) ]
+    except:
+        return None
+        
+def play_gatcha(user, price):
+    try:
+        balance = get_user_balance(user)
+        if balance < price: return None
+        add_user_balance(user, price*-1)
+        ownedItems = [str(x.id) for x in get_user_inventory(user)]
+        items = [x for x in Item.objects.filter(gatcha=True)[::-1] if x not in ownedItems]
+        item = choice(items)
+        add_item(user, item)
+        return item
+    except:
+        return None
+
 
 def add_item(user, item):
     try:
