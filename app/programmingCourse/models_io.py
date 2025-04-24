@@ -1,6 +1,7 @@
 from .models import *
 from django.db.utils import IntegrityError
 import time
+from random import choice
 
 def get_course_list():
     try:
@@ -47,11 +48,12 @@ def get_mission_completed(user, mission):
 def set_mission_completed(user, mission, answer):
     try:
         userAnswer = get_mission_completed(user, mission)
+        correct = mission.evaluate_answer(answer)
         if userAnswer != None: 
             completed = userAnswer.completed
         else:
             completed = False
-        if answer == mission.answer and not completed:
+        if correct and not completed:
             add_user_allTimeBalance(user,mission.maxPoints)
             completed = True
             if mission.reward:
@@ -62,7 +64,8 @@ def set_mission_completed(user, mission, answer):
             defaults={
                 "timestamp": int(time.time()),
                 "answer": answer,
-                "completed": completed,})
+                "completed": completed,
+                "correct": correct,})
         return mission_completed
     except:
         return None
@@ -208,6 +211,29 @@ def get_inventory_items(user):
         return [{"category": category, "items": [{"item":x,"active": x.id in equippedItems, "equippable": x.itemType in equippable} for x in [x for x in userInventory if x.category == category]]} for category in sorted(set([x.category for x in userInventory]))]
     except:
         return None
+
+def get_gatcha_items(user):
+    try:
+        if user == None: ownedItems = []
+        else: ownedItems = [str(x.id) for x in get_user_inventory(user)]
+        return [x for x in [{"category": category, "items": len([x for x in Item.objects.filter(gatcha=True, category=category)[::-1] if str(x.id) not in ownedItems])} for category in sorted(Item.objects.filter(gatcha=True).values_list("category", flat=True).distinct()) ] if x["items"]!=0]
+    except:
+        return None
+        
+def play_gatcha(user, price):
+    try:
+        balance = get_user_balance(user)
+        if balance < price: return None
+        ownedItems = [str(x.id) for x in get_user_inventory(user)]
+        items = [x for x in Item.objects.filter(gatcha=True) if str(x.id) not in ownedItems]
+        if items == []: return None
+        item = choice(items)
+        add_item(user, item)
+        add_user_balance(user, price*-1)
+        return item
+    except:
+        return None
+
 
 def add_item(user, item):
     try:

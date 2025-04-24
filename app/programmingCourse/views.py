@@ -325,7 +325,6 @@ def module(request, nameCourse, nameModule):
 
 def mission(request, nameCourse, nameModule, nameMission):
     mission = get_mission(nameCourse, nameModule, nameMission)
-    result = None
     if mission is None:
         userAnswer = None
     else:
@@ -335,10 +334,9 @@ def mission(request, nameCourse, nameModule, nameMission):
                 userAnswer = get_mission_completed(request.user, mission)
             else:
                 userAnswer = set_mission_completed(request.user, mission, request.POST["answer"])
-                result = mission.answer == request.POST["answer"]
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
-                   "mission": mission, "userAnswer": userAnswer, "result": result})
+                   "mission": mission, "userAnswer": userAnswer})
 
 def test(request):
     return render(request, "programmingCourse/test.html")
@@ -360,3 +358,17 @@ def inventory(request):
         equip_item(request.user, request.POST["selectedItem"])
     userInventory = get_inventory_items(request.user)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
+
+def gatcha(request):
+    price = 3
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            prize = play_gatcha(request.user,price)
+        else:
+            prize = None
+        userBalance = get_user_balance(request.user)
+        gatcha_items = get_gatcha_items(request.user)
+    else: 
+        userBalance = None
+        catalogue = get_gatcha_items(None)
+    return render(request, "programmingCourse/gatcha.html", {"userBalance": userBalance, "gatcha_items": gatcha_items, "prize":prize, "price": price})
