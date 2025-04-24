@@ -23,7 +23,7 @@
 {% endif %}
 
 <h2>GATCHA DEN</h2>
-{% if userBalance >= 3 and gatcha_items %}
+{% if userBalance >= price and gatcha_items %}
 <form method="post">
     {% csrf_token %}
     <input type="hidden" name="play" value="" />
