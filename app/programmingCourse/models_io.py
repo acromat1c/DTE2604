@@ -224,11 +224,12 @@ def play_gatcha(user, price):
     try:
         balance = get_user_balance(user)
         if balance < price: return None
-        add_user_balance(user, price*-1)
         ownedItems = [str(x.id) for x in get_user_inventory(user)]
-        items = [x for x in Item.objects.filter(gatcha=True)[::-1] if x not in ownedItems]
+        items = [x for x in Item.objects.filter(gatcha=True) if str(x.id) not in ownedItems]
+        if items == []: return None
         item = choice(items)
         add_item(user, item)
+        add_user_balance(user, price*-1)
         return item
     except:
         return None

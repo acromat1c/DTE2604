@@ -4,16 +4,36 @@
 
 {% block content %}
 
+{% load static %}
+
+<style>
+    body{
+        background-image: url('{% static '/programmingCourse/GAMBLECORE.gif' %}');
+    }
+</style>
+<div class="gatcha-div">
+{% if prize %}
+<h2>Congrats!!</h2>
+<div class="scroll-item">
+    <img src="{{prize.image.url}}" alt="item image" class="scroll-image">
+    <h3>{{ prize.name }}</h3>
+    <h6>{{ prize.itemType }}</h6>
+    <p>{{ prize.description }}</p>
+</div>
+{% endif %}
+
+<h2>GATCHA DEN</h2>
+
 <form method="post">
     {% csrf_token %}
     <input type="hidden" name="play" value="" />
-    <button type="submit" class="shop-button">PLAY</button>
+    <button type="submit" class="shop-button">¥{{price}}</button>
 </form>
-{% load static %}
+
 <img src="{% static '/programmingCourse/gatcha.gif' %}" alt="funny image">
 
 {% for item in gatcha_items %}
 <p>{{item.category}} - {{ item.items}}</p>
 {% endfor %}
-
+</div>
 {% endblock %}
