@@ -216,7 +216,7 @@ def get_gatcha_items(user):
     try:
         if user == None: ownedItems = []
         else: ownedItems = [str(x.id) for x in get_user_inventory(user)]
-        return [{"category": category, "items": len([x for x in Item.objects.filter(gatcha=True, category=category)[::-1] if str(x.id) not in ownedItems])} for category in sorted(Item.objects.filter(gatcha=True).values_list("category", flat=True).distinct()) ]
+        return [x for x in [{"category": category, "items": len([x for x in Item.objects.filter(gatcha=True, category=category)[::-1] if str(x.id) not in ownedItems])} for category in sorted(Item.objects.filter(gatcha=True).values_list("category", flat=True).distinct()) ] if x["items"]!=0]
     except:
         return None
         
