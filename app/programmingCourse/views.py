@@ -140,6 +140,9 @@ def friendList(request):
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
 
+def friend_search(request):
+    return render(request, "programmingCourse/friend_search.html")
+
 
 @login_required(login_url="/login")
 def create_group(request):
