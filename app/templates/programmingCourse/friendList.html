@@ -6,6 +6,10 @@
 
 <h1>FRIEND LIST</h1>
 
+<a href="{% url "programing_course_app:friend_search" %}">
+        <button class="button">Search friends</button>
+</a>
+
 {% for friend in friends %}
         <a href="{% url "programing_course_app:user" username=friend.username %}"><h2>{{ friend.username }}</h2></a>
 {% empty %}
