@@ -48,7 +48,10 @@ class UserAchievement(models.Model):
 
 class Group(models.Model):
     groupOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owned_groups")
-    groupName = models.CharField(max_length=45)
+    groupName = models.CharField(max_length=45, unique=True)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to="group_pics/", default="default_group.jpg")
+    is_private = models.BooleanField(default=False)
 
     def __str__(self):
         return self.groupName
@@ -57,17 +60,28 @@ class Group(models.Model):
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    is_muted = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['group', 'user'], name='unique_group_member')
         ]
+
+class GroupJoinRequest(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('group', 'user')
 
 
 class GroupMessage(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True) 
 
 itemTypes = ["collectible", "other", "theme"]
 
@@ -77,6 +91,7 @@ class Item(models.Model):
     itemType = models.CharField(max_length=1000, choices=[[x,x] for x in itemTypes])
     price = models.IntegerField()
     shop = models.BooleanField()
+    gatcha = models.BooleanField()
     description = models.CharField(max_length=10000)
     image = models.ImageField(upload_to='item_pic/')
     content = models.TextField(blank=True)
@@ -164,6 +179,7 @@ class MissionCompleted(models.Model):
     timestamp = models.IntegerField()
     answer = models.CharField(max_length=1000)
     completed = models.BooleanField()
+    correct = models.BooleanField()
 
     class Meta:
         constraints = [
