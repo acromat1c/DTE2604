@@ -133,12 +133,22 @@ def add_friend(request, username):
             messages.error(request, "Failed to remove friend")
     return redirect("programing_course_app:user", username=username)
 
+@login_required(login_url="/login")
 def friendList(request):
     friends = get_friends(request.user)
     return render(request, "programmingCourse/friendList.html", {"friends": friends})
 
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
+
+@login_required(login_url="/login")
+def friend_search(request):
+    search = request.GET.get("q", "")
+    if search:
+        search_results = search_users(search, request.user)
+    else:
+        search_results = []
+    return render(request, "programmingCourse/friend_search.html", {"search_results": search_results})
 
 
 @login_required(login_url="/login")
