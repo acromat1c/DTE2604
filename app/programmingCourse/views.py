@@ -145,7 +145,7 @@ def friend(request, name):
 def friend_search(request):
     search = request.GET.get("q", "")
     if search:
-        search_results = search_users(search)
+        search_results = search_users(search, request.user)
     else:
         search_results = []
     return render(request, "programmingCourse/friend_search.html", {"search_results": search_results})

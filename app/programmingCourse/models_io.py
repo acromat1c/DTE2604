@@ -144,8 +144,10 @@ def get_friends(user) -> list:
     friends.extend([x.user1 for x in Friend.objects.filter(user2=user)])
     return friends
 
-def search_users(search) -> list:
-    return [x for x in User.objects.filter(username__icontains=search)]
+def search_users(search, user) -> list:
+    results = [x for x in User.objects.filter(username__icontains=search)]
+    results.remove(user)
+    return results
 
 def get_user_balance(user):
     try:
