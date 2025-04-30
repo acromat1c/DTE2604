@@ -133,6 +133,7 @@ def add_friend(request, username):
             messages.error(request, "Failed to remove friend")
     return redirect("programing_course_app:user", username=username)
 
+@login_required(login_url="/login")
 def friendList(request):
     friends = get_friends(request.user)
     return render(request, "programmingCourse/friendList.html", {"friends": friends})
