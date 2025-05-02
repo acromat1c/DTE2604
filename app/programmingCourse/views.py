@@ -384,6 +384,7 @@ def inventory(request):
     userInventory = get_inventory_items(request.user)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
 
+@login_required(login_url="/login")
 def gatcha(request):
     price = 3
     if request.user.is_authenticated:
