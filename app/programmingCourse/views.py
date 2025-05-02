@@ -140,6 +140,12 @@ def friendList(request):
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
 
+def get_friends(user):
+    friends1 = Friend.objects.filter(user1=user).values_list('user2', flat=True)
+    friends2 = Friend.objects.filter(user2=user).values_list('user1', flat=True)
+    friend_users = User.objects.filter(id__in=list(friends1) + list(friends2))
+    return friend_users
+
 
 @login_required(login_url="/login")
 def create_group(request):
@@ -372,3 +378,12 @@ def gatcha(request):
         userBalance = None
         catalogue = get_gatcha_items(None)
     return render(request, "programmingCourse/gatcha.html", {"userBalance": userBalance, "gatcha_items": gatcha_items, "prize":prize, "price": price})
+
+@login_required(login_url="/login")
+def main(request):
+    friends = get_friends(request.user)
+    groups = Group.objects.filter(groupmember__user=request.user)
+    return render(request, "programmingCourse/main.html", {
+        "friends": friends,
+        "groups": groups
+    })
