@@ -4,6 +4,11 @@
 
 {% block content %}
 
+
+<a href="{% url "programing_course_app:friend_search" %}">
+        <button class="button">Search users</button>
+</a>
+
 <h1>FRIEND LIST</h1>
 
 {% for friend in friends %}
