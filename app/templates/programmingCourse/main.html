@@ -49,13 +49,13 @@
             <p>Your one-stop solution for all programming courses.</p>
             <p>Explore, learn, and connect with fellow programmers.</p>
             <p>Join us today and enhance your coding skills!</p>
-            {% if user.is_not_authenticated %}
-                <p>Create your account here: <a href="{% url 'programing_course_app:signup' %}"><button class="buttons">SIGN UP</button></p>
-        </ul>
-                 <p>Already have an account? <a href="{% url 'programing_course_app:login' %}"><button class="buttons">LOGIN</button></p>
-                {% else %}
+            {% if user.is_authenticated %}
                 <p>Welcome back! Explore your courses and connect with friends.</p>
+            {% else %}
+                <p>Create your account here: <a href="{% url 'programing_course_app:signup' %}"><button class="buttons">SIGN UP</button></a></p>
+                <p>Already have an account? <a href="{% url 'programing_course_app:login' %}"><button class="buttons">LOGIN</button></a></p>
             {% endif %}
+        </ul>
     </div>
     {% if user.is_authenticated %}
     <div class="column-main">

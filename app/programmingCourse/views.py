@@ -16,6 +16,18 @@ import keyword
 def index(request):
     return render(request, "programmingCourse/index.html")
 
+def main(request):
+    if request.user.is_authenticated:
+        friends = get_friends(request.user)
+        groups = Group.objects.filter(groupmember__user=request.user)
+    else:
+        friends = []
+        groups = []
+    return render(request, "programmingCourse/main.html", {
+        "friends": friends,
+        "groups": groups
+    })
+
 def login(request):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
@@ -39,9 +51,6 @@ def signup(request):
 def logout(request):
     Logout(request)
     return redirect("/login")
-
-def main(request):
-    return render(request, "programmingCourse/main.html")
 
 @login_required(login_url="/login")
 def userSettings(request):
@@ -389,11 +398,3 @@ def gatcha(request):
         catalogue = get_gatcha_items(None)
     return render(request, "programmingCourse/gatcha.html", {"userBalance": userBalance, "gatcha_items": gatcha_items, "prize":prize, "price": price})
 
-@login_required(login_url="/login")
-def main(request):
-    friends = get_friends(request.user)
-    groups = Group.objects.filter(groupmember__user=request.user)
-    return render(request, "programmingCourse/main.html", {
-        "friends": friends,
-        "groups": groups
-    })
