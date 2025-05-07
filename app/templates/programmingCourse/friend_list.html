@@ -12,7 +12,12 @@
 <h1>FRIEND LIST</h1>
 
 {% for friend in friends %}
-        <a href="{% url "programing_course_app:user" username=friend.username %}"><h2>{{ friend.username }}</h2></a>
+<div class="profile-list-card">
+        <a style="text-decoration: none;" href="{% url "programing_course_app:user" username=friend.username %}">
+                <img class="profile-image-small" src="{{ friend.profile.image.url }}" alt"Profile Picture">
+                <h2 style="display: inline-block; vertical-align: middle;">{{ friend.username }}</h2>
+        </a>
+</div>
 {% empty %}
         <p>No friends found</p>
 {% endfor %}
