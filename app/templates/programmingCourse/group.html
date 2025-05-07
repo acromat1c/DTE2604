@@ -16,6 +16,10 @@
   <p><strong>Beskrivelse:</strong> {{ group.description|default:"Ingen beskrivelse enda." }}</p>
   <p><strong>Synlighet:</strong> {{ group.is_private|yesno:"Privat,Offentlig" }}</p>
 
+  {% for message in messages %}
+    <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+  {% endfor %}
+
   {% if is_owner %}
     <a href="{% url 'programing_course_app:group_settings' name=group.groupName %}">
       <button class="btn btn-primary mt-2">Rediger gruppeinnstillinger</button>
@@ -52,7 +56,7 @@
   <h2 id="chat">Gruppechat</h2>
 
   <div id="chat-box" class="chat-box mb-3" style="max-height: 300px; overflow-y: auto; background: #fff; padding: 15px; border: 1px solid #ccc; border-radius: 5px;">
-    {% for msg in messages %}
+    {% for msg in chat_messages %}
       <div style="margin-bottom: 10px;">
         <strong>{{ msg.user.username }}</strong> 
         <small class="text-muted">({{ msg.created_at|date:"Y-m-d H:i" }})</small>

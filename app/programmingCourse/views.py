@@ -278,7 +278,7 @@ def group(request, name):
         "is_member": is_member,
         "is_owner": is_owner,
         "join_requested": join_requested,
-        "messages": messages_,
+        "chat_messages": messages_,
         "members": members,
     })
 
