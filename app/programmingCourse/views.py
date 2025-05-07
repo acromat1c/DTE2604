@@ -134,9 +134,9 @@ def add_friend(request, username):
     return redirect("programing_course_app:user", username=username)
 
 @login_required(login_url="/login")
-def friendList(request):
+def friend_list(request):
     friends = get_friends(request.user)
-    return render(request, "programmingCourse/friendList.html", {"friends": friends})
+    return render(request, "programmingCourse/friend_list.html", {"friends": friends})
 
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
