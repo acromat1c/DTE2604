@@ -146,7 +146,8 @@ def get_friends(user) -> list:
 
 def search_users(search, user) -> list:
     results = [x for x in User.objects.filter(username__icontains=search)]
-    results.remove(user)
+    if user in results:
+        results.remove(user)
     return results
 
 def get_user_balance(user):

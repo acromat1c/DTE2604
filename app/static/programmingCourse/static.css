@@ -62,7 +62,7 @@ body {
 
 .profile-image {
     max-width: 250px;
-    max-height: 140px;
+    max-height: 250px;
     border-radius: 10px;
     display: block;
     margin: 10px auto;
