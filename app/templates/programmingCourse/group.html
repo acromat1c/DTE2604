@@ -50,6 +50,33 @@
   {% endif %}
 </div>
 
+<!-- Leaderboard -->
+<hr>
+<h2>Gruppens Rangering</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Bruker</th>
+      <th>Poeng</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in top_10 %}
+    <tr {% if entry.user == user %}class="table-primary"{% endif %}>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ entry.user.username }}</td>
+      <td>{{ entry.score }}</td>
+    </tr>
+    {% endfor %}
+    {% if user_position and user_position > 10 %}
+    <tr class="table-info">
+      <td colspan="3">Din plassering: {{ user_position }}</td>
+    </tr>
+    {% endif %}
+  </tbody>
+</table>
+
 <!-- CHAT -->
 {% if is_member %}
   <hr>
