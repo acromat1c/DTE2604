@@ -179,3 +179,4 @@ cython_debug/
 
 # Unsure
 app/media/profile_pics/
+app/media/group_pics/
