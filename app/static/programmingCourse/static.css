@@ -267,6 +267,7 @@ nav {
 .profile-list-card {
     background: var(--container-body-color);
     padding: 15px;
+    margin-bottom: 10px;
     display: flex;
     border-radius: 10px;
     box-shadow: 0 0 10px var(--box-shadow-color);
@@ -282,4 +283,5 @@ nav {
     max-height: 60px;
     border-radius: 10px;
     vertical-align: middle;
+    margin-right: 5px;
 }
