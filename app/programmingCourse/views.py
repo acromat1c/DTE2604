@@ -16,6 +16,18 @@ import keyword
 def index(request):
     return render(request, "programmingCourse/index.html")
 
+def main(request):
+    if request.user.is_authenticated:
+        friends = get_friends(request.user)
+        groups = Group.objects.filter(groupmember__user=request.user)
+    else:
+        friends = []
+        groups = []
+    return render(request, "programmingCourse/main.html", {
+        "friends": friends,
+        "groups": groups
+    })
+
 def login(request):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
@@ -41,9 +53,6 @@ def signup(request):
 def logout(request):
     Logout(request)
     return redirect("/login")
-
-def main(request):
-    return render(request, "programmingCourse/main.html")
 
 @login_required(login_url="/login")
 def userSettings(request):
@@ -142,6 +151,12 @@ def friend_list(request):
 
 def friend(request, name):
     return render(request, "programmingCourse/friend.html", {"name": name})
+  
+def get_friends(user):
+    friends1 = Friend.objects.filter(user1=user).values_list('user2', flat=True)
+    friends2 = Friend.objects.filter(user2=user).values_list('user1', flat=True)
+    friend_users = User.objects.filter(id__in=list(friends1) + list(friends2))
+    return friend_users
 
 @login_required(login_url="/login")
 def friend_search(request):
@@ -280,7 +295,7 @@ def group(request, name):
         "is_member": is_member,
         "is_owner": is_owner,
         "join_requested": join_requested,
-        "messages": messages_,
+        "chat_messages": messages_,
         "members": members,
     })
 
@@ -371,6 +386,7 @@ def inventory(request):
     userInventory = get_inventory_items(request.user)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
 
+@login_required(login_url="/login")
 def gatcha(request):
     price = 3
     if request.user.is_authenticated:
@@ -384,3 +400,4 @@ def gatcha(request):
         userBalance = None
         catalogue = get_gatcha_items(None)
     return render(request, "programmingCourse/gatcha.html", {"userBalance": userBalance, "gatcha_items": gatcha_items, "prize":prize, "price": price})
+
