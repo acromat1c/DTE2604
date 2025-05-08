@@ -31,9 +31,11 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             Login(request, form.save())
+            Profile.objects.create(user=request.user)
             return redirect("/")
     else:
         form = UserCreationForm()
+    
     return render(request, "programmingCourse/signup.html", {"form": form})
 
 def logout(request):
