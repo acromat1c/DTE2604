@@ -17,6 +17,7 @@ urlpatterns = [
     path("groups/<str:name>/requests", views.manage_group_requests, name="manage_group_requests"),
     path("friends",views.friend_list, name="friendList"),
     path("friends/search",views.friend_search, name="friend_search"),
+    path("friends/requets",views.friend_requests, name="friend_requests"),
     path("addfriend/<str:username>",views.add_friend, name="addfriend"),
     path("overview",views.overview, name="overview"),
     path("overview/<str:nameCourse>",views.course, name="course"),
