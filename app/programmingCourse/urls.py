@@ -4,7 +4,6 @@ from . import views
 
 app_name = "programing_course_app"
 urlpatterns = [
-    path("index",views.index, name="index"),
     path("",views.main, name="main"),
     path("login",views.login, name="login"),
     path("signup",views.signup, name="signup"),
@@ -23,7 +22,6 @@ urlpatterns = [
     path("overview/<str:nameCourse>",views.course, name="course"),
     path("overview/<str:nameCourse>/<str:nameModule>",views.module, name="module"),
     path("overview/<str:nameCourse>/<str:nameModule>/<str:nameMission>",views.mission, name="mission"),
-    path("test",views.test, name="test"),
     path("shop",views.shop, name="shop"),
     path("inventory",views.inventory, name="inventory"),
     path("gatcha",views.gatcha, name="gatcha"),

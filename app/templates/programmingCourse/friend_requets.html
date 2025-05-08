@@ -1,18 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Friends{% endblock %}
+{% block title %}Friend requests{% endblock %}
 
 {% block content %}
 
 
-<a href="{% url "programing_course_app:friend_search" %}">
-        <button class="button">Search users</button>
-</a>
-<a href="{% url "programing_course_app:friend_search" %}">
-        <button class="button">Friend requests</button>
-</a>
 
-<h1>FRIEND LIST</h1>
+<h1>FRIEND REQUESTS</h1>
 
 {% for friend in friends %}
 <div class="profile-list-card">

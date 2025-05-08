@@ -13,8 +13,6 @@ import keyword
 
 
 # Create your views here.
-def index(request):
-    return render(request, "programmingCourse/index.html")
 
 def main(request):
     if request.user.is_authenticated:
@@ -149,9 +147,6 @@ def friend_list(request):
     friends = get_friends(request.user)
     return render(request, "programmingCourse/friend_list.html", {"friends": friends})
 
-def friend(request, name):
-    return render(request, "programmingCourse/friend.html", {"name": name})
-  
 def get_friends(user):
     friends1 = Friend.objects.filter(user1=user).values_list('user2', flat=True)
     friends2 = Friend.objects.filter(user2=user).values_list('user1', flat=True)
@@ -364,9 +359,6 @@ def mission(request, nameCourse, nameModule, nameMission):
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
                    "mission": mission, "userAnswer": userAnswer})
-
-def test(request):
-    return render(request, "programmingCourse/test.html")
 
 def shop(request):
     if request.user.is_authenticated:
