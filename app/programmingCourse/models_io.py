@@ -299,3 +299,24 @@ def set_user_theme_unequip(user):
         return True
     except:
         return False
+
+def get_group_leaderboard(group):
+    members = GroupMember.objects.filter(group=group).values_list("user", flat=True)
+
+    leaderboard_raw = (
+        MissionCompleted.objects
+        .filter(user__in=members, completed=True, correct=True)
+        .values('user')
+        .annotate(score=models.Count('id'))
+        .order_by('-score')
+    )
+
+    results = []
+    for entry in leaderboard_raw:
+        user = User.objects.get(id=entry['user'])
+        results.append({
+            'user': user,
+            'score': entry['score']
+        })
+
+    return results

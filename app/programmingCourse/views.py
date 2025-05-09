@@ -289,6 +289,9 @@ def group(request, name):
                 return redirect("programing_course_app:group", name=name)
 
     messages_ = GroupMessage.objects.filter(group=group).order_by("created_at")
+    leaderboard = get_group_leaderboard(group)  # henter intern rangering
+    top_10 = leaderboard[:10]  # kun de 10 beste
+    user_entry = next((i + 1 for i, entry in enumerate(leaderboard) if entry["user"] == request.user), None) 
 
     return render(request, "programmingCourse/group.html", {
         "group": group,
@@ -297,6 +300,8 @@ def group(request, name):
         "join_requested": join_requested,
         "chat_messages": messages_,
         "members": members,
+        "top_10": top_10,                   
+        "user_position": user_entry, 
     })
 
 @login_required
