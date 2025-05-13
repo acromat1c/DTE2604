@@ -1,3 +1,4 @@
+from django.dispatch import receiver
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -145,7 +146,8 @@ def add_friend(request, username):
 @login_required(login_url="/login")
 def friend_list(request):
     friends = get_friends(request.user)
-    return render(request, "programmingCourse/friend_list.html", {"friends": friends})
+    request_count = len(FriendRequest.objects.filter(recipient=request.user))
+    return render(request, "programmingCourse/friend_list.html", {"friends": friends, "friend_request_count": request_count})
 
 @login_required(login_url="/login")
 def friend_requests(request):

@@ -7,8 +7,10 @@
 
 <a href="{% url "programing_course_app:friend_search" %}">
         <button class="button">Search users</button></a>
+{% if friend_request_count > 0 %}
 <a href="{% url "programing_course_app:friend_requests" %}">
-        <button class="button">Friend requests</button></a>
+        <button class="button">Friend requests ({{ friend_request_count }})</button></a>
+{% endif %}
 
 <h1>FRIEND LIST</h1>
 
