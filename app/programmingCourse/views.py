@@ -149,8 +149,8 @@ def friend_list(request):
 
 @login_required(login_url="/login")
 def friend_requests(request):
-    # friends = get_friends(request.user)
-    return render(request, "programmingCourse/friend_requests.html")
+    senders = get_friend_request_senders(request.user)
+    return render(request, "programmingCourse/friend_requests.html", {"requests": senders})
 
 def get_friends(user):
     friends1 = Friend.objects.filter(user1=user).values_list('user2', flat=True)

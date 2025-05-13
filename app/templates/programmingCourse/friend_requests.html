@@ -8,11 +8,11 @@
 
 <h1>FRIEND REQUESTS</h1>
 
-{% for friend in friends %}
+{% for user in requests %}
 <div class="profile-list-card">
-        <a style="text-decoration: none;" href="{% url "programing_course_app:user" username=friend.username %}">
-                <img class="profile-image-small" src="{{ friend.profile.image.url }}" alt"Profile Picture">
-                <h2 style="display: inline-block; vertical-align: middle;">{{ friend.username }}</h2>
+        <a style="text-decoration: none;" href="{% url "programing_course_app:user" username=user.username %}">
+                <img class="profile-image-small" src="{{ user.profile.image.url }}" alt"Profile Picture">
+                <h2 style="display: inline-block; vertical-align: middle;">{{ user.username }}</h2>
         </a>
 </div>
 {% empty %}

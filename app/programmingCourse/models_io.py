@@ -123,6 +123,10 @@ def decline_friend_request(recipient, sender):
     except:
         return False
 
+def get_friend_request_senders(recipient) -> list:
+    senders = [request.sender for request in FriendRequest.objects.filter(recipient=recipient)]
+    return senders
+
 def get_friend_status(sender, recipient) -> int:
     NOT_FRIEND = 0
     SENT_REQUEST = 1
