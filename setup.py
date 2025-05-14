@@ -40,6 +40,8 @@ DB_PATH = "app/db.sqlite3"
 if not os.path.exists(DB_PATH):
     print("Database file not found. Creating db.sqlite3...")
     subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
+    # loaddata
+    subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
 else:
     reset_db = input("Do you want to delete the local database (db.sqlite3)? (y/n): ").strip().lower()
     if reset_db == "y":
@@ -53,14 +55,13 @@ else:
 
             print("Running migrations...")
             subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
+            # loaddata
+            subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
 
 # Creates a superuser
 create_superuser = input("Do you want to create a superuser? (y/n): ").strip().lower()
 if create_superuser == "y":
     subprocess.run([venv_python, "app/manage.py", "createsuperuser"], check=True)
-
-# loaddata
-subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
 
 # Start the Django
 
