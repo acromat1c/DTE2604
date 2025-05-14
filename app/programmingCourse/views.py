@@ -1,3 +1,4 @@
+from django.dispatch import receiver
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -13,8 +14,6 @@ import keyword
 
 
 # Create your views here.
-def index(request):
-    return render(request, "programmingCourse/index.html")
 
 def main(request):
     if request.user.is_authenticated:
@@ -147,11 +146,14 @@ def add_friend(request, username):
 @login_required(login_url="/login")
 def friend_list(request):
     friends = get_friends(request.user)
-    return render(request, "programmingCourse/friend_list.html", {"friends": friends})
+    request_count = len(FriendRequest.objects.filter(recipient=request.user))
+    return render(request, "programmingCourse/friend_list.html", {"friends": friends, "friend_request_count": request_count})
 
-def friend(request, name):
-    return render(request, "programmingCourse/friend.html", {"name": name})
-  
+@login_required(login_url="/login")
+def friend_requests(request):
+    senders = get_friend_request_senders(request.user)
+    return render(request, "programmingCourse/friend_requests.html", {"requests": senders})
+
 def get_friends(user):
     friends1 = Friend.objects.filter(user1=user).values_list('user2', flat=True)
     friends2 = Friend.objects.filter(user2=user).values_list('user1', flat=True)
@@ -369,9 +371,6 @@ def mission(request, nameCourse, nameModule, nameMission):
     return render(request, "programmingCourse/mission.html",
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
                    "mission": mission, "userAnswer": userAnswer})
-
-def test(request):
-    return render(request, "programmingCourse/test.html")
 
 def shop(request):
     if request.user.is_authenticated:
