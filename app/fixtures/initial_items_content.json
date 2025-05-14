@@ -1,0 +1,242 @@
+[
+  {
+    "model": "programmingCourse.item",
+    "pk": 100,
+    "fields": {
+      "name": "Neon Theme",
+      "category": "Themes",
+      "itemType": "theme",
+      "price": 100,
+      "shop": true,
+      "gatcha": false,
+      "description": "A vibrant neon theme for your interface.",
+      "image": "item_pic/neon_theme.png",
+      "content": ":root {\n    --background-color: 0%,; /* Use first color as solid fallback */\n    --container-body-color: 0%,;\n    --container-text-color: #ffffff;\n    --header-color: #ffffff;\n    --paragraph-color: #ffffff;\n    --button-color: #ff00ff;\n    --button-hover-color: #ff33ff;\n    --navbar-body-color: 0%,;\n    --navbar-text-color: #ffffff;\n}\nbody {\n    background: linear-gradient(135deg, #0a0a0a 0%, #0f0f0f 50%, #1a1a1a 100%) !important;\n}"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 101,
+    "fields": {
+      "name": "Ocean Theme",
+      "category": "Themes",
+      "itemType": "theme",
+      "price": 100,
+      "shop": true,
+      "gatcha": false,
+      "description": "Bring the calm ocean vibe to your interface.",
+      "image": "item_pic/ocean_theme.png",
+      "content": ":root {\n    --background-color: 0%,; /* Use first color as solid fallback */\n    --container-body-color: 0%,;\n    --container-text-color: #ffffff;\n    --header-color: #ffffff;\n    --paragraph-color: #ffffff;\n    --button-color: #01579B;\n    --button-hover-color: #003C71;\n    --navbar-body-color: 0%,;\n    --navbar-text-color: #ffffff;\n}\nbody {\n    background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #004080 100%) !important;\n}"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 102,
+    "fields": {
+      "name": "Forest Theme",
+      "category": "Themes",
+      "itemType": "theme",
+      "price": 100,
+      "shop": true,
+      "gatcha": false,
+      "description": "Surround your interface with forest greenery.",
+      "image": "item_pic/forest_theme.png",
+      "content": ":root {\n    --background-color: 0%,; /* Use first color as solid fallback */\n    --container-body-color: 0%,;\n    --container-text-color: #ffffff;\n    --header-color: #ffffff;\n    --paragraph-color: #ffffff;\n    --button-color: #2E7D32\n;\n    --button-hover-color: #1B5E20;\n    --navbar-body-color: 0%,;\n    --navbar-text-color: #ffffff;\n}\nbody {\n    background: linear-gradient(135deg, #013220 0%, #024731 50%, #035941 100%) !important;\n}"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 103,
+    "fields": {
+      "name": "Desert Theme",
+      "category": "Themes",
+      "itemType": "theme",
+      "price": 100,
+      "shop": true,
+      "gatcha": false,
+      "description": "Feel the warmth of the desert with this theme.",
+      "image": "item_pic/desert_theme.png",
+      "content": ":root {\n    --background-color: 0%,; /* Use first color as solid fallback */\n    --container-body-color: 0%,;\n    --container-text-color: #ffffff;\n    --header-color: #ffffff;\n    --paragraph-color: #ffffff;\n    --button-color: #D2B48C\n;\n    --button-hover-color: #A1887F;\n    --navbar-body-color: 0%,;\n    --navbar-text-color: #ffffff;\n}\nbody {\n    background: linear-gradient(135deg, #f4e1d2 0%, #f1c8a8 50%, #e3a76b 100%) !important;\n}"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 104,
+    "fields": {
+      "name": "Gold Profile Border",
+      "category": "Profile Borders",
+      "itemType": "other",
+      "price": 50,
+      "shop": true,
+      "gatcha": false,
+      "description": "Adds a golden border around your profile picture.",
+      "image": "item_pic/gold_border.png",
+      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/gold_border.png') 30 round;\n}\n"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 105,
+    "fields": {
+      "name": "Silver Profile Border",
+      "category": "Profile Borders",
+      "itemType": "other",
+      "price": 40,
+      "shop": true,
+      "gatcha": false,
+      "description": "Adds a silver border around your profile picture.",
+      "image": "item_pic/silver_border.png",
+      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/silver_border.png') 30 round;\n}\n"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 106,
+    "fields": {
+      "name": "Bronze Profile Border",
+      "category": "Profile Borders",
+      "itemType": "other",
+      "price": 30,
+      "shop": true,
+      "gatcha": false,
+      "description": "Adds a bronze border around your profile picture.",
+      "image": "item_pic/bronze_border.png",
+      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/bronze_border.png') 30 round;\n}\n"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 107,
+    "fields": {
+      "name": "Rainbow Profile Border",
+      "category": "Profile Borders",
+      "itemType": "other",
+      "price": 60,
+      "shop": true,
+      "gatcha": false,
+      "description": "Adds a rainbow border around your profile picture.",
+      "image": "item_pic/rainbow_border.png",
+      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/rainbow_border.png') 30 round;\n}\n"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 108,
+    "fields": {
+      "name": "XP Booster",
+      "category": "Boosters",
+      "itemType": "other",
+      "price": 10,
+      "shop": true,
+      "gatcha": false,
+      "description": "Increases experience gain (cosmetic only).",
+      "image": "item_pic/xp_booster.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 109,
+    "fields": {
+      "name": "Speed Booster",
+      "category": "Boosters",
+      "itemType": "other",
+      "price": 10,
+      "shop": true,
+      "gatcha": false,
+      "description": "Boosts your speed (visual only).",
+      "image": "item_pic/speed_booster.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 110,
+    "fields": {
+      "name": "Luck Booster",
+      "category": "Boosters",
+      "itemType": "other",
+      "price": 10,
+      "shop": true,
+      "gatcha": false,
+      "description": "Boost your luck stat (display only).",
+      "image": "item_pic/luck_booster.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 111,
+    "fields": {
+      "name": "Power Booster",
+      "category": "Boosters",
+      "itemType": "other",
+      "price": 10,
+      "shop": true,
+      "gatcha": false,
+      "description": "Boost your power stat (display only).",
+      "image": "item_pic/power_booster.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 112,
+    "fields": {
+      "name": "The Brave",
+      "category": "Titles",
+      "itemType": "other",
+      "price": 70,
+      "shop": true,
+      "gatcha": false,
+      "description": "Display 'The Brave' title on your profile.",
+      "image": "item_pic/the_brave.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 113,
+    "fields": {
+      "name": "The Wise",
+      "category": "Titles",
+      "itemType": "other",
+      "price": 70,
+      "shop": true,
+      "gatcha": false,
+      "description": "Display 'The Wise' title on your profile.",
+      "image": "item_pic/the_wise.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 114,
+    "fields": {
+      "name": "The Fast",
+      "category": "Titles",
+      "itemType": "other",
+      "price": 70,
+      "shop": true,
+      "gatcha": false,
+      "description": "Display 'The Fast' title on your profile.",
+      "image": "item_pic/the_fast.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 115,
+    "fields": {
+      "name": "The Collector",
+      "category": "Titles",
+      "itemType": "other",
+      "price": 70,
+      "shop": true,
+      "gatcha": false,
+      "description": "Display 'The Collector' title on your profile.",
+      "image": "item_pic/the_collector.png",
+      "content": ""
+    }
+  }
+]

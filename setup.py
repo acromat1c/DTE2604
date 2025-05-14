@@ -42,6 +42,7 @@ if not os.path.exists(DB_PATH):
     subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
     # loaddata
     subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
+    subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_items_content.json"],check=True)
 else:
     reset_db = input("Do you want to delete the local database (db.sqlite3)? (y/n): ").strip().lower()
     if reset_db == "y":
@@ -57,6 +58,7 @@ else:
             subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
             # loaddata
             subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
+            subprocess.run([venv_python, "app/manage.py", "loaddata","app/fixtures/initial_items_content.json"], check=True)
 
 # Creates a superuser
 create_superuser = input("Do you want to create a superuser? (y/n): ").strip().lower()
