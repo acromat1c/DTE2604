@@ -5,15 +5,19 @@
 {% block content %}
 <h1>INVENTORY</h1>
 
-{% if userTheme %}
-<form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="selectedItem" value="-1" />
-    
-    <button type="submit" style="width:auto;">unequip theme</button>
-</form>
-{% endif %}
+<!-- {% if userTheme %} -->
+<!-- <form method="post"> -->
+<!--     {% csrf_token %} -->
+<!--     <input type="hidden" name="selectedItem" value="-1" /> -->
+<!---->
+<!--     <button type="submit" style="width:auto;">unequip theme</button> -->
+<!-- </form> -->
+<!-- {% endif %} -->
 
+{% for message in messages %}
+<p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+{% endfor %}
+        
 {% for categorys in userInventory %}
 
     <h2>{{categorys.category}}</h2>

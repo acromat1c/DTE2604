@@ -83,7 +83,7 @@ class GroupMessage(models.Model):
     message = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True) 
 
-itemTypes = ["collectible", "other", "theme"]
+itemTypes = ["collectible", "other", "theme", "title", "border"]
 
 class Item(models.Model):
     name = models.CharField(max_length=1000)
@@ -193,6 +193,8 @@ class MissionCompleted(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='profile_pics/', default='default.jpg')
+    border = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='+')
+    title = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='+')
 
     def __str__(self):
         return f'{self.user} Profile'

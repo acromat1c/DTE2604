@@ -43,6 +43,7 @@ def signup(request):
         if form.is_valid():
             Login(request, form.save())
             Profile.objects.create(user=request.user)
+            add_starter_items(request.user)
             return redirect("/")
     else:
         form = UserCreationForm()
@@ -388,6 +389,7 @@ def inventory(request):
     if request.method == "POST":
         equip_item(request.user, request.POST["selectedItem"])
     userInventory = get_inventory_items(request.user)
+    print(userInventory)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
 
 @login_required(login_url="/login")
