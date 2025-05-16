@@ -16,7 +16,7 @@
 {% for user in search_results %}
 <div class="profile-list-card">
         <a style="text-decoration: none;" href="{% url "programing_course_app:user" username=user.username %}">
-                <img class="profile-image-small" src="{{ user.profile.image.url }}" alt"Profile Picture">
+                <img class="profile-image-small" src="{{ user.profile.image.url }}" alt="Profile Picture">
                 <h2 style="display: inline-block; vertical-align: middle;">{{ user.username }}</h2>
         </a>
 </div>

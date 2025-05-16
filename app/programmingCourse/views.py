@@ -200,6 +200,7 @@ def group_settings(request, name):
         if form.is_valid():
             form.save()
             messages.success(request, "Group settings updated.")
+            return render(request, "programmingCourse/group_settings.html", {"form": form, "group": group})
             return redirect("programing_course_app:group", name=name)
     else:
         form = GroupEditForm(instance=group)

@@ -66,6 +66,7 @@ body {
     border-radius: 10px;
     display: block;
     margin: 10px auto;
+    border: 15px solid transparent;
 }
 
 h1 {
@@ -284,4 +285,5 @@ nav {
     border-radius: 10px;
     vertical-align: middle;
     margin-right: 5px;
+    border: 5px solid transparent;
 }
