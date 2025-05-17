@@ -9,12 +9,12 @@
         <h1>{{ user_profile.username }}</h1>
 
         {% if user.profile.image %}
-            <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture" class="profile-image">
+        <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture" class="profile-image" style="border-image: url({{user_profile.profile.border.image.url}}) 30 round">
         {% else %}
             <p>No profile picture added.</p>
         {% endif %}
 
-        <p><strong>Username:</strong> {{ user_profile.username }}</p>
+        <h3 style="text-align: center; {{ user.profile.title.content }}">{{ user.profile.title.name }}</h3>
         <!-- <p><strong>Email:</strong> {{ user.email }}</p> -->
 
         {% for message in messages %}

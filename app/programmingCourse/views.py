@@ -43,6 +43,7 @@ def signup(request):
         if form.is_valid():
             Login(request, form.save())
             Profile.objects.create(user=request.user)
+            add_starter_items(request.user)
             return redirect("/")
     else:
         form = UserCreationForm()
@@ -199,6 +200,7 @@ def group_settings(request, name):
         if form.is_valid():
             form.save()
             messages.success(request, "Group settings updated.")
+            return render(request, "programmingCourse/group_settings.html", {"form": form, "group": group})
             return redirect("programing_course_app:group", name=name)
     else:
         form = GroupEditForm(instance=group)
@@ -388,6 +390,7 @@ def inventory(request):
     if request.method == "POST":
         equip_item(request.user, request.POST["selectedItem"])
     userInventory = get_inventory_items(request.user)
+    print(userInventory)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
 
 @login_required(login_url="/login")
