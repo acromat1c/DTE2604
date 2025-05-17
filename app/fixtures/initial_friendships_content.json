@@ -1,0 +1,50 @@
+[
+  {
+    "model": "programmingCourse.friend",
+    "pk": 1,
+    "fields": {
+      "user1": 1,
+      "user2": 2
+    }
+  },
+  {
+    "model": "programmingCourse.friend",
+    "pk": 2,
+    "fields": {
+      "user1": 1,
+      "user2": 3
+    }
+  },
+  {
+    "model": "programmingCourse.friend",
+    "pk": 3,
+    "fields": {
+      "user1": 1,
+      "user2": 4
+    }
+  },
+  {
+    "model": "programmingCourse.friend",
+    "pk": 4,
+    "fields": {
+      "user1": 2,
+      "user2": 3
+    }
+  },
+  {
+    "model": "programmingCourse.friend",
+    "pk": 5,
+    "fields": {
+      "user1": 2,
+      "user2": 4
+    }
+  },
+  {
+    "model": "programmingCourse.friend",
+    "pk": 6,
+    "fields": {
+      "user1": 3,
+      "user2": 4
+    }
+  }
+]
