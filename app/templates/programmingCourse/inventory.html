@@ -25,7 +25,12 @@
     <div class="scroll-container">
         {%for item in categorys.items%}
             <div class="scroll-item">
-                <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
+                {% if item.item.itemType == "border" %}
+                    <img src="{{ user.profile.image.url }}" alt="Profile Picture" class="scroll-image" 
+                    style="border: 15px solid transparent; border-image: url({{item.item.image.url}}) 30 round;">
+                {% else %}
+                    <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
+                {% endif %}
                 <h3>{{ item.item.name }}</h3>
                 <h6>{{ item.item.itemType }}</h6>
                 {% if item.equippable %}
