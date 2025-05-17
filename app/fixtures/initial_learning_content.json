@@ -1,456 +1,596 @@
 [
-    {
-        "model": "programmingCourse.course",
-        "pk": 1,
-        "fields": {
-            "name": "Python: Basic Syntax and Variables",
-            "description": "Learn the essentials of Python programming, including variables, data types, syntax, and naming rules.",
-            "text": "Welcome to 'Python: Basic Syntax and Variables'!\n\nThis course is your first step into Python programming. You will learn the core concepts that form the foundation of every Python program. These include how to declare variables, work with different data types, follow correct naming rules, and write syntactically correct Python code.\n\nEach module in this course is designed to guide you with clear explanations, examples, and practice missions. By the end of this course, you will be able to write simple yet correct Python code confidently."
-        }
-    },
-    {
-        "model": "programmingCourse.course",
-        "pk": 2,
-        "fields": {
-            "name": "Python Developer",
-            "description": "A complete path to becoming a Python developer.",
-            "text": ""
-        }
-    },
-    {
-        "model": "programmingCourse.course",
-        "pk": 3,
-        "fields": {
-            "name": "Django with Python",
-            "description": "Learn how to build web applications using Django and Python.",
-            "text": ""
-        }
-    },
-    {
-        "model": "programmingCourse.course",
-        "pk": 4,
-        "fields": {
-            "name": "Introduction to Git",
-            "description": "Understand the basics of version control using Git.",
-            "text": ""
-        }
-    },
-    {
-        "model": "programmingCourse.course",
-        "pk": 5,
-        "fields": {
-            "name": "Computer Algorithms and Data Structures",
-            "description": "Explore essential algorithms and data structures for problem-solving.",
-            "text": ""
-        }
-    },
-    {
-        "model": "programmingCourse.module",
-        "pk": 1,
-        "fields": {
-            "name": "Variables and Basic Syntax",
-            "description": "Learn how to declare variables and understand Python's syntax.",
-            "text": "Variables and Basic Syntax\n\nIn Python, a variable is a name that stores data. You can think of it as a label attached to a value.\n\nDeclaring a variable is simple:\nx = 5\n\nThis creates a variable called x and assigns it the value 5. Python automatically understands the type of data.\n\nRemember, Python uses an easy-to-read syntax, but the order of elements is important. For example, always put the variable on the left side and the value on the right side of the = sign.",
-            "course": 1
-        }
-    },
-    {
-        "model": "programmingCourse.module",
-        "pk": 2,
-        "fields": {
-            "name": "Working with Text and Numbers",
-            "description": "Explore how to use text (strings) and numbers in Python.",
-            "text": "Working with Text and Numbers\n\nPython allows variables to hold different types of data:\n- Integers (int): Whole numbers like 7\n- Floats (float): Numbers with decimal points like 3.14\n- Strings (str): Text data like 'Hello'\n\nYou can store and manipulate these types easily:\nage = 30\nname = 'Alice'\n\nStrings must always be enclosed in single ' or double \" quotes.",
-            "course": 1
-        }
-    },
-    {
-        "model": "programmingCourse.module",
-        "pk": 3,
-        "fields": {
-            "name": "Data Types and Booleans",
-            "description": "Learn the key data types in Python, including booleans.",
-            "text": "Data Types and Booleans\n\nPython has several important data types:\n- int: Whole numbers (7)\n- float: Decimal numbers (19.99)\n- str: Text ('Hello')\n- bool: Boolean values (True, False)\n\nBooleans are used to represent truth values and are extremely useful for controlling program flow.\n\nExample:\nis_active = True\nprice = 19.99\n\nAlways assign the correct data type to your variable depending on the context.",
-            "course": 1
-        }
-    },
-    {
-        "model": "programmingCourse.module",
-        "pk": 4,
-        "fields": {
-            "name": "Variable Naming Rules",
-            "description": "Understand the rules for writing valid Python variable names.",
-            "text": "Variable Naming Rules\n\nPython has specific rules for naming variables:\n- Must start with a letter (a-z, A-Z) or an underscore _\n- Cannot start with a number\n- Cannot contain spaces or special characters like - or @\n- Cannot be a reserved keyword (like for, if, class)\n\nExamples of valid names:\nmy_var, _hidden_value\n\nExamples of invalid names:\n1value, my-var, for\n\nFollowing these rules helps avoid errors and makes your code more readable.",
-            "course": 1
-        }
-    },
-    {
-        "model": "programmingCourse.module",
-        "pk": 5,
-        "fields": {
-            "name": "Writing Valid Python Code",
-            "description": "Master writing correct Python syntax.",
-            "text": "Writing Valid Python Code\n\nPython code must follow its strict syntax rules to run successfully:\n- Assignment: Always have the variable on the left, the = sign in the middle, and the value on the right.\nx = 2 + 3\n\n- Indentation: Python uses indentation (spaces) to define blocks of code. Always indent your code correctly.\n- Statements must be complete: Don't forget colons, parentheses, or correct spelling.\n\nExample of invalid code:\n2 + 3 = result  # Invalid, cannot assign to an expression\n\nAlways double-check your code for these common mistakes before running it.",
-            "course": 1
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 101,
-        "fields": {
-            "type": "code",
-            "name": "Declare an integer variable",
-            "description": "Write one line of Python code that declares a variable with an integer value.",
-            "text": "In Python, variables can be used to store numbers. Declare a variable and assign it the number 10.",
-            "answer": "",
-            "evaluation_pattern": "^[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*10$",
-            "maxPoints": 5,
-            "module": 1
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 102,
-        "fields": {
-            "type": "true_false",
-            "name": "Can a variable name start with _?",
-            "description": "Decide if the statement is true or false.",
-            "text": "In Python, a variable name can start with an underscore (_). Is this statement true?",
-            "choices": [
-                "True",
-                "False"
-            ],
-            "answer": "True",
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 1
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 103,
-        "fields": {
-            "type": "multiple_choice",
-            "name": "Select valid variable name",
-            "description": "Choose the correct option for a valid Python variable name.",
-            "text": "Which of the following is a valid variable name in Python?",
-            "answer": "my_var",
-            "choices": [
-                "1var",
-                "my-var",
-                "my_var"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 1
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 104,
-        "fields": {
-            "type": "ordering",
-            "name": "Order code steps",
-            "description": "Drag and drop the steps to correctly declare and use a variable in Python.",
-            "text": "Arrange the steps in the correct order.",
-            "answer": "Declare,Assign,Use",
-            "choices": [
-                "Use",
-                "Declare",
-                "Assign"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 10,
-            "module": 1
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 201,
-        "fields": {
-            "type": "code",
-            "name": "Assign text to a variable",
-            "description": "Write one line of Python code that stores the text 'Hello' in a variable.",
-            "text": "Assign the text 'Hello' to a variable called greeting.",
-            "answer": "",
-            "evaluation_pattern": "^greeting\\s*=\\s*['\\\"]Hello['\\\"]$",
-            "maxPoints": 5,
-            "module": 2
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 202,
-        "fields": {
-            "type": "true_false",
-            "name": "Can you store numbers in a string?",
-            "description": "Decide if the statement is true or false.",
-            "text": "In Python, you can store numbers as strings. Is this statement true?",
-            "choices": [
-                "True",
-                "False"
-            ],
-            "answer": "True",
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 2
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 203,
-        "fields": {
-            "type": "multiple_choice",
-            "name": "Select correct text assignment",
-            "description": "Choose the correct code to assign the text 'Python' to a variable.",
-            "text": "Which code correctly assigns 'Python' to the variable language?",
-            "answer": "language = 'Python'",
-            "choices": [
-                "language = Python",
-                "language = 'Python'",
-                "language == 'Python'"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 2
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 204,
-        "fields": {
-            "type": "ordering",
-            "name": "Order the steps to use text",
-            "description": "Drag and drop the steps to correctly create and use a string in Python.",
-            "text": "Arrange the steps in the correct order.",
-            "answer": "Declare,Assign,Print",
-            "choices": [
-                "Assign",
-                "Declare",
-                "Print"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 10,
-            "module": 2
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 301,
-        "fields": {
-            "type": "code",
-            "name": "Declare a boolean variable",
-            "description": "Write one line of Python code that assigns True to a variable.",
-            "text": "Assign the boolean value True to a variable called is_active.",
-            "answer": "",
-            "evaluation_pattern": "^is_active\\s*=\\s*True$",
-            "maxPoints": 5,
-            "module": 3
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 302,
-        "fields": {
-            "type": "true_false",
-            "name": "Is 'True' a string?",
-            "description": "Decide if the statement is true or false.",
-            "text": "In Python, 'True' with quotes is considered a string. Is this true?",
-            "choices": [
-                "True",
-                "False"
-            ],
-            "answer": "True",
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 3
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 303,
-        "fields": {
-            "type": "multiple_choice",
-            "name": "Identify data type",
-            "description": "Select the correct data type for the value 3.14.",
-            "text": "What is the data type of 3.14 in Python?",
-            "answer": "float",
-            "choices": [
-                "int",
-                "str",
-                "float"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 3
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 304,
-        "fields": {
-            "type": "ordering",
-            "name": "Order data type usage",
-            "description": "Drag and drop the steps to declare and use a float variable.",
-            "text": "Arrange the steps in the correct order.",
-            "answer": "Declare,Assign,Use",
-            "choices": [
-                "Use",
-                "Declare",
-                "Assign"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 10,
-            "module": 3
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 401,
-        "fields": {
-            "type": "code",
-            "name": "Assign with valid name",
-            "description": "Write one line of Python code using a valid variable name to store the number 7.",
-            "text": "Use the variable name my_number and assign it the value 7.",
-            "answer": "",
-            "evaluation_pattern": "^my_number\\s*=\\s*7$",
-            "maxPoints": 5,
-            "module": 4
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 402,
-        "fields": {
-            "type": "true_false",
-            "name": "Can variable names contain spaces?",
-            "description": "Answer true or false.",
-            "text": "Python variable names can contain spaces. Is this true?",
-            "choices": [
-                "True",
-                "False"
-            ],
-            "answer": "False",
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 4
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 403,
-        "fields": {
-            "type": "multiple_choice",
-            "name": "Pick invalid name",
-            "description": "Select the invalid variable name.",
-            "text": "Which of these is NOT a valid variable name?",
-            "answer": "3value",
-            "choices": [
-                "my_value",
-                "_value",
-                "3value"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 4
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 404,
-        "fields": {
-            "type": "ordering",
-            "name": "Order name validation steps",
-            "description": "Drag and drop the steps to check a variable name is valid.",
-            "text": "Arrange the steps in the correct order.",
-            "answer": "CheckStart,CheckKeyword,Approve",
-            "choices": [
-                "Approve",
-                "CheckKeyword",
-                "CheckStart"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 10,
-            "module": 4
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 501,
-        "fields": {
-            "type": "code",
-            "name": "Add two numbers",
-            "description": "Write one line of Python code that adds two numbers and stores the result.",
-            "text": "Assign the result of 5 + 3 to a variable called result.",
-            "answer": "",
-            "evaluation_pattern": "^result\\s*=\\s*5\\s*\\+\\s*3$",
-            "maxPoints": 10,
-            "module": 5
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 502,
-        "fields": {
-            "type": "true_false",
-            "name": "Is '5 + 3 = result' valid syntax?",
-            "description": "Decide if the following syntax is valid in Python.",
-            "text": "Is this correct Python syntax: 5 + 3 = result?",
-            "choices": [
-                "True",
-                "False"
-            ],
-            "answer": "False",
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 5
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 503,
-        "fields": {
-            "type": "multiple_choice",
-            "name": "Identify valid assignment",
-            "description": "Select the line of code that is correct.",
-            "text": "Which line is valid Python code?",
-            "answer": "x = 2 + 2",
-            "choices": [
-                "2 + 2 = x",
-                "x = 2 + 2",
-                "2 = x + 2"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 5,
-            "module": 5
-        }
-    },
-    {
-        "model": "programmingCourse.mission",
-        "pk": 504,
-        "fields": {
-            "type": "ordering",
-            "name": "Order writing steps",
-            "description": "Drag and drop the steps to correctly write and run Python code.",
-            "text": "Arrange the steps in the correct order.",
-            "answer": "Write,Save,Run",
-            "choices": [
-                "Run",
-                "Write",
-                "Save"
-            ],
-            "evaluation_pattern": "",
-            "maxPoints": 100000,
-            "module": 5
-        }
-    },
-    {
-        "model": "programmingCourse.course",
-        "pk": 6,
-        "fields": {
-            "name": "Introduction to SQL",
-            "description": "Learn how to manage and query databases using SQL.",
-            "text": ""
-        }
+  {
+    "model": "programmingCourse.course",
+    "pk": 1,
+    "fields": {
+      "name": "Python: Basic Syntax and Variables",
+      "description": "Learn the essentials of Python programming, including variables, data types, syntax, and naming rules.",
+      "text": "Welcome to 'Python: Basic Syntax and Variables'!\n\nThis course is your first step into Python programming. You will learn the core concepts that form the foundation of every Python program. These include how to declare variables, work with different data types, follow correct naming rules, and write syntactically correct Python code.\n\nEach module in this course is designed to guide you with clear explanations, examples, and practice missions. By the end of this course, you will be able to write simple yet correct Python code confidently."
     }
+  },
+  {
+    "model": "programmingCourse.course",
+    "pk": 2,
+    "fields": {
+      "name": "Python Developer",
+      "description": "A complete path to becoming a Python developer.",
+      "text": ""
+    }
+  },
+  {
+    "model": "programmingCourse.course",
+    "pk": 3,
+    "fields": {
+      "name": "Django with Python",
+      "description": "Learn how to build web applications using Django and Python.",
+      "text": ""
+    }
+  },
+  {
+    "model": "programmingCourse.course",
+    "pk": 4,
+    "fields": {
+      "name": "Introduction to Git",
+      "description": "Understand the basics of version control using Git.",
+      "text": ""
+    }
+  },
+  {
+    "model": "programmingCourse.course",
+    "pk": 5,
+    "fields": {
+      "name": "Computer Algorithms and Data Structures",
+      "description": "Explore essential algorithms and data structures for problem-solving.",
+      "text": ""
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 1,
+    "fields": {
+      "name": "Variables and Basic Syntax",
+      "description": "Learn how to declare variables and understand Python's syntax.",
+      "text": "Variables and Basic Syntax\n\nIn Python, a variable is a name that stores data. You can think of it as a label attached to a value.\n\nDeclaring a variable is simple:\nx = 5\n\nThis creates a variable called x and assigns it the value 5. Python automatically understands the type of data.\n\nRemember, Python uses an easy-to-read syntax, but the order of elements is important. For example, always put the variable on the left side and the value on the right side of the = sign.",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 2,
+    "fields": {
+      "name": "Working with Text and Numbers",
+      "description": "Explore how to use text (strings) and numbers in Python.",
+      "text": "Working with Text and Numbers\n\nPython allows variables to hold different types of data:\n- Integers (int): Whole numbers like 7\n- Floats (float): Numbers with decimal points like 3.14\n- Strings (str): Text data like 'Hello'\n\nYou can store and manipulate these types easily:\nage = 30\nname = 'Alice'\n\nStrings must always be enclosed in single ' or double \" quotes.",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 3,
+    "fields": {
+      "name": "Data Types and Booleans",
+      "description": "Learn the key data types in Python, including booleans.",
+      "text": "Data Types and Booleans\n\nPython has several important data types:\n- int: Whole numbers (7)\n- float: Decimal numbers (19.99)\n- str: Text ('Hello')\n- bool: Boolean values (True, False)\n\nBooleans are used to represent truth values and are extremely useful for controlling program flow.\n\nExample:\nis_active = True\nprice = 19.99\n\nAlways assign the correct data type to your variable depending on the context.",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 4,
+    "fields": {
+      "name": "Variable Naming Rules",
+      "description": "Understand the rules for writing valid Python variable names.",
+      "text": "Variable Naming Rules\n\nPython has specific rules for naming variables:\n- Must start with a letter (a-z, A-Z) or an underscore _\n- Cannot start with a number\n- Cannot contain spaces or special characters like - or @\n- Cannot be a reserved keyword (like for, if, class)\n\nExamples of valid names:\nmy_var, _hidden_value\n\nExamples of invalid names:\n1value, my-var, for\n\nFollowing these rules helps avoid errors and makes your code more readable.",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 5,
+    "fields": {
+      "name": "Writing Valid Python Code",
+      "description": "Master writing correct Python syntax.",
+      "text": "Writing Valid Python Code\n\nPython code must follow its strict syntax rules to run successfully:\n- Assignment: Always have the variable on the left, the = sign in the middle, and the value on the right.\nx = 2 + 3\n\n- Indentation: Python uses indentation (spaces) to define blocks of code. Always indent your code correctly.\n- Statements must be complete: Don't forget colons, parentheses, or correct spelling.\n\nExample of invalid code:\n2 + 3 = result  # Invalid, cannot assign to an expression\n\nAlways double-check your code for these common mistakes before running it.",
+      "course": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 101,
+    "fields": {
+      "type": "code",
+      "name": "Declare an integer variable",
+      "description": "Write one line of Python code that declares a variable with an integer value.",
+      "text": "In Python, variables can be used to store numbers. Declare a variable and assign it the number 10.",
+      "answer": "",
+      "evaluation_pattern": "^[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*10$",
+      "maxPoints": 5,
+      "module": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 102,
+    "fields": {
+      "type": "true_false",
+      "name": "Can a variable name start with _?",
+      "description": "Decide if the statement is true or false.",
+      "text": "In Python, a variable name can start with an underscore (_). Is this statement true?",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "answer": "True",
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 103,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Select valid variable name",
+      "description": "Choose the correct option for a valid Python variable name.",
+      "text": "Which of the following is a valid variable name in Python?",
+      "answer": "my_var",
+      "choices": [
+        "1var",
+        "my-var",
+        "my_var"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 104,
+    "fields": {
+      "type": "ordering",
+      "name": "Order code steps",
+      "description": "Drag and drop the steps to correctly declare and use a variable in Python.",
+      "text": "Arrange the steps in the correct order.",
+      "answer": "Declare,Assign,Use",
+      "choices": [
+        "Use",
+        "Declare",
+        "Assign"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 10,
+      "module": 1
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 201,
+    "fields": {
+      "type": "code",
+      "name": "Assign text to a variable",
+      "description": "Write one line of Python code that stores the text 'Hello' in a variable.",
+      "text": "Assign the text 'Hello' to a variable called greeting.",
+      "answer": "",
+      "evaluation_pattern": "^greeting\\s*=\\s*['\\\"]Hello['\\\"]$",
+      "maxPoints": 5,
+      "module": 2
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 202,
+    "fields": {
+      "type": "true_false",
+      "name": "Can you store numbers in a string?",
+      "description": "Decide if the statement is true or false.",
+      "text": "In Python, you can store numbers as strings. Is this statement true?",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "answer": "True",
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 2
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 203,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Select correct text assignment",
+      "description": "Choose the correct code to assign the text 'Python' to a variable.",
+      "text": "Which code correctly assigns 'Python' to the variable language?",
+      "answer": "language = 'Python'",
+      "choices": [
+        "language = Python",
+        "language = 'Python'",
+        "language == 'Python'"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 2
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 204,
+    "fields": {
+      "type": "ordering",
+      "name": "Order the steps to use text",
+      "description": "Drag and drop the steps to correctly create and use a string in Python.",
+      "text": "Arrange the steps in the correct order.",
+      "answer": "Declare,Assign,Print",
+      "choices": [
+        "Assign",
+        "Declare",
+        "Print"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 10,
+      "module": 2
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 301,
+    "fields": {
+      "type": "code",
+      "name": "Declare a boolean variable",
+      "description": "Write one line of Python code that assigns True to a variable.",
+      "text": "Assign the boolean value True to a variable called is_active.",
+      "answer": "",
+      "evaluation_pattern": "^is_active\\s*=\\s*True$",
+      "maxPoints": 5,
+      "module": 3
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 302,
+    "fields": {
+      "type": "true_false",
+      "name": "Is 'True' a string?",
+      "description": "Decide if the statement is true or false.",
+      "text": "In Python, 'True' with quotes is considered a string. Is this true?",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "answer": "True",
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 3
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 303,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Identify data type",
+      "description": "Select the correct data type for the value 3.14.",
+      "text": "What is the data type of 3.14 in Python?",
+      "answer": "float",
+      "choices": [
+        "int",
+        "str",
+        "float"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 3
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 304,
+    "fields": {
+      "type": "ordering",
+      "name": "Order data type usage",
+      "description": "Drag and drop the steps to declare and use a float variable.",
+      "text": "Arrange the steps in the correct order.",
+      "answer": "Declare,Assign,Use",
+      "choices": [
+        "Use",
+        "Declare",
+        "Assign"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 10,
+      "module": 3
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 401,
+    "fields": {
+      "type": "code",
+      "name": "Assign with valid name",
+      "description": "Write one line of Python code using a valid variable name to store the number 7.",
+      "text": "Use the variable name my_number and assign it the value 7.",
+      "answer": "",
+      "evaluation_pattern": "^my_number\\s*=\\s*7$",
+      "maxPoints": 5,
+      "module": 4
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 402,
+    "fields": {
+      "type": "true_false",
+      "name": "Can variable names contain spaces?",
+      "description": "Answer true or false.",
+      "text": "Python variable names can contain spaces. Is this true?",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "answer": "False",
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 4
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 403,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Pick invalid name",
+      "description": "Select the invalid variable name.",
+      "text": "Which of these is NOT a valid variable name?",
+      "answer": "3value",
+      "choices": [
+        "my_value",
+        "_value",
+        "3value"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 4
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 404,
+    "fields": {
+      "type": "ordering",
+      "name": "Order name validation steps",
+      "description": "Drag and drop the steps to check a variable name is valid.",
+      "text": "Arrange the steps in the correct order.",
+      "answer": "CheckStart,CheckKeyword,Approve",
+      "choices": [
+        "Approve",
+        "CheckKeyword",
+        "CheckStart"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 10,
+      "module": 4
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 501,
+    "fields": {
+      "type": "code",
+      "name": "Add two numbers",
+      "description": "Write one line of Python code that adds two numbers and stores the result.",
+      "text": "Assign the result of 5 + 3 to a variable called result.",
+      "answer": "",
+      "evaluation_pattern": "^result\\s*=\\s*5\\s*\\+\\s*3$",
+      "maxPoints": 10,
+      "module": 5
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 502,
+    "fields": {
+      "type": "true_false",
+      "name": "Is '5 + 3 = result' valid syntax?",
+      "description": "Decide if the following syntax is valid in Python.",
+      "text": "Is this correct Python syntax: 5 + 3 = result?",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "answer": "False",
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 5
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 503,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Identify valid assignment",
+      "description": "Select the line of code that is correct.",
+      "text": "Which line is valid Python code?",
+      "answer": "x = 2 + 2",
+      "choices": [
+        "2 + 2 = x",
+        "x = 2 + 2",
+        "2 = x + 2"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 5,
+      "module": 5
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 504,
+    "fields": {
+      "type": "ordering",
+      "name": "Order writing steps",
+      "description": "Drag and drop the steps to correctly write and run Python code.",
+      "text": "Arrange the steps in the correct order.",
+      "answer": "Write,Save,Run",
+      "choices": [
+        "Run",
+        "Write",
+        "Save"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 100000,
+      "module": 5
+    }
+  },
+  {
+    "model": "programmingCourse.course",
+    "pk": 6,
+    "fields": {
+      "name": "Introduction to SQL",
+      "description": "Learn how to manage and query databases using SQL.",
+      "text": ""
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 1001,
+    "fields": {
+      "name": "Test Module",
+      "description": "A placeholder test module.",
+      "text": "This is a test module for progress tracking.",
+      "course": 2
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 10001,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Test Mission",
+      "description": "A simple yes/no test.",
+      "text": "Is this a test mission?",
+      "answer": "Yes",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 1,
+      "module": 1001
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 1002,
+    "fields": {
+      "name": "Test Module",
+      "description": "A placeholder test module.",
+      "text": "This is a test module for progress tracking.",
+      "course": 3
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 10002,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Test Mission",
+      "description": "A simple yes/no test.",
+      "text": "Is this a test mission?",
+      "answer": "Yes",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 1,
+      "module": 1002
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 1003,
+    "fields": {
+      "name": "Test Module",
+      "description": "A placeholder test module.",
+      "text": "This is a test module for progress tracking.",
+      "course": 4
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 10003,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Test Mission",
+      "description": "A simple yes/no test.",
+      "text": "Is this a test mission?",
+      "answer": "Yes",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 1,
+      "module": 1003
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 1004,
+    "fields": {
+      "name": "Test Module",
+      "description": "A placeholder test module.",
+      "text": "This is a test module for progress tracking.",
+      "course": 5
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 10004,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Test Mission",
+      "description": "A simple yes/no test.",
+      "text": "Is this a test mission?",
+      "answer": "Yes",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 1,
+      "module": 1004
+    }
+  },
+  {
+    "model": "programmingCourse.module",
+    "pk": 1005,
+    "fields": {
+      "name": "Test Module",
+      "description": "A placeholder test module.",
+      "text": "This is a test module for progress tracking.",
+      "course": 6
+    }
+  },
+  {
+    "model": "programmingCourse.mission",
+    "pk": 10005,
+    "fields": {
+      "type": "multiple_choice",
+      "name": "Test Mission",
+      "description": "A simple yes/no test.",
+      "text": "Is this a test mission?",
+      "answer": "Yes",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "evaluation_pattern": "",
+      "maxPoints": 1,
+      "module": 1005
+    }
+  }
 ]
