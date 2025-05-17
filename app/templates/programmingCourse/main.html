@@ -60,23 +60,24 @@
     {% if user.is_authenticated %}
     <div class="column-main">
         <h1>Groups</h1>
-            <ul>
-                {% for group in groups %}
-                    <a href="{% url 'programing_course_app:group' name=group.groupName %}">
-                        <button class="buttons">{{ group.groupName }}</button>
-                    </a>
-                {% empty %}
-                    <p>You are not a member of any groups.</p>
-                {% endfor %}
-            </ul>
+            {% for group in groups %}
+            <div class="profile-list-card">
+                <a href="{% url 'programing_course_app:group' name=group.groupName %}">
+                    <img class="group-image-small" src="{{ group.image.url }}" alt="Group Picture">
+                    <h2 style="display: inline-block; vertical-align: middle;">{{ group.groupName }}</h2>
+                </a>
+            </div>
+            {% empty %}
+                <p>You are not a member of any groups.</p>
+            {% endfor %}
 
             <h1>Friends</h1>
             {% for friend in friends %}
             <div class="profile-list-card">
-                    <a style="text-decoration: none;" href="{% url "programing_course_app:user" username=friend.username %}">
-                            <img class="profile-image-small" src="{{ friend.profile.image.url }}" alt="Profile Picture" style="border-image: url({{friend.profile.border.image.url}}) 30 round">
-                            <h2 style="display: inline-block; vertical-align: middle;">{{ friend.username }}</h2>
-                    </a>
+                <a style="text-decoration: none;" href="{% url "programing_course_app:user" username=friend.username %}">
+                    <img class="profile-image-small" src="{{ friend.profile.image.url }}" alt="Profile Picture" style="border-image: url({{friend.profile.border.image.url}}) 30 round">
+                    <h2 style="display: inline-block; vertical-align: middle;">{{ friend.username }}</h2>
+                </a>
             </div>
             {% empty %}
                 <p>No friends found</p>

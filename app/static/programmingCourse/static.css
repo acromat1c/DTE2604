@@ -287,3 +287,11 @@ nav {
     margin-right: 5px;
     border: 5px solid transparent;
 }
+
+.group-image-small {
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 10px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
