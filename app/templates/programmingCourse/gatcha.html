@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}GATCHA{% endblock %}
+{% block title %}GACHA{% endblock %}
 
 {% block content %}
 
@@ -22,7 +22,7 @@
 </div>
 {% endif %}
 
-<h2>GATCHA DEN</h2>
+<h2>GACHA DEN</h2>
 {% if userBalance >= price and gatcha_items %}
 <form method="post">
     {% csrf_token %}
