@@ -41,7 +41,7 @@
       "gatcha": false,
       "description": "Don't display a title on your profile",
       "image": "item_pic/the_wise.png",
-      "content": ""
+      "content": "display: none;"
     }
   },
   {
@@ -236,7 +236,7 @@
       "gatcha": false,
       "description": "Display 'The Brave' title on your profile.",
       "image": "item_pic/the_brave.png",
-      "content": "The Brave"
+      "content": "background-image: linear-gradient(to left, orange, red); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   },
   {
@@ -251,7 +251,7 @@
       "gatcha": false,
       "description": "Display 'The Wise' title on your profile.",
       "image": "item_pic/the_wise.png",
-      "content": "The Wise"
+      "content": "background-image: linear-gradient(to left, blue, aqua); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   },
   {
@@ -266,7 +266,7 @@
       "gatcha": false,
       "description": "Display 'The Fast' title on your profile.",
       "image": "item_pic/the_fast.png",
-      "content": "The Fast"
+      "content": "background-image: linear-gradient(to left, aquamarine, coral); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   },
   {
@@ -281,7 +281,7 @@
       "gatcha": false,
       "description": "Display 'The Collector' title on your profile.",
       "image": "item_pic/the_collector.png",
-      "content": "The Collector"
+      "content": "background-image: linear-gradient(to left, indigo, gold); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   }
 ]

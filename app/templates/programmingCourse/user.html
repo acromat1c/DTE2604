@@ -14,7 +14,7 @@
             <p>No profile picture added.</p>
         {% endif %}
 
-        <p><strong>Username:</strong> {{ user_profile.username }}</p>
+        <h3 style="text-align: center; {{ user.profile.title.content }}">{{ user.profile.title.name }}</h3>
         <!-- <p><strong>Email:</strong> {{ user.email }}</p> -->
 
         {% for message in messages %}
