@@ -1,0 +1,50 @@
+[
+    {
+        "model": "programmingCourse.achievement",
+        "pk": 1,
+        "fields": {
+            "name": "pythonnovice",
+            "description": "Completed the 'Python: Basic Syntax and Variables' course."
+        }
+    },
+    {
+        "model": "programmingCourse.achievement",
+        "pk": 2,
+        "fields": {
+            "name": "pythonmaster",
+            "description": "Completed the 'Python Developer' course."
+        }
+    },
+    {
+        "model": "programmingCourse.achievement",
+        "pk": 3,
+        "fields": {
+            "name": "gitguru",
+            "description": "Completed the 'Introduction to Git' course."
+        }
+    },
+    {
+        "model": "programmingCourse.achievement",
+        "pk": 4,
+        "fields": {
+            "name": "algorithmarchitect",
+            "description": "Completed the 'Computer Algorithms and Data Structures' course."
+        }
+    },
+    {
+        "model": "programmingCourse.achievement",
+        "pk": 5,
+        "fields": {
+            "name": "sqlspecialist",
+            "description": "Completed the 'Introduction to SQL' course."
+        }
+    },
+    {
+        "model": "programmingCourse.achievement",
+        "pk": 6,
+        "fields": {
+            "name": "youknowitall",
+            "description": "Completed the 'Django with Python' course."
+        }
+    }
+]

@@ -10,11 +10,12 @@
         <div class="card">
             <h2>{{ name }}</h2>
             <p>{{ description }}</p>
+
             <a href="{% url "programing_course_app:course" nameCourse=name %}">
                 <button class="button">View Course</button>
             </a>
         </div>
-        {% empty %}
+    {% empty %}
         <p>No courses found.</p>
     {% endfor %}
 </div>

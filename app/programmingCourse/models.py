@@ -193,6 +193,7 @@ class MissionCompleted(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='profile_pics/', default='default.jpg')
+    current_course = models.ForeignKey(Course, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.user} Profile'
