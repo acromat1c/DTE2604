@@ -288,30 +288,30 @@
     "model": "programmingCourse.item",
     "pk": 116,
     "fields": {
-      "name": "Default Theme",
+      "name": "Green Theme",
       "category": "Themes",
       "itemType": "theme",
       "price": -1,
       "shop": false,
       "gatcha": true,
       "description": "The default theme.",
-      "image": "item_pic/default_theme.png",
-      "content": ":root {\n    --background-color: 0%,; /* Use first color as solid fallback */\n    --container-body-color: 0%,;\n    --container-text-color: #ffffff;\n    --header-color: #ffffff;\n    --paragraph-color: #ffffff;\n    --button-color: #ff00ff;\n    --button-hover-color: #ff33ff;\n    --navbar-body-color: 0%,;\n    --navbar-text-color: #ffffff;\n}\nbody {\n    background: linear-gradient(135deg, #0a0a0a 0%, #0f0f0f 50%, #1a1a1a 100%) !important;\n}"
+      "image": "item_pic/green_theme.png",
+      "content": ":root {\n    --background-color: 20%; /* Use first color as solid fallback */\n    --container-body-color: #40A040;\n    --container-text-color: #ffffff;\n    --header-color: #ffffff;\n    --paragraph-color: #ffffff;\n    --button-color: #2fe02f;\n    --button-hover-color: #1fd31f;\n    --navbar-body-color: 0%;\n    --navbar-text-color: #ffffff;\n}\nbody {\n    background: linear-gradient(135deg, #0a6a0a 0%, #0f6f0f 50%, #1a7a1a 100%) !important;\n}"
     }
   },
   {
     "model": "programmingCourse.item",
     "pk": 117,
     "fields": {
-      "name": "No Profile Border",
+      "name": "Green Profile Border",
       "category": "Profile Borders",
       "itemType": "border",
       "price": -1,
       "shop": false,
-      "gatcha": false,
+      "gatcha": true,
       "description": "No border",
-      "image": "item_pic/no_border.png",
-      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/no_border.png') 30 round;\n}\n"
+      "image": "item_pic/green_border.png",
+      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/green_border.png') 30 round;\n}\n"
     }
   },
   {
@@ -328,5 +328,5 @@
       "image": "item_pic/the_wise.png",
       "content": "background-image: linear-gradient(to left, gold, lime); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
-  },
+  }
 ]
