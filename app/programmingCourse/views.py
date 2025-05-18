@@ -342,9 +342,9 @@ def manage_group_requests(request, name):
     })
 
 
-def overview(request):
+def courses(request):
     listCourse = get_course_list()
-    return render(request, "programmingCourse/overview.html", {"listCourse": listCourse})
+    return render(request, "programmingCourse/courses.html", {"listCourse": listCourse})
 
 def course(request, nameCourse):
     course = get_course(nameCourse)
