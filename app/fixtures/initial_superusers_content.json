@@ -1,0 +1,102 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "1",
+      "password": "pbkdf2_sha256$1000000$rGqeYIeGEqgdLcHxQkbyI0$4nSp/UXRXYnCsBIiM28XfpdRXV42dBFq6CLzWzIUPuE=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "email": "1@example.com"
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "image": "test_pics/user1.png"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "2",
+      "password": "pbkdf2_sha256$1000000$PKGtktd5joZdhuCjZYycMT$8WVMu0/c0bm89yA7v/hSyf4+prfXXmCVBOY7A3sueBk=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "email": "2@example.com"
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "image": "test_pics/user2.png"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "3",
+      "password": "pbkdf2_sha256$1000000$BvitaynhArkBPLYdiZSJfn$zbzuJz9WQJ5//gZXR9Vf005Z4Rp3iJiTbqGKsAJxqiU=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "email": "3@example.com"
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "image": "test_pics/user3.png"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "username": "4",
+      "password": "pbkdf2_sha256$1000000$J3vIYngbtVXtMbMtPXKvVO$Oq4vf7PTtAPuUdRgJMly1iHW8b5PxTIbvNB7xWPhCeg=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "email": "4@example.com"
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "image": "test_pics/user4.png"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "username": "5",
+      "password": "pbkdf2_sha256$1000000$IWq8YrvvEpZycY9l0kr04m$GtWs31kEf3wYZljH7huUOKuZ4QOC+P9B8wZuMgsYRP4=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "email": "5@example.com"
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 5,
+    "fields": {
+      "user": 5,
+      "image": "test_pics/user5.png"
+    }
+  }
+]
