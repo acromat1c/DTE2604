@@ -4,7 +4,6 @@
 
 {% block extrahead %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'admin/custom.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static '/programmingCourse/favicon.ico' %}">
 {% endblock %}
 
@@ -18,8 +17,8 @@
 
 {% block nav-global %}
   <div id="user-tools">
-    Logget inn som {{ user.get_username }} |
-    <a href="{% url 'admin:logout' %}">Logg ut</a>
+    Logget inn som {{ user.get_username }} | 
+    <a href="{% url 'admin:logout' %}">Logg ut</a> | 
+    <a href="{% url 'admin:password_change' %}">Endre passord</a>
   </div>
 {% endblock %}
-
