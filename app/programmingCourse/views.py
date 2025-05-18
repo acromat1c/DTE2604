@@ -8,8 +8,10 @@ from django.contrib import messages
 from django.contrib.auth import logout as Logout, login as Login
 from django.utils.timezone import now
 from .models_io import *
-from .models import Mission, MissionCompleted, GroupMember, GroupMessage, GroupJoinRequest, User
+from .models import Mission, MissionCompleted, GroupMember, GroupMessage, GroupJoinRequest, User, Course, Achievement, UserAchievement
 from .forms import CodeAnswerForm, GroupCreateForm, GroupEditForm
+from collections import defaultdict
+from django.db.models import Count
 import keyword
 
 
@@ -99,18 +101,66 @@ def userSettings(request):
         "profile": profile
     })
 
+from collections import defaultdict
+from django.db.models import Count
+
 @login_required(login_url="/login")
 def user(request, username):
     user_profile = get_object_or_404(User, username=username)
-    friend_status = get_friend_status(sender=request.user,
-                                      recipient=get_object_or_404(User, username=username))
+    friend_status = get_friend_status(sender=request.user, recipient=user_profile)
 
-    return render(request, "programmingCourse/user.html",
-                  {
-                      "user_profile": user_profile,
-                      "friend_status": friend_status
-                  }
-                  )
+    # Static mapping: course name → achievement image name (must match image filenames)
+    course_achievement_map = {
+        "Python Developer": "pythonmaster",
+        "Python: Basic Syntax and Variables": "pythonnovice",
+        "Introduction to Git": "gitguru",
+        "Computer Algorithms and Data Structures": "algorithmarchitect",
+        "Introduction to SQL": "sqlspecialist",
+        "Django with Python": "youknowitall"
+    }
+
+    completed_missions = MissionCompleted.objects.filter(user=user_profile, completed=True).select_related("mission__module__course")
+    course_progress = defaultdict(lambda: {"completed": 0, "total": 0, "name": "", "description": ""})
+    for mc in completed_missions:
+        course = mc.mission.module.course
+        course_progress[course.id]["completed"] += 1
+        course_progress[course.id]["name"] = course.name
+        course_progress[course.id]["description"] = course.description
+
+    # Get total missions per course
+    mission_counts = Mission.objects.values("module__course__id").annotate(total=Count("id"))
+    for item in mission_counts:
+        course_id = item["module__course__id"]
+        if course_id in course_progress:
+            course_progress[course_id]["total"] = item["total"]
+
+    # 🔐 Check and unlock achievements
+    for course_id, data in course_progress.items():
+        if data["total"] > 0 and data["completed"] == data["total"]:
+            course_name = data["name"]
+            image_name = course_achievement_map.get(course_name)
+            if image_name:
+                achievement = Achievement.objects.filter(name__icontains=image_name).first()
+                if achievement:
+                    UserAchievement.objects.get_or_create(user=user_profile, achievement=achievement, defaults={"time": now().date()})
+
+    # Get all unlocked achievement image names
+    unlocked = set(
+        UserAchievement.objects.filter(user=user_profile)
+        .select_related("achievement")
+        .values_list("achievement__name", flat=True)
+    )
+
+    achievement_images = list(course_achievement_map.values())
+
+    return render(request, "programmingCourse/user.html", {
+        "user_profile": user_profile,
+        "friend_status": friend_status,
+        "achievement_images": achievement_images,
+        "user_achievements": unlocked,
+        "course_progress": course_progress.values()
+    })
+
 
 
 @login_required(login_url="/login")
@@ -407,4 +457,3 @@ def gatcha(request):
         userBalance = None
         catalogue = get_gatcha_items(None)
     return render(request, "programmingCourse/gatcha.html", {"userBalance": userBalance, "gatcha_items": gatcha_items, "prize":prize, "price": price})
-

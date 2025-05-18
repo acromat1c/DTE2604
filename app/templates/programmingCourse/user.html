@@ -1,46 +1,95 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
+    <div class="d-flex"
+         style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
 
-<body>
-    <div class="profile-container">
-        <h1>{{ user_profile.username }}</h1>
-
-        {% if user.profile.image %}
-        <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture" class="profile-image" style="border-image: url({{user_profile.profile.border.image.url}}) 30 round">
-        {% else %}
-            <p>No profile picture added.</p>
-        {% endif %}
-
-        <h3 style="text-align: center; {{ user.profile.title.content }}">{{ user.profile.title.name }}</h3>
-        <!-- <p><strong>Email:</strong> {{ user.email }}</p> -->
-
-        {% for message in messages %}
-        <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
-        {% endfor %}
-
-        <div class="button-container">
-        {% if user_profile == user %}
-            <a href="{% url 'programing_course_app:userSettings' %}"><button>Edit Profile</button></a>
-        {% else %}
-            <form action="{% url "programing_course_app:addfriend" username=user_profile.username %}" method="post">
-                {% csrf_token %}
-                {% if friend_status == 0 %}
-                    <button name="friendaction" value="add">Add friend</button>
-                {% elif friend_status == 1 %}
-                    <button name="friendaction" value="undo">Undo friend request</button>
-                {% elif friend_status == 2 %}
-                    <button name="friendaction" value="accept">Accept friend request</button>
-                    <button name="friendaction" value="decline">Decline friend request</button>
-                {% else %}
-                    <button name="friendaction" value="remove">Remove friend</button>
-                {% endif %}
-            </form>
-        {% endif %}
+        <!-- Left Side: Course Progress -->
+        <div style="flex: 1; min-width: 300px;">
+            <h3>Courses In Progress</h3>
+            {% for course in course_progress %}
+                <div class="card">
+                    <h4>{{ course.name }}</h4>
+                    <p>{{ course.description }}</p>
+                    <p>{{ course.completed }} / {{ course.total }} missions completed</p>
+                    {% if course.total > 0 %}
+                        <progress value="{{ course.completed }}"
+                                  max="{{ course.total }}"></progress>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p>No course progress yet.</p>
+            {% endfor %}
         </div>
-    </div>
-</body>
 
+        <!-- Right Side: Profile Info and Achievements -->
+        <div style="flex: 1; min-width: 300px;">
+            <div class="profile-container">
+                <h2>{{ user_profile.username }}</h2>
+
+                {% if user.profile.image %}
+                    <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture" class="profile-image"
+                    style="border-image: url({{user_profile.profile.border.image.url}}) 30 round">
+                {% else %}
+                    <p>No profile picture added.</p>
+                {% endif %}
+
+                <h3 style="text-align: center; {{ user.profile.title.content }}">{{ user.profile.title.name }}</h3>
+
+                {% for message in messages %}
+                    <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+
+                <div class="button-container">
+                    {% if user_profile == user %}
+                        <a href="{% url 'programing_course_app:userSettings' %}">
+                            <button>Edit Profile</button>
+                        </a>
+                    {% else %}
+                        <form action="{% url 'programing_course_app:addfriend' username=user_profile.username %}"
+                              method="post">
+                            {% csrf_token %}
+                            {% if friend_status == 0 %}
+                                <button name="friendaction" value="add">Add friend</button>
+                            {% elif friend_status == 1 %}
+                                <button name="friendaction" value="undo">Undo request</button>
+                            {% elif friend_status == 2 %}
+                                <button name="friendaction" value="accept">Accept</button>
+                                <button name="friendaction" value="decline">Decline</button>
+                            {% else %}
+                                <button name="friendaction" value="remove">Remove friend</button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="achievements-placeholder" style="margin-top: 2rem;">
+                <h3 style="text-align: center; margin-bottom: 1rem;">
+                    Achievements
+                    ({{ user_achievements|length }}/{{ achievement_images|length }})
+                </h3>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; max-width: 350px; margin: 0 auto;">
+                    {% for img in achievement_images %}
+                        {% if img in user_achievements %}
+                            <img src="{% get_media_prefix %}achievements_pics/{{ img }}.png"
+                                 alt="{{ img|title }}"
+                                 style="width: 100px; height: 100px;">
+                        {% else %}
+                            <img src="{% get_media_prefix %}achievements_pics/{{ img }}.png"
+                                 alt="{{ img|title }}"
+                                 style="width: 100px; height: 100px; filter: grayscale(100%) opacity(0.5);">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
