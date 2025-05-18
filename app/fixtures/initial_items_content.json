@@ -283,5 +283,50 @@
       "image": "item_pic/the_collector.png",
       "content": "background-image: linear-gradient(to left, indigo, gold); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
-  }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 116,
+    "fields": {
+      "name": "Default Theme",
+      "category": "Themes",
+      "itemType": "theme",
+      "price": -1,
+      "shop": false,
+      "gatcha": true,
+      "description": "The default theme.",
+      "image": "item_pic/default_theme.png",
+      "content": ":root {\n    --background-color: 0%,; /* Use first color as solid fallback */\n    --container-body-color: 0%,;\n    --container-text-color: #ffffff;\n    --header-color: #ffffff;\n    --paragraph-color: #ffffff;\n    --button-color: #ff00ff;\n    --button-hover-color: #ff33ff;\n    --navbar-body-color: 0%,;\n    --navbar-text-color: #ffffff;\n}\nbody {\n    background: linear-gradient(135deg, #0a0a0a 0%, #0f0f0f 50%, #1a1a1a 100%) !important;\n}"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 117,
+    "fields": {
+      "name": "No Profile Border",
+      "category": "Profile Borders",
+      "itemType": "border",
+      "price": -1,
+      "shop": false,
+      "gatcha": false,
+      "description": "No border",
+      "image": "item_pic/no_border.png",
+      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/no_border.png') 30 round;\n}\n"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 118,
+    "fields": {
+      "name": "The Gambler",
+      "category": "Titles",
+      "itemType": "title",
+      "price": -1,
+      "shop": false,
+      "gatcha": true,
+      "description": "Display 'The Gambler' title on your profile.",
+      "image": "item_pic/the_wise.png",
+      "content": "background-image: linear-gradient(to left, gold, lime); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
+    }
+  },
 ]
