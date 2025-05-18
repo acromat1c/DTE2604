@@ -5,15 +5,19 @@
 {% block content %}
 <h1>INVENTORY</h1>
 
-{% if userTheme %}
-<form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="selectedItem" value="-1" />
-    
-    <button type="submit" style="width:auto;">unequip theme</button>
-</form>
-{% endif %}
+<!-- {% if userTheme %} -->
+<!-- <form method="post"> -->
+<!--     {% csrf_token %} -->
+<!--     <input type="hidden" name="selectedItem" value="-1" /> -->
+<!---->
+<!--     <button type="submit" style="width:auto;">unequip theme</button> -->
+<!-- </form> -->
+<!-- {% endif %} -->
 
+{% for message in messages %}
+<p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+{% endfor %}
+        
 {% for categorys in userInventory %}
 
     <h2>{{categorys.category}}</h2>
@@ -21,8 +25,18 @@
     <div class="scroll-container">
         {%for item in categorys.items%}
             <div class="scroll-item">
-                <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
-                <h3>{{ item.item.name }}</h3>
+                {% if item.item.itemType == "border" %}
+                    <img src="{{ user.profile.image.url }}" alt="Profile Picture" class="scroll-image" 
+                    style="border: 15px solid transparent; border-image: url({{item.item.image.url}}) 30 round;">
+                {% elif item.item.itemType == "title" %}
+                {% else %}
+                    <img src="{{item.item.image.url}}" alt="item image" class="scroll-image">
+                {% endif %}
+                {% if item.item.itemType == "title" %}
+                    <h3 style="{{ item.item.content }}">{{ item.item.name }}</h3>
+                {% else %}
+                    <h3>{{ item.item.name }}</h3>
+                {% endif %}
                 <h6>{{ item.item.itemType }}</h6>
                 {% if item.equippable %}
                     {% if item.active %}

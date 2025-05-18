@@ -6,7 +6,6 @@ from . import views
 
 app_name = "programing_course_app"
 urlpatterns = [
-    path("index",views.index, name="index"),
     path("",views.main, name="main"),
     path("login",views.login, name="login"),
     path("signup",views.signup, name="signup"),
@@ -20,12 +19,12 @@ urlpatterns = [
     path("groups/<str:name>/requests", views.manage_group_requests, name="manage_group_requests"),
     path("friends",views.friend_list, name="friendList"),
     path("friends/search",views.friend_search, name="friend_search"),
+    path("friends/requests",views.friend_requests, name="friend_requests"),
     path("addfriend/<str:username>",views.add_friend, name="addfriend"),
-    path("overview",views.overview, name="overview"),
-    path("overview/<str:nameCourse>",views.course, name="course"),
-    path("overview/<str:nameCourse>/<str:nameModule>",views.module, name="module"),
-    path("overview/<str:nameCourse>/<str:nameModule>/<str:nameMission>",views.mission, name="mission"),
-    path("test",views.test, name="test"),
+    path("courses",views.courses, name="courses"),
+    path("courses/<str:nameCourse>",views.course, name="course"),
+    path("courses/<str:nameCourse>/<str:nameModule>",views.module, name="module"),
+    path("courses/<str:nameCourse>/<str:nameModule>/<str:nameMission>",views.mission, name="mission"),
     path("shop",views.shop, name="shop"),
     path("inventory",views.inventory, name="inventory"),
     path("gatcha",views.gatcha, name="gatcha"),
