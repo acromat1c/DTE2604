@@ -195,7 +195,6 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='profile_pics/', default='default.jpg')
     border = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='+')
     title = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='+')
-    current_course = models.ForeignKey(Course, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.user} Profile'
