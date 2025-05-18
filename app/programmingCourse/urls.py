@@ -27,5 +27,5 @@ urlpatterns = [
     path("courses/<str:nameCourse>/<str:nameModule>/<str:nameMission>",views.mission, name="mission"),
     path("shop",views.shop, name="shop"),
     path("inventory",views.inventory, name="inventory"),
-    path("gatcha",views.gatcha, name="gatcha"),
+    path("gacha",views.gatcha, name="gacha"),
     ]
