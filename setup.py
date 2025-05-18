@@ -16,7 +16,7 @@ FIXTURES = [
     "app/fixtures/initial_items_content.json",
     "app/fixtures/initial_superusers_content.json",
     "app/fixtures/initial_friendships_content.json",
-    "app/fixtures/initial_groups_content.json"
+    "app/fixtures/initial_groups_content.json",
     "app/fixtures/initial_achievements_content.json"
 ]
 
