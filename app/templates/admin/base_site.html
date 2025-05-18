@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/custom.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static '/programmingCourse/favicon.ico' %}">
+{% endblock %}
+
+{% block title %}{{ user.get_username }} | Adminpanel{% endblock %}
+
+{% block branding %}
+  <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">KnowItAll Adminpanel</a>
+  </h1>
+{% endblock %}
+
+{% block nav-global %}
+  <div id="user-tools">
+    Logget inn som {{ user.get_username }} |
+    <a href="{% url 'admin:logout' %}">Logg ut</a>
+  </div>
+{% endblock %}
+

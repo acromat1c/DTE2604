@@ -6,6 +6,7 @@
 <h1>SHOP</h1>
 {% if user.is_authenticated %}
 <h2>BALANCE: ¥{{ userBalance }}</h2>
+<a href="{% url 'programing_course_app:gatcha' %}"><button>GATCHA</button></a>
 {% endif %}
 
 {% for categorys in catalogue %}

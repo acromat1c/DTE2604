@@ -1,0 +1,191 @@
+/* ==== Bakgrunn og skrifter ==== */
+body {
+    background-color: #f9f9fc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+}
+
+/* ==== Toppbanner (branding) ==== */
+#header {
+    background-color: #2d3e50;
+    color: white;
+    padding: 10px 20px;
+    border-bottom: 4px solid #3498db;
+}
+
+#site-name a {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* ==== Navigasjon / sidebar ==== */
+#user-tools {
+    color: #ecf0f1;
+}
+
+.module caption {
+    background: #3498db;
+    color: white;
+    font-weight: bold;
+}
+
+/* ==== Hovedcontaineren din ==== */
+.container-main {
+    display: flex;
+    width: 80%;
+    margin: 20px auto;
+    height: auto;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* ==== Kolonner ==== */
+.column-main {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.column-main:first-child {
+    border-right: 1px solid #ddd;
+}
+
+/* ==== Knappestil ==== */
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding: 15px;
+    margin: 20px auto;
+    gap: 10px;
+}
+
+.buttons button,
+input[type="submit"],
+a.button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.buttons button:hover,
+input[type="submit"]:hover,
+a.button:hover {
+    background-color: #2980b9;
+}
+
+/* ==== Tabeller og lister ==== */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: white;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+/* ==== Meldinger (suksess, feil, info) ==== */
+.success,
+.errornote,
+p.error,
+ul.errorlist {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.errornote,
+p.error,
+ul.errorlist {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+/* ==== Footer ==== */
+#footer {
+    background-color: transparent;
+    color: #aaa;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+}
+.container-main {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+    border: none;
+}
+
+.column-main {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.column-main:first-child {
+    border-right: none;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ==== Responsiv design ==== */
+/* Mobil og nettbrett */
+@media screen and (max-width: 768px) {
+    .container-main {
+        flex-direction: column;
+        width: 95%;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .column-main {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1#site-name {
+        font-size: 1.2rem;
+    }
+
+    .buttons {
+        max-width: 100%;
+    }
+}
