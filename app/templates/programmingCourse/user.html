@@ -30,14 +30,14 @@
             <div class="profile-container">
                 <h2>{{ user_profile.username }}</h2>
 
-                {% if user_profile.profile.image %}
-                    <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture"
-                         class="profile-image">
+                {% if user.profile.image %}
+                    <img src="{{ user_profile.profile.image.url }}" alt="Profile Picture" class="profile-image"
+                    style="border-image: url({{user_profile.profile.border.image.url}}) 30 round">
                 {% else %}
                     <p>No profile picture added.</p>
                 {% endif %}
 
-                <p><strong>Username:</strong> {{ user_profile.username }}</p>
+                <h3 style="text-align: center; {{ user.profile.title.content }}">{{ user.profile.title.name }}</h3>
 
                 {% for message in messages %}
                     <p class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">

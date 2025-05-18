@@ -1,6 +1,51 @@
 [
   {
     "model": "programmingCourse.item",
+    "pk": 90,
+    "fields": {
+      "name": "Default Theme",
+      "category": "Themes",
+      "itemType": "theme",
+      "price": -1,
+      "shop": false,
+      "gatcha": false,
+      "description": "The default theme.",
+      "image": "item_pic/default_theme.png",
+      "content": ""
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 91,
+    "fields": {
+      "name": "No Profile Border",
+      "category": "Profile Borders",
+      "itemType": "border",
+      "price": -1,
+      "shop": false,
+      "gatcha": false,
+      "description": "No border",
+      "image": "item_pic/no_border.png",
+      "content": ".profile-picture {\n    border: 5px solid transparent;\n    border-image: url('/media/item_pic/no_border.png') 30 round;\n}\n"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
+    "pk": 92,
+    "fields": {
+      "name": "No title",
+      "category": "Titles",
+      "itemType": "title",
+      "price": -1,
+      "shop": false,
+      "gatcha": false,
+      "description": "Don't display a title on your profile",
+      "image": "item_pic/the_wise.png",
+      "content": "display: none;"
+    }
+  },
+  {
+    "model": "programmingCourse.item",
     "pk": 100,
     "fields": {
       "name": "Neon Theme",
@@ -65,7 +110,7 @@
     "fields": {
       "name": "Gold Profile Border",
       "category": "Profile Borders",
-      "itemType": "other",
+      "itemType": "border",
       "price": 50,
       "shop": true,
       "gatcha": false,
@@ -80,7 +125,7 @@
     "fields": {
       "name": "Silver Profile Border",
       "category": "Profile Borders",
-      "itemType": "other",
+      "itemType": "border",
       "price": 40,
       "shop": true,
       "gatcha": false,
@@ -95,7 +140,7 @@
     "fields": {
       "name": "Bronze Profile Border",
       "category": "Profile Borders",
-      "itemType": "other",
+      "itemType": "border",
       "price": 30,
       "shop": true,
       "gatcha": false,
@@ -110,7 +155,7 @@
     "fields": {
       "name": "Rainbow Profile Border",
       "category": "Profile Borders",
-      "itemType": "other",
+      "itemType": "border",
       "price": 60,
       "shop": true,
       "gatcha": false,
@@ -185,13 +230,13 @@
     "fields": {
       "name": "The Brave",
       "category": "Titles",
-      "itemType": "other",
+      "itemType": "title",
       "price": 70,
       "shop": true,
       "gatcha": false,
       "description": "Display 'The Brave' title on your profile.",
       "image": "item_pic/the_brave.png",
-      "content": ""
+      "content": "background-image: linear-gradient(to left, orange, red); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   },
   {
@@ -200,13 +245,13 @@
     "fields": {
       "name": "The Wise",
       "category": "Titles",
-      "itemType": "other",
+      "itemType": "title",
       "price": 70,
       "shop": true,
       "gatcha": false,
       "description": "Display 'The Wise' title on your profile.",
       "image": "item_pic/the_wise.png",
-      "content": ""
+      "content": "background-image: linear-gradient(to left, blue, aqua); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   },
   {
@@ -215,13 +260,13 @@
     "fields": {
       "name": "The Fast",
       "category": "Titles",
-      "itemType": "other",
+      "itemType": "title",
       "price": 70,
       "shop": true,
       "gatcha": false,
       "description": "Display 'The Fast' title on your profile.",
       "image": "item_pic/the_fast.png",
-      "content": ""
+      "content": "background-image: linear-gradient(to left, aquamarine, coral); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   },
   {
@@ -230,13 +275,13 @@
     "fields": {
       "name": "The Collector",
       "category": "Titles",
-      "itemType": "other",
+      "itemType": "title",
       "price": 70,
       "shop": true,
       "gatcha": false,
       "description": "Display 'The Collector' title on your profile.",
       "image": "item_pic/the_collector.png",
-      "content": ""
+      "content": "background-image: linear-gradient(to left, indigo, gold); \n -webkit-background-clip: text; \n -moz-background-clip: text; \n background-clip: text; \n color: transparent;"
     }
   }
 ]
