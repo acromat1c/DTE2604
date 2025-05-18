@@ -1,3 +1,4 @@
+from django.dispatch import receiver
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -7,14 +8,14 @@ from django.contrib import messages
 from django.contrib.auth import logout as Logout, login as Login
 from django.utils.timezone import now
 from .models_io import *
-from .models import Mission, MissionCompleted, GroupMember, GroupMessage, GroupJoinRequest, User
+from .models import Mission, MissionCompleted, GroupMember, GroupMessage, GroupJoinRequest, User, Course, Achievement, UserAchievement
 from .forms import CodeAnswerForm, GroupCreateForm, GroupEditForm
+from collections import defaultdict
+from django.db.models import Count
 import keyword
 
 
 # Create your views here.
-def index(request):
-    return render(request, "programmingCourse/index.html")
 
 def main(request):
     if request.user.is_authenticated:
@@ -43,9 +44,12 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             Login(request, form.save())
+            Profile.objects.create(user=request.user)
+            add_starter_items(request.user)
             return redirect("/")
     else:
         form = UserCreationForm()
+    
     return render(request, "programmingCourse/signup.html", {"form": form})
 
 def logout(request):
@@ -97,18 +101,66 @@ def userSettings(request):
         "profile": profile
     })
 
+from collections import defaultdict
+from django.db.models import Count
+
 @login_required(login_url="/login")
 def user(request, username):
     user_profile = get_object_or_404(User, username=username)
-    friend_status = get_friend_status(sender=request.user,
-                                      recipient=get_object_or_404(User, username=username))
+    friend_status = get_friend_status(sender=request.user, recipient=user_profile)
 
-    return render(request, "programmingCourse/user.html",
-                  {
-                      "user_profile": user_profile,
-                      "friend_status": friend_status
-                  }
-                  )
+    # Static mapping: course name → achievement image name (must match image filenames)
+    course_achievement_map = {
+        "Python Developer": "pythonmaster",
+        "Python: Basic Syntax and Variables": "pythonnovice",
+        "Introduction to Git": "gitguru",
+        "Computer Algorithms and Data Structures": "algorithmarchitect",
+        "Introduction to SQL": "sqlspecialist",
+        "Django with Python": "youknowitall"
+    }
+
+    completed_missions = MissionCompleted.objects.filter(user=user_profile, completed=True).select_related("mission__module__course")
+    course_progress = defaultdict(lambda: {"completed": 0, "total": 0, "name": "", "description": ""})
+    for mc in completed_missions:
+        course = mc.mission.module.course
+        course_progress[course.id]["completed"] += 1
+        course_progress[course.id]["name"] = course.name
+        course_progress[course.id]["description"] = course.description
+
+    # Get total missions per course
+    mission_counts = Mission.objects.values("module__course__id").annotate(total=Count("id"))
+    for item in mission_counts:
+        course_id = item["module__course__id"]
+        if course_id in course_progress:
+            course_progress[course_id]["total"] = item["total"]
+
+    # 🔐 Check and unlock achievements
+    for course_id, data in course_progress.items():
+        if data["total"] > 0 and data["completed"] == data["total"]:
+            course_name = data["name"]
+            image_name = course_achievement_map.get(course_name)
+            if image_name:
+                achievement = Achievement.objects.filter(name__icontains=image_name).first()
+                if achievement:
+                    UserAchievement.objects.get_or_create(user=user_profile, achievement=achievement, defaults={"time": now().date()})
+
+    # Get all unlocked achievement image names
+    unlocked = set(
+        UserAchievement.objects.filter(user=user_profile)
+        .select_related("achievement")
+        .values_list("achievement__name", flat=True)
+    )
+
+    achievement_images = list(course_achievement_map.values())
+
+    return render(request, "programmingCourse/user.html", {
+        "user_profile": user_profile,
+        "friend_status": friend_status,
+        "achievement_images": achievement_images,
+        "user_achievements": unlocked,
+        "course_progress": course_progress.values()
+    })
+
 
 
 @login_required(login_url="/login")
@@ -143,13 +195,16 @@ def add_friend(request, username):
     return redirect("programing_course_app:user", username=username)
 
 @login_required(login_url="/login")
-def friendList(request):
+def friend_list(request):
     friends = get_friends(request.user)
-    return render(request, "programmingCourse/friendList.html", {"friends": friends})
+    request_count = len(FriendRequest.objects.filter(recipient=request.user))
+    return render(request, "programmingCourse/friend_list.html", {"friends": friends, "friend_request_count": request_count})
 
-def friend(request, name):
-    return render(request, "programmingCourse/friend.html", {"name": name})
-  
+@login_required(login_url="/login")
+def friend_requests(request):
+    senders = get_friend_request_senders(request.user)
+    return render(request, "programmingCourse/friend_requests.html", {"requests": senders})
+
 def get_friends(user):
     friends1 = Friend.objects.filter(user1=user).values_list('user2', flat=True)
     friends2 = Friend.objects.filter(user2=user).values_list('user1', flat=True)
@@ -195,6 +250,7 @@ def group_settings(request, name):
         if form.is_valid():
             form.save()
             messages.success(request, "Group settings updated.")
+            return render(request, "programmingCourse/group_settings.html", {"form": form, "group": group})
             return redirect("programing_course_app:group", name=name)
     else:
         form = GroupEditForm(instance=group)
@@ -336,9 +392,9 @@ def manage_group_requests(request, name):
     })
 
 
-def overview(request):
+def courses(request):
     listCourse = get_course_list()
-    return render(request, "programmingCourse/overview.html", {"listCourse": listCourse})
+    return render(request, "programmingCourse/courses.html", {"listCourse": listCourse})
 
 def course(request, nameCourse):
     course = get_course(nameCourse)
@@ -368,9 +424,6 @@ def mission(request, nameCourse, nameModule, nameMission):
                   {"nameCourse": nameCourse, "nameModule": nameModule, "nameMission": nameMission,
                    "mission": mission, "userAnswer": userAnswer})
 
-def test(request):
-    return render(request, "programmingCourse/test.html")
-
 def shop(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -387,6 +440,7 @@ def inventory(request):
     if request.method == "POST":
         equip_item(request.user, request.POST["selectedItem"])
     userInventory = get_inventory_items(request.user)
+    print(userInventory)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
 
 @login_required(login_url="/login")
@@ -403,4 +457,3 @@ def gatcha(request):
         userBalance = None
         catalogue = get_gatcha_items(None)
     return render(request, "programmingCourse/gatcha.html", {"userBalance": userBalance, "gatcha_items": gatcha_items, "prize":prize, "price": price})
-

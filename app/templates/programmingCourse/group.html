@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const chatSocket = new WebSocket(
     'ws://' + window.location.host +
-    '/ws/groupchat/' + groupName + '/'
+    '/ws/groupchat/' + encodeURIComponent(groupName) + '/'
   );
 
   chatSocket.onmessage = function(e) {
