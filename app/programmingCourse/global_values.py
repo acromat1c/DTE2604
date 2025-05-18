@@ -7,4 +7,4 @@ def global_variables(request):
         userTheme = None
     return {
         "userTheme": userTheme,
-        }
+    }

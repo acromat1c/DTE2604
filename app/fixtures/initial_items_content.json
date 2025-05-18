@@ -41,7 +41,7 @@
       "gatcha": false,
       "description": "Don't display a title on your profile",
       "image": "item_pic/the_wise.png",
-      "content": "display: none;"
+      "content": "visibility: hidden;"
     }
   },
   {
