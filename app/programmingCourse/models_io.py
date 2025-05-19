@@ -1,5 +1,6 @@
 from .models import *
 from django.db.utils import IntegrityError
+from django.contrib import messages
 import time
 from random import choice
 from django.db.models import Sum
@@ -123,6 +124,10 @@ def decline_friend_request(recipient, sender):
         return True
     except:
         return False
+
+def get_friend_request_senders(recipient) -> list:
+    senders = [request.sender for request in FriendRequest.objects.filter(recipient=recipient)]
+    return senders
 
 def get_friend_status(sender, recipient) -> int:
     NOT_FRIEND = 0
@@ -249,22 +254,49 @@ def add_item(user, item):
     except:
         return False
 
+def add_starter_items(user):
+    default_theme = Item.objects.get(name="Default Theme")
+    no_title = Item.objects.get(name="No title")
+    no_border = Item.objects.get(name="No Profile Border")
+    try:
+        UserInventory.objects.update_or_create(user=user, item=default_theme, defaults={"timestamp":int(time.time())})
+        UserInventory.objects.update_or_create(user=user, item=no_title, defaults={"timestamp":int(time.time())})
+        UserInventory.objects.update_or_create(user=user, item=no_border, defaults={"timestamp":int(time.time())})
+        set_user_theme(user=user, item=default_theme)
+        set_user_title(user=user, item=no_title)
+        set_user_border(user=user, item=no_border)
+        return True
+    except:
+        return False
+
 def get_equipped_items(user):
     l = []
-    try: l.append(UserTheme.objects.get(user=user).item.id)
+    try: 
+        l.append(UserTheme.objects.get(user=user).item.id)
+        p = Profile.objects.get(user=user)
+        l.append(p.title.id)
+        l.append(p.border.id)
     except: pass
     return l
 
 def get_equippable_item_types(): 
-    return ["theme"]
+    return ["theme", "title", "border"]
 
 def equip_item(user, itemID):
     try:
+        # Validate that the item is owned by the user
+        owned_item_ids = [x.item.id for x in UserInventory.objects.filter(user=user)]
+        if int(itemID) not in owned_item_ids:
+            return False
         if int(itemID) > 0:
             item = Item.objects.get(id=itemID)
             match item.itemType:
                 case "theme": 
                     set_user_theme(user, item)
+                case "title": 
+                    set_user_title(user, item)
+                case "border": 
+                    set_user_border(user, item)
         else:
             match itemID:
                 case "-1":
@@ -290,6 +322,22 @@ def set_user_theme(user, item):
     try:
         if item.itemType == "theme":
             UserTheme.objects.update_or_create(user=user, defaults={"item":item})
+        return True
+    except:
+        return False
+
+def set_user_title(user, item):
+    try:
+        if item.itemType == "title":
+            Profile.objects.update_or_create(user=user, defaults={"title":item})
+        return True
+    except:
+        return False
+
+def set_user_border(user, item):
+    try:
+        if item.itemType == "border":
+            Profile.objects.update_or_create(user=user, defaults={"border":item})
         return True
     except:
         return False

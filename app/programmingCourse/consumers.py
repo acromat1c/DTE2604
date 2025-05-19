@@ -1,4 +1,5 @@
 import json
+import re
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.utils.timezone import now
 from .models import Group, GroupMessage
@@ -10,7 +11,8 @@ User = get_user_model()
 class GroupChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.group_name = self.scope['url_route']['kwargs']['group_name']
-        self.room_group_name = f'chat_{self.group_name}'
+        safe_group_name = re.sub(r'[^a-zA-Z0-9\-.]', '_', self.group_name)
+        self.room_group_name = f'chat_{safe_group_name}'
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
 
