@@ -356,9 +356,10 @@ def get_group_leaderboard(group):
         MissionCompleted.objects
         .filter(user__in=members, completed=True, correct=True)
         .values('user')
-        .annotate(score=Sum('mission__reward'))
+        .annotate(score=Sum('mission__maxPoints'))
         .order_by('-score')
     )
+    print(leaderboard_raw)
 
     results = []
     for entry in leaderboard_raw:
