@@ -2,6 +2,7 @@ from .models import *
 from django.db.utils import IntegrityError
 import time
 from random import choice
+from django.db.models import Sum
 
 def get_course_list():
     try:
@@ -307,7 +308,7 @@ def get_group_leaderboard(group):
         MissionCompleted.objects
         .filter(user__in=members, completed=True, correct=True)
         .values('user')
-        .annotate(score=models.Count('id'))
+        .annotate(score=Sum('mission__reward'))
         .order_by('-score')
     )
 
