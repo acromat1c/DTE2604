@@ -12,14 +12,6 @@
     }
   },
   {
-    "model": "programmingCourse.profile",
-    "pk": 1,
-    "fields": {
-      "user": 1,
-      "image": "test_pics/user1.png"
-    }
-  },
-  {
     "model": "auth.user",
     "pk": 2,
     "fields": {
@@ -29,14 +21,6 @@
       "is_staff": true,
       "is_active": true,
       "email": "2@example.com"
-    }
-  },
-  {
-    "model": "programmingCourse.profile",
-    "pk": 2,
-    "fields": {
-      "user": 2,
-      "image": "test_pics/user2.png"
     }
   },
   {
@@ -52,14 +36,6 @@
     }
   },
   {
-    "model": "programmingCourse.profile",
-    "pk": 3,
-    "fields": {
-      "user": 3,
-      "image": "test_pics/user3.png"
-    }
-  },
-  {
     "model": "auth.user",
     "pk": 4,
     "fields": {
@@ -69,14 +45,6 @@
       "is_staff": true,
       "is_active": true,
       "email": "4@example.com"
-    }
-  },
-  {
-    "model": "programmingCourse.profile",
-    "pk": 4,
-    "fields": {
-      "user": 4,
-      "image": "test_pics/user4.png"
     }
   },
   {
@@ -93,10 +61,192 @@
   },
   {
     "model": "programmingCourse.profile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "image": "test_pics/user1.png",
+      "theme": 90,
+      "border": 91,
+      "title": 92
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "image": "test_pics/user2.png",
+      "theme": 90,
+      "border": 91,
+      "title": 92
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "image": "test_pics/user3.png",
+      "theme": 90,
+      "border": 91,
+      "title": 92
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "image": "test_pics/user4.png",
+      "theme": 90,
+      "border": 91,
+      "title": 92
+    }
+  },
+  {
+    "model": "programmingCourse.profile",
     "pk": 5,
     "fields": {
       "user": 5,
-      "image": "test_pics/user5.png"
+      "image": "test_pics/user5.png",
+      "theme": 90,
+      "border": 91,
+      "title": 92
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "item": 90,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "item": 91,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "item": 92,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 4,
+    "fields": {
+      "user": 2,
+      "item": 90,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 5,
+    "fields": {
+      "user": 2,
+      "item": 91,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 6,
+    "fields": {
+      "user": 2,
+      "item": 92,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 7,
+    "fields": {
+      "user": 3,
+      "item": 90,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 8,
+    "fields": {
+      "user": 3,
+      "item": 91,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 9,
+    "fields": {
+      "user": 3,
+      "item": 92,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 10,
+    "fields": {
+      "user": 4,
+      "item": 90,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 11,
+    "fields": {
+      "user": 4,
+      "item": 91,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 12,
+    "fields": {
+      "user": 4,
+      "item": 92,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 13,
+    "fields": {
+      "user": 5,
+      "item": 90,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 14,
+    "fields": {
+      "user": 5,
+      "item": 91,
+      "timestamp": 0
+    }
+  },
+  {
+    "model": "programmingCourse.userinventory",
+    "pk": 15,
+    "fields": {
+      "user": 5,
+      "item": 92,
+      "timestamp": 0
     }
   }
 ]
