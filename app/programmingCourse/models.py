@@ -192,9 +192,10 @@ class MissionCompleted(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='profile_pics/', default='default.jpg')
+    image = models.ImageField(upload_to='profile_pics/', default='item_pic/default_profile.png')
     border = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='+')
     title = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='+')
+    theme = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='+')  # ⬅️ Added
 
     def __str__(self):
         return f'{self.user} Profile'
@@ -216,13 +217,6 @@ class UserInventory(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'item'], name='unique_item')
         ]
-
-    def __str__(self):
-        return f"{self.user} | {self.item}"
-
-class UserTheme(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user} | {self.item}"

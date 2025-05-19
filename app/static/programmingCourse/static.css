@@ -81,6 +81,8 @@ h2 {
 
 h3 {
     color: var(--header-color);
+    font-size: calc(1.3rem + 0.6vw);
+   min-height: 1.5em;
 }
 
 h6 {
