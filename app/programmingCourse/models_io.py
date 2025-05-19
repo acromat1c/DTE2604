@@ -3,6 +3,7 @@ from django.db.utils import IntegrityError
 from django.contrib import messages
 import time
 from random import choice
+from django.db.models import Sum
 
 
 def get_course_list():
@@ -420,9 +421,10 @@ def get_group_leaderboard(group):
         MissionCompleted.objects
         .filter(user__in=members, completed=True, correct=True)
         .values('user')
-        .annotate(score=models.Count('id'))
+        .annotate(score=Sum('mission__maxPoints'))
         .order_by('-score')
     )
+    print(leaderboard_raw)
 
     results = []
     for entry in leaderboard_raw:
