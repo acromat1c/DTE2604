@@ -17,8 +17,6 @@
 
 {% block nav-global %}
   <div id="user-tools">
-    Logget inn som {{ user.get_username }} | 
-    <a href="{% url 'admin:logout' %}">Logg ut</a> | 
-    <a href="{% url 'admin:password_change' %}">Endre passord</a>
+    Logged in as {{ user.get_username }} 
   </div>
 {% endblock %}
