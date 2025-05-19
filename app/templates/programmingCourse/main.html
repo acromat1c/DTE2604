@@ -62,7 +62,7 @@
         <h1>Groups</h1>
             {% for group in groups %}
             <div class="profile-list-card">
-                <a href="{% url 'programing_course_app:group' name=group.groupName %}">
+                <a style="text-decoration: none;" href="{% url 'programing_course_app:group' name=group.groupName %}">
                     <img class="group-image-small" src="{{ group.image.url }}" alt="Group Picture">
                     <h2 style="display: inline-block; vertical-align: middle;">{{ group.groupName }}</h2>
                 </a>
