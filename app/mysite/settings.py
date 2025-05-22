@@ -30,7 +30,7 @@ DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = ['*']
 # ALLOWERD_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
-
+CSRF_TRUSTED_ORIGINS = ['https://29a8-158-39-125-86.ngrok-free.app']
 
 # Application definition
 
