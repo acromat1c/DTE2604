@@ -136,7 +136,7 @@ class Mission(models.Model):
         ('ordering', 'Ordering'),
     ]
     type = models.CharField(max_length=20, choices=type_choices, default='code')
-    choices = models.JSONField(blank=True, null=True)
+    choices = models.JSONField(blank=True, null=True, default=list)
     evaluation_pattern = models.CharField(max_length=255, blank=True, null=True, default="")
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
