@@ -28,8 +28,8 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # DEBUG = True
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-# ALLOWED_HOSTS = []
-ALLOWERD_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
+ALLOWED_HOSTS = ['*']
+# ALLOWERD_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
 
 
 # Application definition
@@ -144,7 +144,6 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = (BASE_DIR / 'staticroot')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFiles'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
