@@ -1,75 +1,87 @@
-import os
 import platform
 import subprocess
 import sys
+from pathlib import Path
 
 print("Setting up the project...")
 
-VENV_DIR = ".venv"
+VENV_DIR = Path(".venv")
+VENV_BIN = "Scripts" if platform.system() == "Windows" else "bin"
+VENV_PYTHON = VENV_DIR / VENV_BIN / ("python.exe" if platform.system() == "Windows" else "python")
 
-# Creates virtual environment
-venv_bin = "Scripts" if platform.system() == "Windows" else "bin"
-if not os.path.exists(os.path.join(VENV_DIR, venv_bin)):
-    print("No virtual environment detected. Creating one...")
-    subprocess.run([sys.executable, "-m", "venv", VENV_DIR], check=True)
+REQ_FILE = Path("app/requirements.txt")
+DB_PATH = Path("app/db.sqlite3")
+FIXTURES = [
+    "app/fixtures/initial_learning_content.json",
+    "app/fixtures/initial_items_content.json",
+    "app/fixtures/initial_superusers_content.json",
+    "app/fixtures/initial_friendships_content.json",
+    "app/fixtures/initial_groups_content.json",
+    "app/fixtures/initial_achievements_content.json"
+]
 
-# Gets Python.exe from venv
-venv_python = os.path.join(VENV_DIR, venv_bin, "python.exe" if platform.system() == "Windows" else "python")
+def run_cmd(cmd, description=""):
+    if description:
+        print(f"{description}...")
+    subprocess.run([str(c) for c in cmd], check=True)
 
-# Installs dependencies in venv
-REQ_FILE = "app/requirements.txt"
-if os.path.exists(REQ_FILE):
-    print("Installing dependencies from requirements.txt inside the virtual environment...")
-    subprocess.run([venv_python, "-m", "pip", "install", "-r", REQ_FILE], check=True)
+
+def load_fixtures():
+    for fixture in FIXTURES:
+        run_cmd([VENV_PYTHON, "app/manage.py", "loaddata", fixture], f"Loading fixture {fixture}")
+
+
+# Create virtual environment if it does not exist
+if not (VENV_DIR / VENV_BIN).exists():
+    run_cmd([sys.executable, "-m", "venv", VENV_DIR], "Creating virtual environment")
+
+# Install Python dependencies inside the virtual environment
+if REQ_FILE.exists():
+    run_cmd([VENV_PYTHON, "-m", "pip", "install", "-r", REQ_FILE], "Installing dependencies")
 else:
     print(f"Warning: {REQ_FILE} not found. Skipping dependency installation.")
 
-print("Setup complete.")
-
-# Runs Docker
-run_docker = input("Do you want to run 'docker-compose up --build -d'? (y/n): ").strip().lower()
-if run_docker == "y":
-    if subprocess.run(["docker-compose", "--version"], capture_output=True).returncode == 0:
-        print("Running Docker Compose...")
-        subprocess.run(["docker-compose", "up", "--build", "-d"], check=True)
-    else:
-        print("Warning: Docker is not installed or not running. Skipping Docker setup.")
-
-# Database handling
-DB_PATH = "app/db.sqlite3"
-if not os.path.exists(DB_PATH):
-    print("Database file not found. Creating db.sqlite3...")
-    subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
-    # loaddata
-    subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
-    subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_items_content.json"],check=True)
+# Handle database setup
+if not DB_PATH.exists():
+    run_cmd([VENV_PYTHON, "app/manage.py", "migrate"], "Applying migrations")
+    load_fixtures()
 else:
-    reset_db = input("Do you want to delete the local database (db.sqlite3)? (y/n): ").strip().lower()
-    if reset_db == "y":
-        confirm_reset = input("Are you sure? This action is irreversible! (y/n): ").strip().lower()
-        if confirm_reset == "y":
-            print("Deleting database...")
-            os.remove(DB_PATH)
+    if input("Do you want to delete and reset the local database? (y/n): ").strip().lower() == "y":
+        if input("Are you sure? This action is irreversible! (y/n): ").strip().lower() == "y":
+            try:
+                DB_PATH.unlink()
+            except PermissionError:
+                print(
+                    "Cannot delete the database file. It might be in use. Please close any running servers, consoles, or database tools.")
+            else:
+                run_cmd([VENV_PYTHON, "app/manage.py", "migrate"], "Re-applying migrations")
+                load_fixtures()
 
-#            print("Recreating migrations...")
-#            subprocess.run([venv_python, "app/manage.py", "makemigrations"], check=True)
+# Run Docker Compose (currently commented out for future use)
+# run_docker = input("Do you want to run 'docker-compose up --build -d'? (y/n): ").strip().lower()
+# if run_docker == "y":
+#     try:
+#         # Check if Docker is available first
+#         subprocess.run(["docker-compose", "--version"], capture_output=True, check=True)
+#         run_cmd(["docker-compose", "up", "--build", "-d"], "Running Docker Compose")
+#     except subprocess.CalledProcessError:
+#         print("\n" + "=" * 80)
+#         print("ERROR: Docker is not running or not installed.")
+#         print("Please start Docker Desktop and try again.")
+#         print("=" * 80 + "\n")
+#         print("This is a critical error. The application might not work correctly without Docker running.")
 
-            print("Running migrations...")
-            subprocess.run([venv_python, "app/manage.py", "migrate"], check=True)
-            # loaddata
-            subprocess.run([venv_python, "app/manage.py", "loaddata", "app/fixtures/initial_learning_content.json"], check=True)
-            subprocess.run([venv_python, "app/manage.py", "loaddata","app/fixtures/initial_items_content.json"], check=True)
+# Create a superuser (Currently commented out because fixtures already create superusers by default)
+# create_superuser = input("Do you want to create a superuser manually? (y/n): ").strip().lower()
+# if create_superuser == "y":
+#     run_cmd([VENV_PYTHON, "app/manage.py", "createsuperuser"], "Creating superuser")
 
-# Creates a superuser
-create_superuser = input("Do you want to create a superuser? (y/n): ").strip().lower()
-if create_superuser == "y":
-    subprocess.run([venv_python, "app/manage.py", "createsuperuser"], check=True)
+# Info
+print("\nSetup complete.")
+print("5 superusers created with matching usernames and passwords:")
+for i in range(1, 6):
+    print(f"  Username: {i}   Password: {i}")
 
-# Start the Django
-
-run_server = input("Do you want to run Django server? (y/n): ").strip().lower()
-if run_server == "y":
-    print("Starting Django server in the current terminal...")
-    subprocess.run([venv_python, "app/manage.py", "runserver"], check=True)
-
-print("Setup complete!")
+# Start the Django development server
+if input("\nDo you want to run the Django server now? (y/n): ").strip().lower() == "y":
+    run_cmd([VENV_PYTHON, "app/manage.py", "runserver"], "Starting Django server")

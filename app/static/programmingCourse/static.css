@@ -19,8 +19,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: rgb(255,255,255);
-    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(224,224,224,1) 50%, rgba(181,181,181,1) 100%);
+    background: rgb(255, 255, 255);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(224, 224, 224, 1) 50%, rgba(181, 181, 181, 1) 100%);
 }
 
 .navbar {
@@ -57,7 +57,7 @@ body {
     margin: auto;
     background-color: var(--container-body-color);
     color: var(--container-text-color);
-    border: 1px solid var(--container-border-color);    
+    border: 1px solid var(--container-border-color);
 }
 
 .profile-image {
@@ -66,6 +66,7 @@ body {
     border-radius: 10px;
     display: block;
     margin: 10px auto;
+    border: 15px solid transparent;
 }
 
 h1 {
@@ -80,6 +81,8 @@ h2 {
 
 h3 {
     color: var(--header-color);
+    font-size: calc(1.3rem + 0.6vw);
+   min-height: 1.5em;
 }
 
 h6 {
@@ -110,6 +113,11 @@ p {
 
 .button:hover {
     background: var(--button-hover-color);
+}
+
+.button:disabled {
+    opacity: 0.7;
+    cursor: default;
 }
 
 .card {
@@ -184,7 +192,7 @@ button:hover {
     background: var(--box-shadow-color);
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .card-box {
@@ -221,13 +229,13 @@ button:hover {
 }
 
 .scroll-image {
-    width: 228px; 
+    width: 228px;
     height: 228px;
     border-radius: 5px;
 }
 
 .shop-button {
-    width: 150px; 
+    width: 150px;
     height: 35px;
     font-size: 30px;
     text-align: center;
@@ -256,11 +264,11 @@ nav {
     color: var(--navbar-text-color);
 }
 
-.nav-text{
+.nav-text {
     color: var(--navbar-text-color);
 }
 
-.btn-outline-dark{
+.btn-outline-dark {
     border: 1px solid var(--navbar-text-color)
 }
 
@@ -274,9 +282,8 @@ nav {
     max-width: 400px;
     background-color: var(--container-body-color);
     color: var(--container-text-color);
-    border: 1px solid var(--container-border-color);    
+    border: 1px solid var(--container-border-color);
 }
-
 
 .profile-image-small {
     max-width: 60px;
@@ -284,4 +291,21 @@ nav {
     border-radius: 10px;
     vertical-align: middle;
     margin-right: 5px;
+    border: 5px solid transparent;
 }
+
+.group-image-small {
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 10px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.achievement-icon {
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    filter: grayscale(100%) opacity(0.5);
+}
+

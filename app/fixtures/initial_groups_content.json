@@ -1,0 +1,53 @@
+[
+  {
+    "model": "programmingCourse.group",
+    "pk": 1,
+    "fields": {
+      "groupOwner": 1,
+      "groupName": "Preview Group",
+      "description": "Apes together... strong.",
+      "image": "test_pics/knowitall.png",
+      "is_private": false
+    }
+  },
+  {
+    "model": "programmingCourse.groupmember",
+    "pk": 1,
+    "fields": {
+      "group": 1,
+      "user": 1,
+      "is_muted": false,
+      "is_admin": true
+    }
+  },
+  {
+    "model": "programmingCourse.groupmember",
+    "pk": 2,
+    "fields": {
+      "group": 1,
+      "user": 2,
+      "is_muted": false,
+      "is_admin": false
+    }
+  },
+  {
+    "model": "programmingCourse.groupmember",
+    "pk": 3,
+    "fields": {
+      "group": 1,
+      "user": 3,
+      "is_muted": false,
+      "is_admin": false
+    }
+  },
+  {
+    "model": "programmingCourse.groupmember",
+    "pk": 4,
+    "fields": {
+      "group": 1,
+      "user": 4,
+      "is_muted": false,
+      "is_admin": false
+    }
+  }
+]

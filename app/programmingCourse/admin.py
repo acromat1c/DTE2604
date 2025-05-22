@@ -18,4 +18,4 @@ admin.site.register(Profile)
 admin.site.register(UserBalance)
 admin.site.register(Item)
 admin.site.register(UserInventory)
-admin.site.register(UserTheme)
+
