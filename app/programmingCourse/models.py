@@ -50,7 +50,7 @@ class Group(models.Model):
     groupOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owned_groups")
     groupName = models.CharField(max_length=45, unique=True)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to="group_pics/", default="default_group.jpg")
+    image = models.ImageField(upload_to="group_pics/", default="group_pics/default_group.png")
     is_private = models.BooleanField(default=False)
 
     def __str__(self):
