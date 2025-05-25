@@ -440,7 +440,6 @@ def inventory(request):
     if request.method == "POST":
         equip_item(request.user, request.POST["selectedItem"])
     userInventory = get_inventory_items(request.user)
-    print(userInventory)
     return render(request, "programmingCourse/inventory.html", {"userInventory": userInventory})
 
 @login_required(login_url="/login")

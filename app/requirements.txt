@@ -3,6 +3,5 @@ Django==5.2.1
 mysqlclient==2.2.7
 sqlparse==0.5.3
 pillow==11.1.0
-channels==3.0.5
 whitenoise==6.9.0
-hypercorn==0.17.3
+gunicorn==23.0.0

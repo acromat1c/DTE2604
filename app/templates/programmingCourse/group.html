@@ -132,47 +132,47 @@
 </ul>
 
 <!-- WebSocket Script -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const groupName = "{{ group.groupName }}";
-  const username = "{{ user.username }}";
-  const chatBox = document.getElementById('chat-box');
-  const chatForm = document.getElementById('chatForm');
-  const messageInput = document.getElementById('messageInput');
-
-  const chatSocket = new WebSocket(
-    'ws://' + window.location.host +
-    '/ws/groupchat/' + encodeURIComponent(groupName) + '/'
-  );
-
-  chatSocket.onmessage = function(e) {
-    const data = JSON.parse(e.data);
-    const newMsg = document.createElement('div');
-    newMsg.innerHTML = `
-      <strong>${data.username}</strong>
-      <small class="text-muted">(${data.timestamp})</small>
-      <p>${data.message}</p>
-    `;
-    chatBox.appendChild(newMsg);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  };
-
-  chatSocket.onclose = function(e) {
-    console.error('WebSocket ble lukket uventet.');
-  };
-
-  chatForm.onsubmit = function(e) {
-    e.preventDefault();
-    const message = messageInput.value;
-    if (message.trim() !== '') {
-      chatSocket.send(JSON.stringify({
-        'message': message,
-        'username': username,
-      }));
-      messageInput.value = '';
-    }
-  };
-});
-</script>
+<!-- <script> -->
+<!-- document.addEventListener('DOMContentLoaded', function() { -->
+<!--   const groupName = "{{ group.groupName }}"; -->
+<!--   const username = "{{ user.username }}"; -->
+<!--   const chatBox = document.getElementById('chat-box'); -->
+<!--   const chatForm = document.getElementById('chatForm'); -->
+<!--   const messageInput = document.getElementById('messageInput'); -->
+<!---->
+<!--   const chatSocket = new WebSocket( -->
+<!--     'ws://' + window.location.host + -->
+<!--     '/ws/groupchat/' + encodeURIComponent(groupName) + '/' -->
+<!--   ); -->
+<!---->
+<!--   chatSocket.onmessage = function(e) { -->
+<!--     const data = JSON.parse(e.data); -->
+<!--     const newMsg = document.createElement('div'); -->
+<!--     newMsg.innerHTML = ` -->
+<!--       <strong>${data.username}</strong> -->
+<!--       <small class="text-muted">(${data.timestamp})</small> -->
+<!--       <p>${data.message}</p> -->
+<!--     `; -->
+<!--     chatBox.appendChild(newMsg); -->
+<!--     chatBox.scrollTop = chatBox.scrollHeight; -->
+<!--   }; -->
+<!---->
+<!--   chatSocket.onclose = function(e) { -->
+<!--     console.error('WebSocket ble lukket uventet.'); -->
+<!--   }; -->
+<!---->
+<!--   chatForm.onsubmit = function(e) { -->
+<!--     e.preventDefault(); -->
+<!--     const message = messageInput.value; -->
+<!--     if (message.trim() !== '') { -->
+<!--       chatSocket.send(JSON.stringify({ -->
+<!--         'message': message, -->
+<!--         'username': username, -->
+<!--       })); -->
+<!--       messageInput.value = ''; -->
+<!--     } -->
+<!--   }; -->
+<!-- }); -->
+<!-- </script> -->
 
 {% endblock %}

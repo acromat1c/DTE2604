@@ -28,14 +28,13 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # DEBUG = True
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['*']
-# ALLOWERD_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
-CSRF_TRUSTED_ORIGINS = ['https://29a8-158-39-125-86.ngrok-free.app']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
+CSRF_TRUSTED_ORIGINS = os.environ.get("DJANGO_CSRF_TRUSTED", "127.0.0.1").split(",")
 
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
     
     'programmingCourse.apps.ProgrammingcourseConfig',
     'django.contrib.admin',
@@ -85,25 +84,25 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # Sqlite3 database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # MariaDB database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAME', 'mydb'),
-        'USER': os.getenv('DATABASE_USERNAME','user'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD','password'),
-        'HOST': os.getenv('DATABASE_HOST','127.0.0.1'),
-        'PORT': os.getenv('DATABASE_PORT','3306')
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.getenv('DATABASE_NAME', 'mydb'),
+#         'USER': os.getenv('DATABASE_USERNAME','user'),
+#         'PASSWORD': os.getenv('DATABASE_PASSWORD','password'),
+#         'HOST': os.getenv('DATABASE_HOST','127.0.0.1'),
+#         'PORT': os.getenv('DATABASE_PORT','3306')
+#     }
+# }
 
 
 # Password validation
@@ -153,8 +152,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
